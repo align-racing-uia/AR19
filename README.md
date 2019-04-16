@@ -26,7 +26,7 @@ This is the repository for Align Racing's 2019 formula student race car.
 <a href="http://www.alignracing.no/">Align Racing UiA (AR)</a> is a multidisciplinary student organisation at <a href="https://www.uia.no/">The University of Agder (UiA)</a>, that take part in the world’s largest yearly engineering competition; <a href="https://www.imeche.org/events/formula-student">Formula Student (FS)</a>. The organisation continuously consists of around 60 students, from a wide variety of disciplines. The competition includes developing, building, budgeting and marketing a small scale formula type racing car. AR takes this a bit further by having more focus on developing a strong organisation, open for all disciplines, that gives the members a taste of future work-life.
 
 ## Rules for directory structure
-<h3>General directory structure:</h3>
+<h4>General directory structure:</h4>
 * AR”År”
     * AR”År”_“Prosjekt”
         - AR”År”_“Prosjekt”_”?”
@@ -35,7 +35,8 @@ This is the repository for Align Racing's 2019 formula student race car.
             - “?”_”Prosjekt”_images
             - “?”_”Prosjekt”_schematic
             - “?”_”Prosjekt”_simulink
-<h3>Directory structure example:</h3>
+
+<h4>Directory structure example:</h4>
 * AR19
     * AR19_ETC
         - AR19_ETC_ACM_ETB
