@@ -1,5 +1,9 @@
-# AR19
-Repository for Align Racing 2019
+<h1 align="center"> Align Racing 2019 Electronic Throttle Control </h1> <br>
+<p align="center">
+    <a href="http://www.alignracing.no/">
+      <img alt="Align Racing UiA" title="Align Racing UiA" src="https://i.imgur.com/idweYeR.png" width="400">
+    </a>
+</p>
 
 <!-- START doctoc generate TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -14,7 +18,7 @@ Repository for Align Racing 2019
 
 ## Introduction
 
-This is the repository for Align Racing 2019 Electronic Throttle Control bachelor thesis. The goal of the project is to develop and implement an electronic throttle control system for a Formula Student race car.
+This is the repository for Align Racing's 2019 formula student race car.
 
 
 ## Align Racing UiA
@@ -40,30 +44,6 @@ Eksempel:
             - ACM_ETB_images
             - ACM_ETB_code
             - ACM_ETB_code
-            
-            <h1 align="center"> Align Racing 2019 Electronic Throttle Control </h1> <br>
-<p align="center">
-    <a href="http://www.alignracing.no/">
-      <img alt="Align Racing UiA" title="Align Racing UiA" src="https://i.imgur.com/idweYeR.png" width="400">
-    </a>
-</p>
-
-
-## Contributors
-
-<div align="center">
-<a href="https://github.com/stianrognhaugen" target="_blank">
-    <img src="https://i.imgur.com/BnVEktU.png" alt="Stian Rognhaugen">
-</a>
-
-<a href="https://github.com/sandmag" target="_blank">
-    <img src="https://i.imgur.com/azzeeiS.png" alt="Sander Bråten Johannessen">
-</a>
-
-<a href="https://github.com/gurgle96" target="_blank">
-    <img src="https://i.imgur.com/SNUffRw.png" alt="Jørgen Nilsen">
-</a>
-</div>
 
 ## License
 All content included in this Git repository is under the license:
