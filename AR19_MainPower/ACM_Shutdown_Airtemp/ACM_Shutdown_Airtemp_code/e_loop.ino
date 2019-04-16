@@ -3,9 +3,13 @@ void loop()
 {   
 CanRecieve();               //Revieves Can messages.
 
-GatherSensorData()          //Gathers sensor data
+CheckShutdownStatus();      //Checks if the shutdowncircuit is active
 
-Functions();         //Updates sensor values.
+CheckAirTempAmbient();      //Measures Ambient Temperature 
+
+CheckAirTempTurbo();        //Measures the turbo pressure       
+
+ShutdownActivation();       //Activated the shutdown circuit if conditions are met. 
 
 CanSend();                  //sends Can messages
 

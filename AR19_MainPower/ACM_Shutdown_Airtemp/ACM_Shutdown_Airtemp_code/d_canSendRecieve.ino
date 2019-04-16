@@ -28,8 +28,8 @@ void CanRecieve() {
 using namespace cansignal;
 //Ta imot data
 
-// CAN message 0x410 - Breakpressure.
-
+// Her skal den ta i mot ACM_OK signal fra alle ACM'er
+/*
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
     myMessage.can_id = 0x410;  // ID'en til meldingen som er mottat
@@ -37,7 +37,7 @@ using namespace cansignal;
     myMessage.data[0] = breakPressure1; // Det første bytet med data
   }
 
-
+*/
 
 }
 
@@ -48,17 +48,24 @@ using namespace cansignal;
 
 void CanSend() {      // Sende data
 using namespace cansignal;
-// CAN message 0x20 - div
+// CAN message 0x270 - Shutdown Active
 
-  myMessage.can_id = 0x20;  
-  myMessage.can_dlc = 5; 
-  myMessage.data[0] = requestBlip;
-  myMessage.data[1] = 0;//engineCut
-  myMessage.data[2] = 0;//clutchInSignal 
-  myMessage.data[3] = gearPosition; 
-  myMessage.data[4] = clutchPressure; 
+  myMessage.can_id = 0x270;  
+  myMessage.can_dlc = 1; 
+  myMessage.data[0] = shutdownActive;
 
   mcp2515.sendMessage(&myMessage);
+
+
+
+// CAN message 0x630 - Ambient and turbo air temp
+  myMessage.can_id = 0x630;  
+  myMessage.can_dlc = 2; 
+  myMessage.data[0] = ambientAirTemp;
+  myMessage.data[1] = turboDischargeAirTemp;
+
+  mcp2515.sendMessage(&myMessage);
+
 
 }
 
