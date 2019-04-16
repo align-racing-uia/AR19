@@ -28,14 +28,14 @@ This is the repository for Align Racing's 2019 formula student race car.
 ## Rules for directory structure
 <h4>General directory structure:</h4>
 
-* AR”År”
-    * AR”År”_“Prosjekt”
-        - AR”År”_“Prosjekt”_”?”
-            - “?”_”Prosjekt”_code
-            - “?”_”Prosjekt”_datasheets
-            - “?”_”Prosjekt”_images
-            - “?”_”Prosjekt”_schematic
-            - “?”_”Prosjekt”_simulink
+* AR”year”
+    * AR”year”_“Project”
+        - AR”year”_“Project”_”...”
+            - “...”_code
+            - “...”_datasheets
+            - “...”_images
+            - “...”_schematic
+            - “...”_simulink
 
 <h4>Directory structure example:</h4>
 
