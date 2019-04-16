@@ -30,7 +30,7 @@ This is the repository for Align Racing's 2019 formula student race car.
 
 * AR”YEAR”
     * AR”YEAR”_“PROJECT”
-        - AR”YEAR”_“PROJECT”...
+        - AR”YEAR”_“PROJECT”
             - “PROJECT”_code
             - “PROJECT”_datasheets
             - “PROJECT”_images
