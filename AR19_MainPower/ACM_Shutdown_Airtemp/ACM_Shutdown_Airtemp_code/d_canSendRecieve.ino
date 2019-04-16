@@ -38,79 +38,6 @@ using namespace cansignal;
   }
 
 
-// CAN message 0x230 - Neutral signal.
-
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x230;  
-    myMessage.can_dlc = 1; 
-    myMessage.data[0] = neutralSignal; 
-  }
-
-// CAN message 0x240 - Gear paddles.
-
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x240;  
-    myMessage.can_dlc = 2; 
-    myMessage.data[0] = gearUpSignal;
-    myMessage.data[0] = gearDownSignal;  
-  }
-
-// CAN message 0x280 - Launch control request clutch.
-
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x280;  
-    myMessage.can_dlc = 1; 
-    myMessage.data[0] = launchControlClutch;
-  }
-
-
-
-// CAN message 0x2C0 - Blip Confirmation from ETC.
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x2C0;  
-    myMessage.can_dlc = 1; 
-    myMessage.data[0] = blipConfirmed;
-  }
-
-
-// CAN message 0x2F0 - RPM from ECU
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x2F0;  
-    myMessage.can_dlc = 2; 
-    myMessage.data[0] = rpm1;
-    myMessage.data[1] = rpm2;
-  }
-engineRPM = rpm1*255 +rpm2;
-
-/*
-// CAN message 0x210 - Speed from Launch Control - Right front wheel
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x210;  
-    myMessage.can_dlc = 4; 
-    myMessage.data[0] = speedFrontRight1;
-    myMessage.data[1] = speedFrontRight2;
-    myMessage.data[3] = speedFrontRight3;
-    myMessage.data[3] = speedFrontRight4;
-  }
-speedFrontRightCalculated = speedFrontRight1 + speedFrontRight2 + speedFrontRight3 + speedFrontRight4;
-// CAN message 0x220 - Speed from Launch Control - Left front wheel
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x220;  
-    myMessage.can_dlc = 4; 
-    myMessage.data[0] = speedFrontLeft1;
-    myMessage.data[1] = speedFrontLeft2;
-    myMessage.data[2] = speedFrontLeft3;
-    myMessage.data[3] = speedFrontLeft4;
-  }
-engineRPM = rpm1*255 +rpm2;
-*/
 
 }
 
@@ -132,24 +59,6 @@ using namespace cansignal;
   myMessage.data[4] = clutchPressure; 
 
   mcp2515.sendMessage(&myMessage);
-
-// CAN message 0x470 - Error states to telemetry.
-/*
-  myMessage.can_id = 0x470;  
-  myMessage.can_dlc = 8; 
-  myMessage.data[0] = Errorstate;
-  myMessage.data[1] = Errorstate;
-  myMessage.data[2] = Errorstate; 
-  myMessage.data[3] = Errorstate; 
-  myMessage.data[4] = Errorstate; 
-  myMessage.data[5] = Errorstate; 
-  myMessage.data[6] = Errorstate; 
-  myMessage.data[7] = Errorstate; 
-
-
-  mcp2515.sendMessage(&myMessage);
-*/
-
 
 }
 
