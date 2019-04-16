@@ -1,4 +1,4 @@
-<h1 align="center"> Align Racing 2019 Electronic Throttle Control </h1> <br>
+<h1 align="center"> Align Racing 2019 </h1> <br>
 <p align="center">
     <a href="http://www.alignracing.no/">
       <img alt="Align Racing UiA" title="Align Racing UiA" src="https://i.imgur.com/idweYeR.png" width="400">
@@ -27,6 +27,7 @@ This is the repository for Align Racing's 2019 formula student race car.
 
 ## Rules for directory structure
 <h4>General directory structure:</h4>
+
 * AR”År”
     * AR”År”_“Prosjekt”
         - AR”År”_“Prosjekt”_”?”
@@ -37,6 +38,7 @@ This is the repository for Align Racing's 2019 formula student race car.
             - “?”_”Prosjekt”_simulink
 
 <h4>Directory structure example:</h4>
+
 * AR19
     * AR19_ETC
         - AR19_ETC_ACM_ETB
