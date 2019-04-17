@@ -28,6 +28,23 @@ void CanRecieve() {
 using namespace cansignal;
 //Ta imot data
 
+ if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
+  
+    myMessage.can_id = 0x410; 
+    myMessage.can_dlc = 1; 
+    myMessage.data[0] = helloImHereStartupPedal; 
+    if (helloImHereStartupPedal == global::sant)
+    {
+      bitWrite(acmOk,1)
+    }
+    else
+    {
+       bitWrite(acmOk,0)
+    }
+    
+  }
+
+
 // Her skal den ta i mot ACM_OK signal fra alle ACM'er
 /*
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
@@ -48,8 +65,23 @@ using namespace cansignal;
 
 void CanSend() {      // Sende data
 using namespace cansignal;
-// CAN message 0x270 - Shutdown Active
 
+// CAN message 0x14 - pingAllACM
+
+if (pingAllACM == global::sant)
+{
+  myMessage.can_id = 0x14;  
+  myMessage.can_dlc = 1; 
+  myMessage.data[0] = pingAllACM;
+
+  mcp2515.sendMessage(&myMessage);
+
+
+  pingAllACM == global::tull;
+}
+
+
+// CAN message 0x270 - Shutdown Active
   myMessage.can_id = 0x270;  
   myMessage.can_dlc = 1; 
   myMessage.data[0] = shutdownActive;

@@ -1,6 +1,8 @@
 
 void loop() 
 {   
+PingAcm();                  //Pings all ACM if one or more is missing.
+
 CanRecieve();               //Revieves Can messages.
 
 CheckShutdownStatus();      //Checks if the shutdowncircuit is active
