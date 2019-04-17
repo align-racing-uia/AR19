@@ -5,12 +5,6 @@ void CanSetup() // Sets up the CAN-Bus protocol.
   mcp2515.setBitrate(CAN_1000KBPS);
   mcp2515.setNormalMode();
 
-// CAN message 0x15 - ACM OK Signal
-
-  myMessage.can_id = 0x15;  
-  myMessage.can_dlc = 1; 
-  myMessage.data[0] = 21;
-
 
   mcp2515.sendMessage(&myMessage);
 
@@ -30,18 +24,130 @@ using namespace cansignal;
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
-    myMessage.can_id = 0x410; 
-    myMessage.can_dlc = 1; 
-    myMessage.data[0] = helloImHereStartupPedal; 
-    if (helloImHereStartupPedal == global::sant)
+    if (myMessage.can_id == 0x410 && myMessage.can_dlc == 1)//Her må riktig CAN-id leggast inn. 
     {
-      bitWrite(acmOk,1)
+      helloImHereStartupPedal = myMessage.data[0]; 
+      if (helloImHereStartupPedal == global::sant)
+      {
+        bitWrite(acmOk,0,1);
+      }
+      else
+      {
+        bitWrite(acmOk,0,0);
+      }
     }
-    else
+
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
     {
-       bitWrite(acmOk,0)
+      helloImHereStartupHallFL = myMessage.data[0]; 
+      if (helloImHereStartupHallFL == global::sant)
+      {
+        bitWrite(acmOk,1,1);
+      }
+      else
+      {
+        bitWrite(acmOk,1,0);
+      }
     }
-    
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupHallFR = myMessage.data[0]; 
+      if (helloImHereStartupHallFR == global::sant)
+      {
+        bitWrite(acmOk,2,1);
+      }
+      else
+      {
+        bitWrite(acmOk,2,0);
+      }
+    }
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupHALLR = myMessage.data[0]; 
+      if (helloImHereStartupHALLR == global::sant)
+      {
+        bitWrite(acmOk,3,1);
+      }
+      else
+      {
+        bitWrite(acmOk,3,0);
+      }
+    }
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupLC = myMessage.data[0]; 
+      if (helloImHereStartupLC == global::sant)
+      {
+        bitWrite(acmOk,4,1);
+      }
+      else
+      {
+        bitWrite(acmOk,4,0);
+      }
+    }
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupDash = myMessage.data[0]; 
+      if (helloImHereStartupDash == global::sant)
+      {
+        bitWrite(acmOk,5,1);
+      }
+      else
+      {
+        bitWrite(acmOk,5,0);
+      }
+    }
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupETB = myMessage.data[0]; 
+      if (helloImHereStartupETB == global::sant)
+      {
+        bitWrite(acmOk,5,1);
+      }
+      else
+      {
+        bitWrite(acmOk,5,0);
+      }
+    }
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupBreaklight = myMessage.data[0]; 
+      if (helloImHereStartupBreaklight == global::sant)
+      {
+        bitWrite(acmOk,6,1);
+      }
+      else
+      {
+        bitWrite(acmOk,6,0);
+      }
+    }
+
+
+    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    {
+      helloImHereStartupAirtempShutdown = myMessage.data[0]; 
+      if (helloImHereStartupAirtempShutdown == global::sant)
+      {
+        bitWrite(acmOk,7,1);
+      }
+      else
+      {
+        bitWrite(acmOk,7,0);
+      }
+    }
+
   }
 
 
@@ -66,18 +172,18 @@ using namespace cansignal;
 void CanSend() {      // Sende data
 using namespace cansignal;
 
-// CAN message 0x14 - pingAllACM
+// CAN message 0x14 - pingAllAcm
 
-if (pingAllACM == global::sant)
+if (pingAllAcm == global::sant)
 {
   myMessage.can_id = 0x14;  
   myMessage.can_dlc = 1; 
-  myMessage.data[0] = pingAllACM;
+  myMessage.data[0] = pingAllAcm;
 
   mcp2515.sendMessage(&myMessage);
 
 
-  pingAllACM == global::tull;
+  pingAllAcm == global::tull;
 }
 
 

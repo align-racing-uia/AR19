@@ -30,7 +30,7 @@ using namespace shutdowncircuit;
 void CheckAirTempAmbient() {
   using namespace ambient;
   airTempSensorValue = analogRead(airTempPin);
-  cansignal::ambientAirTemp = = pow(0.000000609953237*airTempSensorValue,3) - pow(0.000948348811134*airTempSensorValue,2) + 0.556676559395865*airTempSensorValue - 98.2809853303643; //Sjå dokumentasjon for transfer funksjon //her må inn transfer funksjon
+  cansignal::ambientAirTemp = pow(0.000000609953237*airTempSensorValue,3) - pow(0.000948348811134*airTempSensorValue,2) + 0.556676559395865*airTempSensorValue - 98.2809853303643; //Sjå dokumentasjon for transfer funksjon //her må inn transfer funksjon
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

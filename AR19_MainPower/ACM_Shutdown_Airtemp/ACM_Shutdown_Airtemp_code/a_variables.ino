@@ -44,13 +44,13 @@ namespace cansignal{
     uint8_t helloImHereStartupHallFR = global::tull;
     uint8_t helloImHereStartupHALLR = global::tull;
     uint8_t helloImHereStartupLC = global::tull;
-    uint8_t helloImHereStartupTelemetri = global::tull;
     uint8_t helloImHereStartupDash = global::tull;
     uint8_t helloImHereStartupETB = global::tull;
     uint8_t helloImHereStartupBreaklight = global::tull;
     uint8_t helloImHereStartupAirtempShutdown = global::tull;
     uint8_t helloImHereStartupStearing = global::tull;
     uint8_t helloImHereStartupStearingWheel = global::tull;
+    uint8_t helloImHereStartupTelemetri = global::tull;
     long acmOkTimer = 0;
     uint8_t pingAllAcm = global::tull;
 
