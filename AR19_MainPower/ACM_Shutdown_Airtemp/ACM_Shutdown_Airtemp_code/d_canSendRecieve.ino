@@ -113,19 +113,6 @@ using namespace cansignal;
       helloImHereStartupETB = myMessage.data[0]; 
       if (helloImHereStartupETB == global::sant)
       {
-        bitWrite(acmOk,5,1);
-      }
-      else
-      {
-        bitWrite(acmOk,5,0);
-      }
-    }
-
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
-    {
-      helloImHereStartupBreaklight = myMessage.data[0]; 
-      if (helloImHereStartupBreaklight == global::sant)
-      {
         bitWrite(acmOk,6,1);
       }
       else
@@ -134,11 +121,10 @@ using namespace cansignal;
       }
     }
 
-
     else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
     {
-      helloImHereStartupAirtempShutdown = myMessage.data[0]; 
-      if (helloImHereStartupAirtempShutdown == global::sant)
+      helloImHereStartupBreaklight = myMessage.data[0]; 
+      if (helloImHereStartupBreaklight == global::sant)
       {
         bitWrite(acmOk,7,1);
       }
@@ -147,7 +133,6 @@ using namespace cansignal;
         bitWrite(acmOk,7,0);
       }
     }
-
   }
 
 

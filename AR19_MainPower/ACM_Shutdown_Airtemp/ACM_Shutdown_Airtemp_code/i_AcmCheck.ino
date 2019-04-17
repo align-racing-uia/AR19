@@ -15,3 +15,8 @@ using namespace cansignal;
     }
     }
 }
+
+void AcmStatus();
+{
+    
+}
