@@ -24,25 +24,10 @@ using namespace cansignal;
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
-    if (myMessage.can_id == 0x410 && myMessage.can_dlc == 1)//Her må riktig CAN-id leggast inn. 
+    if (myMessage.can_id == 0x12 && myMessage.can_dlc == 1)//Her må riktig CAN-id leggast inn. 
     {
       helloImHereStartupPedal = myMessage.data[0]; 
       if (helloImHereStartupPedal == global::sant)
-      {
-        bitWrite(acmOk,0,1);
-      }
-      else
-      {
-        bitWrite(acmOk,0,0);
-      }
-    }
-
-
-
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
-    {
-      helloImHereStartupHallFL = myMessage.data[0]; 
-      if (helloImHereStartupHallFL == global::sant)
       {
         bitWrite(acmOk,1,1);
       }
@@ -52,11 +37,10 @@ using namespace cansignal;
       }
     }
 
-
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x13)//Her må riktig CAN-id leggast inn. 
     {
-      helloImHereStartupHallFR = myMessage.data[0]; 
-      if (helloImHereStartupHallFR == global::sant)
+      helloImHereStartupDash = myMessage.data[0]; 
+      if (helloImHereStartupDash == global::sant)
       {
         bitWrite(acmOk,2,1);
       }
@@ -66,11 +50,10 @@ using namespace cansignal;
       }
     }
 
-
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x14)//Her må riktig CAN-id leggast inn. 
     {
-      helloImHereStartupHALLR = myMessage.data[0]; 
-      if (helloImHereStartupHALLR == global::sant)
+      helloImHereStartupStearingWheel = myMessage.data[0]; 
+      if (helloImHereStartupStearingWheel == global::sant)
       {
         bitWrite(acmOk,3,1);
       }
@@ -81,7 +64,7 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x15)//Her må riktig CAN-id leggast inn. 
     {
       helloImHereStartupLC = myMessage.data[0]; 
       if (helloImHereStartupLC == global::sant)
@@ -94,10 +77,11 @@ using namespace cansignal;
       }
     }
 
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+
+    else if (myMessage.can_id == 0x16)//Her må riktig CAN-id leggast inn. 
     {
-      helloImHereStartupDash = myMessage.data[0]; 
-      if (helloImHereStartupDash == global::sant)
+      helloImHereStartupETB = myMessage.data[0]; 
+      if (helloImHereStartupETB == global::sant)
       {
         bitWrite(acmOk,5,1);
       }
@@ -108,10 +92,10 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x17)//Her må riktig CAN-id leggast inn. 
     {
-      helloImHereStartupETB = myMessage.data[0]; 
-      if (helloImHereStartupETB == global::sant)
+      helloImHereStartupEGS = myMessage.data[0]; 
+      if (helloImHereStartupEGS == global::sant)
       {
         bitWrite(acmOk,6,1);
       }
@@ -121,7 +105,8 @@ using namespace cansignal;
       }
     }
 
-    else if (myMessage.can_id == 0x410)//Her må riktig CAN-id leggast inn. 
+
+    else if (myMessage.can_id == 0x18)//Her må riktig CAN-id leggast inn. 
     {
       helloImHereStartupBreaklight = myMessage.data[0]; 
       if (helloImHereStartupBreaklight == global::sant)
@@ -135,18 +120,6 @@ using namespace cansignal;
     }
   }
 
-
-// Her skal den ta i mot ACM_OK signal fra alle ACM'er
-/*
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x410;  // ID'en til meldingen som er mottat
-    myMessage.can_dlc = 3; // Antal byte med data i meldingen 1 til 8
-    myMessage.data[0] = breakPressure1; // Det første bytet med data
-  }
-
-*/
-
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,16 +132,15 @@ using namespace cansignal;
 
 // CAN message 0x14 - pingAllAcm
 
-if (pingAllAcm == global::sant)
+if (millis() - acmOkTimer > 5000)
 {
-  myMessage.can_id = 0x14;  
-  myMessage.can_dlc = 1; 
+  myMessage.can_id = 0x19;  
+  myMessage.can_dlc = 2; 
   myMessage.data[0] = pingAllAcm;
+  myMessage.data[1] = acmOk;
 
   mcp2515.sendMessage(&myMessage);
-
-
-  pingAllAcm == global::tull;
+  acmOkTimer = millis();
 }
 
 
@@ -188,7 +160,6 @@ if (pingAllAcm == global::sant)
   myMessage.data[1] = turboDischargeAirTemp;
 
   mcp2515.sendMessage(&myMessage);
-
 
 }
 
