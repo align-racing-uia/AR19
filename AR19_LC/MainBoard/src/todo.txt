@@ -1,0 +1,4 @@
+TO DO:
+
+    1. Fikse kontakt med Clutch
+    2. Gjøre om hallobjekt til å kun lagre nyeste data, ikke array
