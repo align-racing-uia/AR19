@@ -1,7 +1,7 @@
 #include "systemState.h"
 #include "Arduino.h"
 
-stateGuardian::stateGuardian(ExternalSource** ES, uint16_t* systemStateP, InitialConditions* IC, ErrorHandler* EH, uint16_t componentID) : 
+stateGuardian::stateGuardian(ExternalSource** ES, uint8_t* systemStateP, InitialConditions* IC, ErrorHandler* EH, uint16_t componentID) : 
     _ES(ES), _systemState(systemStateP), _IC(IC), _EH(EH), _componentID(componentID)
 {
     *_systemState = _IC->_defaultSystemState;

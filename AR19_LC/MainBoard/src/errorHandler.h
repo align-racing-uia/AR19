@@ -24,8 +24,8 @@ class ErrorHandler
     
     private:
 
-    uint16_t numerOfErrors;
-    uint16_t _componentID;
+    uint8_t numerOfErrors;
+    uint8_t _componentID;
     
     errorMessage _errorLog[10];
 

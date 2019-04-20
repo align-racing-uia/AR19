@@ -28,7 +28,7 @@
 
 
 //Tells the system what state it's in, ref: "Launch Control State Chart.docx"
-uint16_t currentSystemState;
+uint8_t currentSystemState;
 uint16_t componentID;
 
 unsigned long timeStampSate15, timeStampSate30, timeStampSate40, timeStampSate90, timeStampSate91, timeStampError, times, timeStampMessagesOK;
@@ -39,11 +39,12 @@ MCP2515 mcp2515(7);
 
 ErrorHandler EH(2);
 InitialConditions IC;
+access userAccess(&EH, 9);
 
 
 
 PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPIDRPM, IC._KdPIDRPM, DIRECT), 
-    RegulatorPIDSlip(&inputSlip, &outputSlip, &setpointSlip, IC._KpPIDSlip, IC._KiPIDSlip, IC._KdPIDSlip, DIRECT);
+    RegulatorPIDSlip(&inputSlip, &outputSlip, &setpointSlip, IC._KpPIDSlip, IC._KiPIDSlip, IC._KdPIDSlip, REVERSE);
 
 
 //External sources represented as objects 
@@ -61,6 +62,7 @@ SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
              ETCBtn(&IC, &EH, 0, 32, 0x2B0),
              ACMping(&IC, &EH, 0, 33, 0x019);
 
+ICuppdater userInterface(&IC, &EH, &userAccess, 50, 0x448);
 
 ExternalSource* externalSources[] = {&LeftFrontHall, &RightFrontHall, &DifferentialHall, &GearHall, &StearingPot, 
                                      &StearingBtn, &ClutchBtn, &GasPedal, &EngineSpeedHall, &ETCBtn};
@@ -71,14 +73,6 @@ IgnitionCutter IgnitionSlayer(&IC, &EH, 8);
 
 stateGuardian StateGuardian(externalSources, &currentSystemState, &IC, &EH, 4);
 Calculator calculon(externalSources, &IC, &EH, 7);
-
-
-
-
-/*
-RegulatorPID RegulatorPIDRPM(IC._KpPIDRPM, IC._KiPIDRPM, IC._KdPIDRPM),
-             RegulatorPIDSlip(IC._KpPIDSlip, IC._KiPIDSlip, IC._KdPIDSlip);
-*/
 
 
 
@@ -123,24 +117,27 @@ void loop() {
   }
 
 
-/* //   ======DEBUGGING========
+ //   ======DEBUGGING========
   if(millis() - times > 100){
 
-      DataSender.newMessage(IC._canIdSystemState, 4, currentSystemState);
-      DataSender.newMessage(0x060, 4, StearingPot.getDataU8());
-      DataSender.newMessage(0x061, 4, EH.getNumerOfErrors());
+      DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);
+      DataSender.newMessage(0x060, 1, StearingPot.getDataU8());
+      DataSender.newMessage(0x061, 2, EH.getNumerOfErrors());
       
       DataSender.newMessage(0x062, 4, LeftFrontHall.getDataU32());
       DataSender.newMessage(0x063, 4, DifferentialHall.getDataU32());
       DataSender.newMessage(0x064, 4, StearingPot.getDataU32());      
       times = millis(); 
+      DataSender.newMessage(0x065, 1, calculon.mappingCutter(outputSlip));
+      DataSender.newMessage(0x066, 4, calculon.slipInputCalculator());
+      DataSender.newMessage(0x067, 1, StearingBtn.getDataU8());
     }
-*/  
+  
   
 
   //Updating the system state, and if the system enters a new state, it sends a message
   if (StateGuardian.updateSystemState()){
-      DataSender.newMessage(IC._canIdSystemState, 4, currentSystemState);
+      DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);
   }
 
   switch (currentSystemState)
@@ -161,11 +158,11 @@ void loop() {
       if (millis() - timeStampSate15 > IC._timeDelayMessagesState15Millis){
 
           if (ETCBtn.getDataU8() != IC._valueTrueBtn){
-            DataSender.newMessage(IC._canIdCommunicationETC, 4, IC._messageRequestControl);
+            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRequestControl);
           }
 
           if (ClutchBtn.getDataU8() != IC._valueTrueBtn){
-            DataSender.newMessage(IC._canIdCommunicationCluch, 4, IC._messageRequestControl);
+            DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageRequestControl);
           }
 
         timeStampSate15 = millis();
@@ -197,11 +194,11 @@ void loop() {
       if (millis() - timeStampSate40 > IC._timeDelayMessagesState40Millis){
 
         if(ClutchBtn.getDataU8() == IC._valueTrueBtn){
-          DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageCluchEngage);
-
-   /*       if(DifferentialHall.getDataU32() > IC._lowerThresholdWheelSpeed || GearHall.getDataU32() > IC._lowerThresholdWheelSpeed){
-            DataSender.newMessage(IC._canIdCommunicationCluch, 4, IC._canMessageRelinquishControl);
-          } */         
+          DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageRelinquishControl);
+         
+        }
+      if (ETCBtn.getDataU8() == IC._valueTrueBtn){
+            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControl);
         }
 
         inputSlip = calculon.slipInputCalculator();
@@ -218,9 +215,9 @@ void loop() {
 
     case 90:  //Safemode step 1/2
       if (millis() - timeStampSate90 > IC._timeDelayMessagesState90Millis){
-          DataSender.newMessage(IC._canIdCommunicationETC, 4, 0);
+          DataSender.newMessage(IC._canIdCommunicationETC, 1, 0);
           DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageAborte);
-          DataSender.newMessage(IC._canIdSystemState, 4, currentSystemState);
+          DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);
           timeStampSate90 = millis();
           
           if(StearingBtn.getDataU8() == IC._valueFailBtn){
@@ -233,8 +230,8 @@ void loop() {
 
     case 91:  //Safemode step 2/2
       if(millis() - timeStampSate91 > IC._timeDelayMessagesState91Millis){
-          DataSender.newMessage(IC._canIdCommunicationETC, 4, IC._canMessageRelinquishControl);
-          DataSender.newMessage(IC._canIdSystemState, 4, currentSystemState);          
+          DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControl);
+          DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);          
           timeStampSate91 = millis();    
       }
 

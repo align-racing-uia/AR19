@@ -1,6 +1,7 @@
 #include "Arduino.h"
 #include "dataInput.h"
 
+
 union CanEncrypter
 {
     uint8_t int8[4];
@@ -8,32 +9,41 @@ union CanEncrypter
 };
 
 
-void dataDistributer(ExternalSource** pES, uint16_t n, CanMessage value, uint16_t componentID, ErrorHandler* EH){
+void dataDistributer(ExternalSource** pES, uint16_t n, CanMessage value, uint16_t componentID, ErrorHandler* EH, ICuppdater* ICu){
     if (value.canID != 0xFFFFFFFF && value.canID != 0)
     {
-        for(uint8_t ii = 0; ii < n; ii++){
-      
-        if (pES[ii]->getCanID() == value.canID)
+        if (value.canID == ICu->_canID){
+            ICu->updateIC(value.data);
+        }
+        else
         {
-            CanEncrypter offSeter, newData;
 
-            offSeter.int32 = value.data;
-
-            for(int kk = 0; kk < 4; kk++)
+            for(uint8_t ii = 0; ii < n; ii++){
+        
+            if (pES[ii]->getCanID() == value.canID)
             {
-                newData.int8[kk] = 0;
-            }            
+                CanEncrypter offSeter, newData;
 
-            for (int jj = 0; jj < pES[ii]->_dataSize; jj++)
-            {    
-                newData.int8[jj] = offSeter.int8[jj + pES[ii]->_offSet];
-            }
+                offSeter.int32 = value.data;
 
-            pES[ii]->newData(newData.int32);
+                for(int kk = 0; kk < 4; kk++)
+                {
+                    newData.int8[kk] = 0;
+                }            
 
-            return void();
-        }     
+                for (int jj = 0; jj < pES[ii]->_dataSize; jj++)
+                {    
+                    newData.int8[jj] = offSeter.int8[jj + pES[ii]->_offSet];
+                }
+
+                pES[ii]->newData(newData.int32);
+
+                return void();
+            }     
+        }
+            
     }
+        
      EH->newError(005,componentID);
         return void();
     }   
@@ -71,8 +81,7 @@ void SensorButton::eraseData(){
     _SensorButtonPressed = 0x00;
 }
 
-uint16_t SensorButton::getData(){
-    return _SensorButtonPressed;}
+
 uint8_t SensorButton::getDataU8(){
     return _SensorButtonPressed;}
 uint16_t SensorButton::getDataU16(){
@@ -118,8 +127,7 @@ void SensorPotentiometer::eraseData(){
     _sensorPotentiometerData = 0x00;
 }
 
-uint16_t SensorPotentiometer::getData(){
-    return _sensorPotentiometerData;}
+
 uint8_t SensorPotentiometer::getDataU8(){
     return _sensorPotentiometerData;}
 uint16_t SensorPotentiometer::getDataU16(){
@@ -141,24 +149,23 @@ double SensorPotentiometer::getDataD(){
 //HALL SENSOR 
 SensorHall::SensorHall(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID) : ExternalSource(IC, EH, offSet, 4, componentID, canID){
     
-    for (uint16_t ii = 0; ii < sizeof(_sensorHallData)/sizeof(data); ii++){
-        _sensorHallData[ii].value = 0;
-        _sensorHallData[ii].time = 0;
-    }
+        _sensorHallData.value = 0;
+        _sensorHallData.time = 0;
+
 }
+
 void SensorHall::newData(uint32_t value){
 
-    //Moving all old datas one stepp up in the array and adds the newest one
-    for(int ii = sizeof(_sensorHallData)/sizeof(data)-1; ii > 0; ii--){
-        _sensorHallData[ii] = _sensorHallData[ii-1];   
-    }
-    _sensorHallData[0].time = millis();
-    _sensorHallData[0].value = value;
+    _sensorHallData.time = millis();
+    _sensorHallData.value = value;
+
 }
+
+
 bool SensorHall::verificationData(uint32_t value){
 
     //testing the new value to see if it has changes too rappide
-    if ((value - _sensorHallData[0].value)/_sensorHallData[0].value > _IC->_maxIncreaseHall){
+    if ((value - _sensorHallData.value)/_sensorHallData.value > _IC->_maxIncreaseHall){
         _EH->newError(101, _componentID);
         return false;
     }
@@ -172,23 +179,10 @@ bool SensorHall::verificationData(uint32_t value){
     
 }
 void SensorHall::eraseData(){
-    for (uint16_t ii = 0; ii < sizeof(_sensorHallData)/sizeof(data); ii++){
-        _sensorHallData[ii].value = 0;
-        _sensorHallData[ii].time = 0;
-    }
-}
 
-uint16_t SensorHall::getData(){
+        _sensorHallData.value = 0;
+        _sensorHallData.time = 0;
 
-    //Returning the newest data
-    if (millis() - _sensorHallData[0].time < _IC->_maxTimeDelayHallMillis){
-        return _sensorHallData[0].value;
-    }
-    // returning -1 if the data is too old
-    else{
-        _EH->newError(105, _componentID);
-        return -1;
-    }    
 }
 
 uint8_t SensorHall::getDataU8(){
@@ -197,14 +191,15 @@ uint16_t SensorHall::getDataU16(){
     return 0;}
 uint32_t SensorHall::getDataU32(){
 
-    if (millis() - _sensorHallData[0].time < _IC->_maxTimeDelayHallMillis){
-        return _sensorHallData[0].value;
+    if (millis() - _sensorHallData.time < _IC->_maxTimeDelayHallMillis){
+        return _sensorHallData.value;
     }
-    // returning -1 if the data is too old
+
     else{
         _EH->newError(105, _componentID);
-        return -1;
-    }  
+        return _sensorHallData.value;
+    } 
+    
 }
 uint64_t SensorHall::getDataU64(){
     return 0;}
@@ -218,7 +213,7 @@ double SensorHall::getDataD(){
     return 0;}
 
 //
-//canBUS reader
+//CANbus reader
 CanReader::CanReader(InitialConditions* IC, ErrorHandler* EH, uint16_t componentID, MCP2515* mcp2515) :
 _IC(IC), _EH(EH), _componentID(componentID), _mcp2515(mcp2515) 
 {
@@ -228,13 +223,15 @@ _IC(IC), _EH(EH), _componentID(componentID), _mcp2515(mcp2515)
 }
 
 
+
+
 CanMessage CanReader::readMessages(){
 
     CanMessage message;
 
     if (_mcp2515->readMessage(&_canMsg) == MCP2515::ERROR_OK) {
 
-        for (uint16_t ii = 0; ii < sizeof(_canIDs)/sizeof(_canIDs[0]); ii++){
+        for (uint8_t ii = 0; ii < sizeof(_canIDs)/sizeof(_canIDs[0]); ii++){
             if (_canMsg.can_id == _canIDs[ii]){
                 union CanEncrypter r;
                 
@@ -246,7 +243,7 @@ CanMessage CanReader::readMessages(){
                     return message;
                 }
                 
-                for (int jj = 0; jj < _canMsg.can_dlc; jj++){
+                for (uint8_t jj = 0; jj < _canMsg.can_dlc; jj++){
                     r.int8[jj] = _canMsg.data[jj];
                 }
                 
@@ -262,4 +259,62 @@ CanMessage CanReader::readMessages(){
         message.data = 0;
     }
     return message;
+}
+
+ICuppdater::ICuppdater(InitialConditions* IC, ErrorHandler* EH, access* myAccess, uint16_t componentID, uint16_t canID) : 
+    _IC(IC), _EH(EH), _componentID(componentID), _canID(canID), _access(myAccess)
+{
+
+}
+
+void ICuppdater::updateIC(uint64_t data){
+
+        uni.int64 = data;
+
+    switch (uni.int8[0])
+    {
+        case 10:
+            _access->logIn(uni.int8[1], uni.int8[2]);
+            break;
+
+        case 20:
+            _access->logOut(uni.int8[1]);
+            break;
+
+        case 30:
+        if (!_access->isLogedIn()) {
+            break;
+        }
+        _EH->newError(_componentID, 400 + uni.int8[1] * 10 + _access->getCurrentUserID());
+        switch (uni.int8[1])
+        {
+            case 1:
+                _IC->_setPointSlip[1] = uni.int8[2];
+                _IC->_setPointSlip[2] = uni.int8[3];
+                _IC->_setPointSlip[3] = uni.int8[4];
+                _IC->_setPointSlip[4] = uni.int8[5];
+                _IC->_setPointSlip[5] = uni.int8[6];
+
+                break;
+
+            case 2:
+                _IC->_setPointSlip[6] = uni.int8[2];
+                _IC->_setPointSlip[7] = uni.int8[3];
+                _IC->_setPointSlip[8] = uni.int8[4];
+                _IC->_setPointSlip[9] = uni.int8[5];
+                _IC->_setPointSlip[10] = uni.int8[6];
+                
+                break;
+
+            default:
+                break;
+        }
+
+        break;
+
+        default:
+            break;
+    }
+
+
 }

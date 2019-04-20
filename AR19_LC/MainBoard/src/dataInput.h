@@ -4,6 +4,7 @@
 #include "Arduino.h"
 #include "initialConditions.h"
 #include "errorHandler.h"
+#include "session.h"
 
 #include <SPI.h>
 #include <mcp2515.h>
@@ -21,7 +22,29 @@ struct data
     uint32_t value;
 };
 
+union myUnion
+{
+    uint64_t int64;
+    uint8_t int8[8];
+};
 
+
+
+class ICuppdater
+{
+public:
+    myUnion uni; 
+    InitialConditions* _IC;
+    ErrorHandler* _EH;
+    access* _access;
+    uint16_t _componentID;
+    uint16_t _canID;
+
+
+    ICuppdater(InitialConditions*, ErrorHandler*, access* myAccess, uint16_t, uint16_t);
+    void updateIC(uint64_t data);
+    
+};
 
 
 class ExternalSource
@@ -40,7 +63,6 @@ class ExternalSource
 
     virtual void newData(uint32_t value) =0;
     virtual bool verificationData(uint32_t value) = 0;
-    virtual uint16_t getData() = 0;  
 
     virtual uint8_t getDataU8() = 0;    
     virtual uint16_t getDataU16() = 0;  
@@ -72,8 +94,7 @@ class SensorButton : public ExternalSource
     virtual ~SensorButton() {}
 
     virtual void newData(uint32_t value);
-    virtual bool verificationData(uint32_t value);
-    virtual uint16_t getData();  
+    virtual bool verificationData(uint32_t value); 
 
     virtual uint8_t getDataU8();    
     virtual uint16_t getDataU16();  
@@ -101,7 +122,6 @@ class SensorPotentiometer : public ExternalSource
 
     virtual void newData(uint32_t value);
     virtual bool verificationData(uint32_t value);
-    virtual uint16_t getData();  
 
     virtual uint8_t getDataU8();    
     virtual uint16_t getDataU16();  
@@ -120,7 +140,7 @@ class SensorPotentiometer : public ExternalSource
 class SensorHall : public ExternalSource
 {  
     private:
-    data _sensorHallData[10];
+    data _sensorHallData;
 
     public:
     SensorHall(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID);
@@ -128,7 +148,6 @@ class SensorHall : public ExternalSource
     
     virtual void newData(uint32_t value);
     virtual bool verificationData(uint32_t value);
-    virtual uint16_t getData();  
 
     virtual uint8_t getDataU8();    
     virtual uint16_t getDataU16();  
@@ -146,6 +165,7 @@ class SensorHall : public ExternalSource
 class CanReader {
 
     private:
+
     InitialConditions* _IC;
     ErrorHandler* _EH;
     uint16_t _componentID;

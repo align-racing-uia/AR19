@@ -28,7 +28,7 @@ double Calculator::slipInputCalculator()
     frontSpeed = 1;
   }
 
-  return (rearSpeed - frontSpeed)/frontSpeed;
+  return (rearSpeed - frontSpeed)/frontSpeed * 100; //Slip in %
 
 }
 
@@ -37,7 +37,19 @@ double Calculator::slipInputCalculator()
 double Calculator::slipSetpointCalculator()
 {
 
-  return (double) 10; //for testing 
+  if (_ES[4]->getDataU8() == _IC->_errorPot){
+
+      _EH->newError(202, _componentID);
+      return 0;
+
+  }else if (_ES[4]->getDataU8() == _IC->_minValuePot) {
+
+      return 0;
+
+  }
+  
+  return _IC->_setPointSlip[_ES[4]->getDataU8()-1];
+
 }
 
 
@@ -46,7 +58,7 @@ double Calculator::slipSetpointCalculator()
 uint8_t Calculator::mappingCutter(double regulatorOutput){
 
 
-  return 0xFF; //for testing
+  return (uint8_t) regulatorOutput; //for testing
 }
 
 

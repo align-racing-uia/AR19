@@ -19,7 +19,8 @@ class InitialConditions
 
     //Potensiometer
     const uint8_t _maxValuePot = 0xFF;
-    const uint8_t _minValuePot = 0x0;
+    const uint8_t _minValuePot = 0;
+    const uint8_t _errorPot = 12;
 
     //SensorButton
     const uint8_t _valueTrueBtn = 0xF0;
@@ -35,7 +36,7 @@ class InitialConditions
 
     //CANbus Reader
     const uint32_t _maxNumberOfByteInCANMessage = 4;
-    const uint16_t _canID[20] = {0x019, 0x220, 0x210, 0x2D0, 0x2E0, 0x2F0, 0x235, 0x010, 0x250, 0x2C8, 0x2B0};
+    const uint16_t _canID[20] = {0x019, 0x220, 0x210, 0x2D0, 0x2E0, 0x2F0, 0x235, 0x010, 0x250, 0x2C8, 0x2B0, 0x448};
 
 
     //CANbus Sender
@@ -45,14 +46,12 @@ class InitialConditions
     const uint16_t _canIdErrorMessages= 0x440;
     const uint16_t _canIdOk = 0x015;
 
-    const uint8_t _canMessageRequestControl = 0x0F;
+    const uint8_t _canMessageRequestControl = 0xFA;
     const uint8_t _canMessageRelinquishControl = 0xF0;
     const uint8_t _canMessageAborte = 0xAA;
 
     const uint8_t _canMessageOk = 0xF0;
 
-    const uint16_t _canMessageCluchEngage = 0xFFFF;
-    const uint32_t _messageRequestControl = 0xFFFFFFFF;
 
 
     //Main Program flow
@@ -74,6 +73,7 @@ class InitialConditions
     const double _KpPIDSlip = 0xFFFF;
     const double _KiPIDSlip = 0xFFFF;
     const double _KdPIDSlip = 0xFFFF;
+    double _setPointSlip[11] = {0.0f, 5.42f, 6.58f, 7.74f, 8.90f, 10.06f, 12.61f, 15.32f, 18.02f, 20.72f, 23.43f};
 
     //Ignition Cutter
     const uint8_t cutterPIN = 9;

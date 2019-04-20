@@ -52,7 +52,7 @@ IgnitionCutter::IgnitionCutter(InitialConditions* IC, ErrorHandler* EH, uint16_t
 
 void IgnitionCutter::slaughter(){
 
-    if (_counter%_frequency == 0){
+    if (_counter - _frequency == 0){
 
         analogWrite(_IC->cutterPIN, 255); //Setting cutter-pin high
         _counter = 0;
@@ -69,6 +69,7 @@ void IgnitionCutter::slaughter(){
         if(_counter > _frequency){
             
             _EH->newError(005, _componentID);
+            _counter = 0;
 
         }
     }

@@ -19,6 +19,7 @@ Component ID and CANbus ID:
     006, Na --> data distributer    | Methode for distributer data to the correct storrage object
     007, Na --> Calculator object   | Calculating importent values
     008, Na --> Ignition Cutter     | Sends a high signal to the ECU signaling a ignition cutt
+    009, Na --> User access object  | Keep track of all users
 
     010, 0x220 --> Hallsensor front left, data storrage object
     011, 0x210 --> Hallsensor front right, data storrage object
@@ -33,6 +34,8 @@ Component ID and CANbus ID:
     031, 0x2C8 --> The system has control over the Clutch, data storrage object
     032, 0x2B0 --> The system has control over the ETC, data storrage object
     033, 0x019 --> Ping from main ACM 
+
+    050, 0x448 --> Object for edditing the IC file over CANbus
 
 Error ID:
   System errors
@@ -50,11 +53,13 @@ Error ID:
     105 --> Data is too old
 
   External errors 
-    201 --> Launch aborted 
+    201 --> Launch aborted
+    202 --> Potmeter error
 
-
-
-
-  TO DO:
-
+  Session messages
+    31x --> Login by user x 
+    32x --> Logoff by user x
   
+  User interaction messages
+    4yx --> the data y is changed by user x
+

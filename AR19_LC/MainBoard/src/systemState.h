@@ -12,7 +12,7 @@ class stateGuardian{
     InitialConditions* _IC;
     ErrorHandler* _EH;
     uint16_t _componentID;
-    uint16_t* _systemState;
+    uint8_t* _systemState;
 
     bool launchOn();
     bool modeCheck();
@@ -24,7 +24,7 @@ class stateGuardian{
     bool safeCheck2();
 
     public:
-    stateGuardian(ExternalSource**, uint16_t*, InitialConditions*, ErrorHandler*, uint16_t);
+    stateGuardian(ExternalSource**, uint8_t*, InitialConditions*, ErrorHandler*, uint16_t);
     bool updateSystemState();
 
 };
