@@ -7,7 +7,6 @@ data[0]: Type of action
 
 
 Actions:
-
     log inn:
         data[1] --> username
         data[2] --> password
