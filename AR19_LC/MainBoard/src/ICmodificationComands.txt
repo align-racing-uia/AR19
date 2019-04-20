@@ -1,0 +1,24 @@
+COMANDS:
+
+data[0]: Type of action
+    10 --> log inn
+    20 --> log out    
+    30 --> modify IC valuses 
+
+
+Actions:
+
+    log inn:
+        data[1] --> username
+        data[2] --> password
+
+    log out:
+        data[1] --> username
+
+    modify IC valuses, requires a user to be loged inn
+        data[1] --> valuses to change:
+            001 --> wet slip setpoints
+            002 --> dry slip setpoints
+            
+        data[2-7] --> data of new values
+
