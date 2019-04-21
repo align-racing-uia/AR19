@@ -9,6 +9,7 @@ _EH(EH), _componentID(componentID)
     newUser(0xEE, 0x45);
     newUser(0x33, 0x32);
     newUser(0x11, 0x45);
+    newUser(0xAA, 0xBB);
 
 }
 

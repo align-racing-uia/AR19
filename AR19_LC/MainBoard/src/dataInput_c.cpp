@@ -303,7 +303,7 @@ void ICuppdater::updateIC(uint64_t data){
                 _IC->_setPointSlip[8] = uni.int8[4];
                 _IC->_setPointSlip[9] = uni.int8[5];
                 _IC->_setPointSlip[10] = uni.int8[6];
-                
+                 
                 break;
 
             default:

@@ -1,7 +1,8 @@
 ﻿TO DO:
 
-TBD	    4. Fikse riktig Kp, Ki og Kd
-
+	- Fikse riktig Kp, Ki og Kd
+	- Fikse mulighet til å slå av TC og/eller LC ved å sette potmeter = 0 
+	- Fikse mulighet til å slå på TC uten LC
 
 
 LOG: 20.4.2019:
