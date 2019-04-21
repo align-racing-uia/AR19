@@ -22,6 +22,7 @@ class stateGuardian{
     bool launchFailure();
     bool safeCheck1();
     bool safeCheck2();
+    bool LCorTCmode();
 
     public:
     stateGuardian(ExternalSource**, uint8_t*, InitialConditions*, ErrorHandler*, uint16_t);

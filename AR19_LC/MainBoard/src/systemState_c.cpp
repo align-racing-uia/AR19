@@ -14,9 +14,18 @@ bool stateGuardian::updateSystemState(){
         case 1:  //Initialization
 
             if(launchOn()){
+                
+                if (LCorTCmode()){
 
-                *_systemState = 10;
-                return true;
+                    *_systemState = 10; //LC and TC on
+                    return true;
+                
+                }else{
+
+                    *_systemState = 40; //Only TC on
+                    return true;
+                
+                }
             }
             return false;
             break;
@@ -26,7 +35,19 @@ bool stateGuardian::updateSystemState(){
 
                 *_systemState = 15;
                 return true;
+
+            }else if(!launchOn()){
+
+                *_systemState = 1;
+                return true;
+                
+            }else if(!LCorTCmode()){
+
+                *_systemState = 40; //Only TC on
+                 return true;           
             }
+
+
             return false;
             break;
 
@@ -39,11 +60,13 @@ bool stateGuardian::updateSystemState(){
 
             }else if (!modeCheck())
             {
+
                 *_systemState = 90;
                 return true;
+                
             }
-
-        break;
+            return false;
+            break;
 
         case 20:  //Launch Ready
             if(throttleCheck()){
@@ -74,10 +97,17 @@ bool stateGuardian::updateSystemState(){
             break;
 
         case 40:  //Take off
+            
+            if(!launchOn()){
+
+                *_systemState = 1;
+                return true;
+                
+            }
+            return false;
             break;
 
-        case 90: //Safe mode 1/2 
-        return false;
+        case 90: //Safe mode 1/2         
             if(safeCheck1()){
                 *_systemState = 91;
                 return true;
@@ -111,6 +141,10 @@ bool stateGuardian::modeCheck(){
     return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed &&
            _ES[5]->getDataU8() == _IC->_valueTrueBtn);
 }
+bool stateGuardian::LCorTCmode(){
+    return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed)
+}
+
 bool stateGuardian::controlCheck(){
     return(_ES[6]->getDataU8() == _IC->_valueTrueBtn &&
            _ES[9]->getDataU8() == _IC->_valueTrueBtn);

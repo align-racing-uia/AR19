@@ -6,10 +6,10 @@ _EH(EH), _componentID(componentID)
 {
     _currentUser = -1;
     numerOfUsers = 0;
-    newUser(0xEE, 0x45);
-    newUser(0x33, 0x32);
-    newUser(0x11, 0x45);
-    newUser(0xAA, 0xBB);
+    newUser(0xEE, 0x45); // Brådland
+    newUser(0x33, 0x32); // Ersland
+    newUser(0x11, 0x45); // Løvdal 
+    newUser(0xAA, 0xBB); // Nylund 
 
 }
 
