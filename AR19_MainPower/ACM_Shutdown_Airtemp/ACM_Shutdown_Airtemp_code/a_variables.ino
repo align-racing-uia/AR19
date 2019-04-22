@@ -25,18 +25,21 @@ namespace leds{
 
 namespace ambient{
     const uint8_t airTempPin = 16;
-    uint8_t airTempSensorValue = 0;
+    uint16_t airTempSensorValue = 0;
+    double calculator = 0;
 }
 
 namespace turbo{
     const uint8_t airTempPin = 18;
-    uint8_t airTempSensorValue = 0;
+    uint16_t airTempSensorValue = 0;
+    double calculator = 0;
+
 }
 
 namespace cansignal{
     uint8_t shutdownActive = 0;
-    double ambientAirTemp = 0;
-    double turboDischargeAirTemp = 0;
+    uint8_t ambientAirTemp = 0;
+    uint8_t turboDischargeAirTemp = 0;
     uint8_t helloImHereStartup = 0;
     uint8_t acmOk = 0;
     uint8_t helloImHereStartupPedal = global::tull;
@@ -52,6 +55,7 @@ namespace cansignal{
     uint8_t helloImHereStartupTelemetri = global::tull;
     long acmOkTimer = 0;
     uint8_t pingAllAcm = global::tull;
+    long sendTimer = 0;
 
 
 }

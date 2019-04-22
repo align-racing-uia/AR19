@@ -2,20 +2,20 @@ void SetPinMode(){ // Section for initilizing pins
 
 using namespace shutdowncircuit;
 {
-    pinMode(shutdownPin, INPUT);
+    pinMode(shutdownPin, OUTPUT);
 }
 
 // Sets pinmode air temp sensors.
 
 using namespace turbo;
 {
-    pinMode(airTempPin, INPUT);
+    pinMode(airTempPin, OUTPUT);
 }
 
 
 using namespace turbo;
-{
-    pinMode(airTempPin, INPUT);
+{   
+    pinMode(airTempPin, OUTPUT);
 }
 
 // Sets internal leds.

@@ -30,8 +30,9 @@ using namespace shutdowncircuit;
 void CheckAirTempAmbient() {
   using namespace ambient;
   airTempSensorValue = analogRead(airTempPin);
-  cansignal::ambientAirTemp = pow(0.000000609953237*airTempSensorValue,3) - pow(0.000948348811134*airTempSensorValue,2) + 0.556676559395865*airTempSensorValue - 98.2809853303643; //Sjå dokumentasjon for transfer funksjon //her må inn transfer funksjon
-}
+  calculator = 0.000000534484754*airTempSensorValue*airTempSensorValue*airTempSensorValue - 0.000729604246401*airTempSensorValue*airTempSensorValue + 0.385815612455726*airTempSensorValue - 60.80769672243649; //Sjå dokumentasjon for transfer funksjon //her må inn transfer funksjon
+  cansignal::ambientAirTemp = calculator;
+  }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,7 +41,7 @@ void CheckAirTempAmbient() {
 
 void CheckAirTempTurbo() {
   using namespace turbo;
-  airTempSensorValue = analogRead(airTempPin);
-  //Her på sensorvalue gjerast 
-  cansignal::turboDischargeAirTemp = pow(0.000000609953237*airTempSensorValue,3) - pow(0.000948348811134*airTempSensorValue,2) + 0.556676559395865*airTempSensorValue - 98.2809853303643; //Sjå dokumentasjon for transfer funksjon
-}
+    airTempSensorValue = analogRead(airTempPin);
+    calculator = 0.000000534484754*airTempSensorValue*airTempSensorValue*airTempSensorValue - 0.000729604246401*airTempSensorValue*airTempSensorValue + 0.385815612455726*airTempSensorValue - 60.80769672243649; //Sjå dokumentasjon for transfer funksjon //her må inn transfer funksjon
+    cansignal::turboDischargeAirTemp = calculator;
+  }

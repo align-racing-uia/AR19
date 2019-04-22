@@ -12,7 +12,9 @@ CheckAirTempAmbient();      //Measures Ambient Temperature
 CheckAirTempTurbo();        //Measures the turbo pressure       
 
 ShutdownActivation();       //Activated the shutdown circuit if conditions are met. 
-
-CanSend();                  //sends Can messages
-
+if (millis()-cansignal::sendTimer > 1000)
+{
+    CanSend();                  //sends Can messages
+    cansignal::sendTimer = millis();
+}
 }
