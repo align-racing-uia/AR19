@@ -1,0 +1,65 @@
+System States:
+    001 --> Initialization          | The system is off and innactive
+
+    010 --> Pre-launch              | Awaiting launc-buttons to be presed
+    015 --> Control requst          | Requests control of ETC and Clutch
+    020 --> Launch Ready            | Regulating RPM
+    030 --> Launch Active           | Everything is ready to launch
+    040 --> Take off                | The car is launching and TC is active
+
+    090 --> Safemode step 1/2       | Somthing went wrong, regulating RPM down, and warns the driver.  
+    091 --> Safemode step 2/2       | Relinquishing control of ETC and Clutch.
+
+Component ID and CANbus ID:
+    001, Na --> Main progrm         | The main program flow
+    002, Na --> Error handeler      | Object for error storrage
+    003, Na --> Data Sender         | Program flow object
+    004, Na --> State Guardian      | Program flow object 
+    005, Na --> Can reader          | Objet fore reading can messages
+    006, Na --> data distributer    | Methode for distributer data to the correct storrage object
+    007, Na --> Calculator object   | Calculating importent values
+    008, Na --> Ignition Cutter     | Sends a high signal to the ECU signaling a ignition cutt
+    009, Na --> User access object  | Keep track of all users
+
+    010, 0x220 --> Hallsensor front left, data storrage object
+    011, 0x210 --> Hallsensor front right, data storrage object
+    012, 0x2D0 --> Hallsensor differential, data storrage object
+    013, 0x2E0 --> Hallsensor gears, data storrage object
+    014, 0x2F0 --> Hallsensor engine, data storrage object
+
+    020, 0x235 --> Potentiometer steering, data storrage object
+    021, 0x010 --> Potentiometer gas pedal, data storrage object
+
+    030, 0x250 --> Buttons steering wheel, data storrage object
+    031, 0x2C8 --> The system has control over the Clutch, data storrage object
+    032, 0x2B0 --> The system has control over the ETC, data storrage object
+    033, 0x019 --> Ping from main ACM 
+
+    050, 0x448 --> Object for edditing the IC file over CANbus
+
+Error ID:
+  System errors
+    001 --> Array out of bound
+    002 --> No data to return
+    003 --> The system is in a undefined state
+    004 --> Data not send
+    005 --> Unexpected behavior
+
+  Data errors 
+    101 --> Data value have increased faster then normal behaviour
+    102 --> Data value has exceeded the upper limmit of expected values
+    103 --> Data value has exceeded the lower limmit of expected values
+    104 --> Data value is not valid
+    105 --> Data is too old
+
+  External errors 
+    201 --> Launch aborted
+    202 --> Potmeter error
+
+  Session messages
+    31x --> Login by user x 
+    32x --> Logoff by user x
+  
+  User interaction messages
+    4yx --> the data y is changed by user x
+
