@@ -76,7 +76,7 @@ class InitialConditions
     double _setPointSlip[11] = {0.0f, 5.42f, 6.58f, 7.74f, 8.90f, 10.06f, 12.61f, 15.32f, 18.02f, 20.72f, 23.43f};
 
     //Ignition Cutter
-    const uint8_t cutterPIN = 9;
+    const uint8_t cutterPIN = 16;
     
 };
 
