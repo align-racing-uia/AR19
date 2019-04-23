@@ -127,10 +127,12 @@ void loop() {
       DataSender.newMessage(0x062, 4, LeftFrontHall.getDataU32());
       DataSender.newMessage(0x063, 4, DifferentialHall.getDataU32());
       DataSender.newMessage(0x064, 4, StearingPot.getDataU32());      
-      times = millis(); 
+
       DataSender.newMessage(0x065, 1, calculon.mappingCutter(outputSlip));
       DataSender.newMessage(0x066, 4, calculon.slipInputCalculator());
       DataSender.newMessage(0x067, 1, StearingBtn.getDataU8());
+
+      times = millis(); 
     }
   
   
