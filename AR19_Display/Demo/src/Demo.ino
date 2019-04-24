@@ -79,7 +79,7 @@ void retard(uint16_t setRPM){
     sendGear();
     sendRPM();
     
-    Delay(3)
+    Delay(2)
 
     }
 }
@@ -112,7 +112,7 @@ void acseleration(uint16_t setRPM){
     sendGear();
     sendRPM();
     
-    Delay(2);
+    Delay(1);
 
     }
 }
