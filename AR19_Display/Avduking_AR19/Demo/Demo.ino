@@ -1,7 +1,9 @@
-#include <Arduino.h>
+
 #include <SPI.h>
 #include <mcp2515.h>
 
+struct can_frame canMsgGear;
+struct can_frame canMsgRPM;
 
 MCP2515 mcp2515(7);
 
@@ -12,7 +14,7 @@ const uint8_t canidGear = 0x020; // offsett 3
 uint16_t valueRPM;
 uint8_t valueGear;
 
-struct can_frame canMsgGear, canMsgRPM;
+
 
 
 
@@ -24,11 +26,11 @@ void setup(){
     mcp2515.setBitrate(CAN_1000KBPS);
     mcp2515.setNormalMode();
 
-    canMsgGear.id = canidGear;
-    canMsgGear.dlc = 2;
+    canMsgGear.can_id = canidGear;
+    canMsgGear.can_dlc = 2;
 
-    canMsgRPM.id = canidRPM;
-    canMsgRPM.dlc = 5
+    canMsgRPM.can_id = canidRPM;
+    canMsgRPM.can_dlc = 5;
 
     valueGear = 1;
     valueRPM = 2000;
@@ -79,7 +81,7 @@ void retard(uint16_t setRPM){
     sendGear();
     sendRPM();
     
-    Delay(2)
+    delay(2);
 
     }
 }
@@ -112,7 +114,7 @@ void acseleration(uint16_t setRPM){
     sendGear();
     sendRPM();
     
-    Delay(1);
+    delay(1);
 
     }
 }
@@ -130,16 +132,16 @@ void gearDown(){
 
 }
 
-void sendGear(uint8_t Gear){
+void sendGear(){
     
-    canMsgGear.data[3] = Gear;
+    canMsgGear.data[3] = valueGear;
     mcp2515.sendMessage(&canMsgGear);
 
 }
 
-void sendRPM(uint16_t RPM){
+void sendRPM(){
     
-    canMsgRPM.data[0] = RPM/37;
+    canMsgRPM.data[0] = valueRPM/37;
     mcp2515.sendMessage(&canMsgRPM);
 
 }
