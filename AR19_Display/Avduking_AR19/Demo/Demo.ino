@@ -110,7 +110,7 @@ void acseleration(uint16_t setRPM){
         gearUp;
     }
 
-    valueRPM++;
+    valueRPM += 2;
     sendGear();
     sendRPM();
     
