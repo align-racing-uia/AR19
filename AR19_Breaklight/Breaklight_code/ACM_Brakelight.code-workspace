@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"name": "ACM_Breaklight",
+			"path": "."
+		}
+	],
+	"settings": {
+		"terminal.integrated.env.windows": {
+			"PATH": "C:\\Users\\Nylund\\.platformio\\penv\\Scripts;C:\\Users\\Nylund\\.platformio\\penv;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\External\\GnuWin32\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\WinAVR-20100110\\bin;C:\\WinAVR-20100110\\utils\\bin;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\Toolchain\\tools\\bin;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\Toolchain\\programmer\\dist;C:\\Python27;C:\\Users\\Nylund\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files (x86)\\Nmap;C:\\Users\\Nylund\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\adb;;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\External\\GnuWin32\\bin;C:\\ProgramData\\Oracle\\Java\\javapath;C:\\WinAVR-20100110\\bin;C:\\WinAVR-20100110\\utils\\bin;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\Toolchain\\tools\\bin;C:\\Program Files (x86)\\Bridgetek\\FT9xx Toolchain\\Toolchain\\programmer\\dist;C:\\Python27;C:\\Users\\Nylund\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files (x86)\\Nmap;C:\\Users\\Nylund\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\adb;",
+			"PLATFORMIO_CALLER": "vscode"
+		}
+	}
+}
