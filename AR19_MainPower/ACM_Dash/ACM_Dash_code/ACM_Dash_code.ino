@@ -10,20 +10,31 @@ const uint8_t sant = 0xF0;
 const uint8_t tull = 0x0F;
 const uint8_t redLED = 16;
 const uint8_t greenLED = 17;
-const uint8_t neutralPIN = 19;
+const uint8_t neutralPin = 18;
 const uint8_t terskel = 150;
 const uint8_t intergrertRedLED = 5;
+const uint8_t intergrertGreenLED = 6;
+const uint8_t neutralLED = 3;
+uint16_t clutchPin = 19;
 
-long timeStampCANBUS = 0;
+
+long timeStampCanbus = 0;
 uint8_t shutdownActive = tull;
 uint8_t neutralSignal = tull;
+uint8_t clutchOverride = tull;
+
 
 void setup() {
-
+  
+  pinMode(intergrertRedLED, OUTPUT);
+  pinMode(intergrertGreenLED, OUTPUT);
   pinMode(redLED, OUTPUT);
   pinMode(greenLED, OUTPUT);
-  pinMode(intergrertRedLED, OUTPUT);
-  pinMode(neutralPIN, INPUT);
+  pinMode(neutralLED, OUTPUT);
+  pinMode(neutralPin, OUTPUT);
+  pinMode(clutchPin, OUTPUT);
+  digitalWrite(neutralLED, HIGH);
+  
 
   SPI.begin();
   mcp2515.reset();
@@ -38,10 +49,9 @@ void loop() {
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
-   if (myMessage.can_id ==  0x270)
+   if (myMessage.can_id == 0x270)
    {
       shutdownActive = myMessage.data[0]; // Det første bytet med data
-      shutdownActive = tull;
    }
    else if (myMessage.can_id ==  0x19 &&  myMessage.data[0] == sant)
    {
@@ -55,10 +65,7 @@ void loop() {
 
 // Sende data
 
-
-  neutralSignal = tull;
-
-  if (analogRead(neutralPIN) > terskel)
+  if (analogRead(neutralPin) > terskel)
   {
     neutralSignal = sant;
     digitalWrite(intergrertRedLED, LOW);
@@ -68,27 +75,42 @@ void loop() {
     digitalWrite(intergrertRedLED, HIGH);
   }
 
-  if (neutralSignal == sant || millis() - timeStampCANBUS > 100){
+
+  if (analogRead(clutchPin) > terskel)
+  {
+    clutchOverride = sant;
+    digitalWrite(intergrertGreenLED, LOW);
+  }
+  else
+  {
+    digitalWrite(intergrertGreenLED, HIGH);
+  }
+
+if (timeStampCanbus > 100){
+  if (neutralSignal == sant || clutchOverride == sant){
   
-    myMessage.can_id = 0x230;  
-    myMessage.can_dlc = 1; 
+    myMessage.can_id = 0x42;  
+    myMessage.can_dlc = 2; 
     myMessage.data[0] = neutralSignal;
-    
+    myMessage.data[1] = clutchOverride;
     mcp2515.sendMessage(&myMessage);
-    timeStampCANBUS = millis();
+    timeStampCanbus = millis();
 
   }
+
+}
+  
 
 
 //LEDSTYRING LOKALT
   if (shutdownActive == sant)
   {
-    digitalWrite(redLED, LOW);
-    digitalWrite(greenLED, HIGH);
+    digitalWrite(redLED, HIGH);
+    digitalWrite(greenLED, LOW);
   }
   else if (shutdownActive == tull)
   {
-    digitalWrite(redLED, HIGH);
-    digitalWrite(greenLED, LOW);
+    digitalWrite(redLED, LOW );
+    digitalWrite(greenLED, HIGH);
   }
 }
