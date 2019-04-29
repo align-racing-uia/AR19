@@ -1,41 +1,28 @@
-
 void GearUp(){
-using namespace gearing;
-  if (cansignal::gearUpSignal == global::sant && millis()-timerGearUp > gearTimerTimeout  && millis()-timerGearDown > gearTimerTimeout && gearposition::currentGear != 6 && millis() - gearing::timerNeutralTimeout > gearing::timerNeutral /*&& clutchpressure::InBar < clutchpressure::engagedTreshold*/)
-  {
-    gearposition::newGear = gearposition::currentGear + 1;
-    timerGearUp = millis();
-  } 
- // geartimer er satt i variables og er omtrent 100ms
-  if (millis()- timerGearUp < gearTimer && millis() > gearTimer || millis()-neutraltofirst::timeStamp < neutraltofirst::timeOut && millis() > gearTimer)
-  {
+  // geartimer er satt i variables og er omtrent 100ms
+  if (millis()- gearup::timestamp < gearup::timer && millis() > gearup::timer )
+  {       
 
-    // To gear up from neutral position to first gear the vehicle must stay under 10km/h
-      if (gearposition::currentGear == 0 || millis()-neutraltofirst::timeStamp < neutraltofirst::timeOut/*&& cansignal::vehicleSpeed < 10*/)
-        {
-          NeutralToFirst();        
-        }
-
-      else if (gearposition::currentGear >= 1 && gearposition::currentGear <= 5 && cansignal::engineRPM > upshiftRPMLimit )
-        {
-          digitalWrite(upPin, HIGH);
-
-          if (gearposition::currentGear == gearposition::newGear)
-          {
-            digitalWrite(upPin, LOW);
-            timerGearUp = millis()+gearTimer;
-          }
-        }
-
-  else if ( millis()- timerGearUp < gearTimerTimeout && gearposition::currentGear >= 1 && gearposition::currentGear <= 5 ) 
+    if(gearposition::currentGear =! gearposition::newGear)
     {
-      digitalWrite(upPin, LOW);
-      digitalWrite(downPin, LOW);
-      gearposition::newGear = gearposition::currentGear;
-      servo.write(clutch::engage);
+        clutch::timestamp = millis();
     }
 
-  cansignal::gearUpSignal = global::tull;  
+    if (clutchpressure::InBar > 5 && gearposition::currentGear != gearposition::newGear)
+    {
+        digitalWrite(gearup::pin, HIGH);
+      
+    }
+    else if (gearposition::currentGear == gearposition::newGear)
+    {
+      digitalWrite(gearup::pin, LOW);
 
+    }
   }
+
+  else if(millis()- gearup::timestamp < gearup::timerLockout )
+  {
+    digitalWrite(gearup::pin, LOW);
+  }
+  
 }

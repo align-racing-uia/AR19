@@ -2,5 +2,5 @@
     "programmer": "AVRISP mkII",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328",
-    "sketch": "AR19_EGS\\GEAR_ACM\\GEAR_ACM.ino"
+    "sketch": "AR19_EGS\\GEAR_ACM_RETARDED\\GEAR_ACM_RETARDED.ino"
 }

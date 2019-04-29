@@ -14,13 +14,12 @@ void GatherSensorData()
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-void CheckClutchPressure() {
+void CheckClutchPressure() 
+{
 using namespace clutchpressure;
     sensorValue = analogRead(sensorPin);
  
     InBar = map(sensorValue, 102.3, 902, 0, 100);
- 
-    servoRealTimeDegree = servo.read();
 } 
 
 

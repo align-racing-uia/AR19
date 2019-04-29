@@ -5,6 +5,8 @@ CanRecieve();               //Revieves Can messages.
 
 GatherSensorData();         //Updates sensor values.
 
+CheckDriverIntention();
+
 GearUp();                   //Gears up initial values are set.  // cansignal::GearUp = global::sant
 
 GearDown();                 //Gears down initial values are set // cansignal::GearDown = global::sant

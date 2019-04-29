@@ -1,65 +1,39 @@
 void GoToNeutral()
 {
 
-using namespace gotoneutral;
-
-if(cansignal::neutralSignal == global::sant && millis() - timerNeutralTimeout > neutralTimeout + safeTime && millis()- gearing::timerGearUp > gearing::gearTimerTimeout  && millis() - gearing::timerGearDown > gearing::gearTimerTimeout && gearposition::currentGear != 0)
+if ( millis() - gotoneutral::timestamp > gotoneutral::timer && gearposition::currentGear != 0)
 {
-    timerNeutralTimeout = millis();
-    shiftTimer = millis();
+    clutch::timestamp = millis();
+           
+    if (gearposition::currentGear >= 2)
+    {
+        digitalWrite(geardown::pin, HIGH);
+        digitalWrite(gearup::pin, LOW);
+    }
+    else if (gearposition::currentGear == 1)
+    {
+        digitalWrite(gearup::pin, HIGH);
+        digitalWrite(geardown::pin, LOW);
+    }
+
 }
 
-
-if ( millis() - timerNeutralTimeout > neutralTimeout && gearposition::currentGear != 0)
-{
-    servo.write(clutch::disengage);
-    
-    if (millis() - shiftTimer < shiftAttemptLength )
-    {
-        
-        if (gearposition::currentGear >= 2 && gearposition::currentGear <= 6)
-        {
-            digitalWrite(gearing::downPin, HIGH);
-        }
-        else if (gearposition::currentGear == 1)
-        {
-            digitalWrite(gearing::upPin, HIGH);
-        }
-    }
-    else if (millis() - shiftTimer > shiftAttemptLength && millis() - shiftTimer < shiftAttemptLength + shiftingPause  )
-    {
-        digitalWrite(gearing::downPin, LOW);
-        digitalWrite(gearing::upPin, LOW);
-    }
-    else if(millis() - shiftTimer > shiftAttemptLength + shiftingPause)
-    {
-        shiftTimer = millis();
-    }
-}
-
-else if( millis() - timerNeutralTimeout > neutralTimeout && gearposition::currentGear == 0)
+else if( millis() - gotoneutral::timestamp > gotoneutral::timer && gearposition::currentGear == 0 && millis() - gotoneutral::timestamp < gotoneutral::timerLockout)
 {
     servo.write(clutch::engage);
-    digitalWrite(gearing::downPin, LOW);
-    digitalWrite(gearing::upPin, LOW);
+    digitalWrite(geardown::pin, LOW);
+    digitalWrite(gearup::pin, LOW);
 }
 
-else if ( gearposition::currentGear != 0 && millis() - timerNeutralTimeout > neutralTimeout + safeTime )
+else if ( gearposition::currentGear != 0 && millis() - gotoneutral::timestamp > gotoneutral::timer && millis() - gotoneutral::timestamp < gotoneutral::timerLockout)
 {
-    digitalWrite(gearing::downPin, LOW);
-    digitalWrite(gearing::upPin, LOW);
+    digitalWrite(geardown::pin, LOW);
+    digitalWrite(gearup::pin, LOW);
     servo.write(clutch::disengage);
 
 }
 
-
-cansignal::neutralSignal = global::tull;
-
-
 }
-
-// Har ikke laget ferdig spesialtilfeller og feilkilder, skal jobbe med det fremover
-
 
 
 

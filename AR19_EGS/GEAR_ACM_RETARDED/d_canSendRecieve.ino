@@ -9,7 +9,7 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 
   myMessage.can_id = 0x15;  
   myMessage.can_dlc = 1; 
-  myMessage.data[0] = 21;
+  myMessage.data[0] = global::sant;
   mcp2515.sendMessage(&myMessage);
 
 }
@@ -22,25 +22,25 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 
 
 void CanRecieve() {
-
+  
 using namespace cansignal;
+gearUpSignal = global::tull;  
+gearDownSignal = global::tull;  
+neutralSignal = global::tull;
+clutchOverride = global::tull;
+
+
 //Ta imot data
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) 
  {
-  
-  
-  // CAN message 0x410 - Breakpressure.
-  if (myMessage.can_id == 0x410)
-  {
-    breakPressure1 = myMessage.data[0];
-  }
 
 
-  // CAN message 0x230 - Neutral signal.
-  if (myMessage.can_id == 0x230)
+  // CAN message 0x42 - Neutral signal and clutch override.
+  if (myMessage.can_id == 0x42)
   {
-    neutralSignal = myMessage.data[0]; 
+    neutralSignal = myMessage.data[0];
+    clutchOverride =  myMessage.data[1];
   }
 
   // CAN message 0x240 - Gear paddles.
@@ -50,54 +50,28 @@ using namespace cansignal;
     gearDownSignal = myMessage.data[1];  
   }
 
-// CAN message 0x280 - Launch control request clutch.
-  if (myMessage.can_id == 0x280)
-  {
-    launchControlClutch = myMessage.data[0];
-  }
-
-
-// CAN message 0x2C0 - Blip Confirmation from ETC.
-  if (myMessage.can_id == 0x2C0)
-  {
-    blipConfirmed = myMessage.data[0];
-  }
-
-
-// CAN message 0x2F0 - RPM from ECU
+  // CAN message 0x2F0 - RPM from ECU
   if (myMessage.can_id == 0x2F0)
   { 
     rpm1 = myMessage.data[0];
     rpm2 = myMessage.data[1];
+    engineRPM = rpm1*255 +rpm2;
   }
-engineRPM = rpm1*255 +rpm2;
-}
 
-/*
-// CAN message 0x210 - Speed from Launch Control - Right front wheel
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x210;  
-    myMessage.can_dlc = 4; 
-    myMessage.data[0] = speedFrontRight1;
-    myMessage.data[1] = speedFrontRight2;
-    myMessage.data[3] = speedFrontRight3;
-    myMessage.data[3] = speedFrontRight4;
+
+
+
+  //Responds to pings
+  if (myMessage.can_id == 0x19 && bitRead(myMessage.data[0],5) == 1)
+  { 
+  myMessage.can_id = 0x15;  
+  myMessage.can_dlc = 1; 
+  myMessage.data[0] = global::sant;
+  mcp2515.sendMessage(&myMessage);
   }
-  vehicleSpeed = (SpeedLeftFrontWheel+SpeedRightFrontWheel)/2 ;
-speedFrontRightCalculated = speedFrontRight1 + speedFrontRight2 + speedFrontRight3 + speedFrontRight4; ?????????????????????????? hva er dette?
-// CAN message 0x220 - Speed from Launch Control - Left front wheel
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-    myMessage.can_id = 0x220;  
-    myMessage.can_dlc = 4; 
-    myMessage.data[0] = speedFrontLeft1;
-    myMessage.data[1] = speedFrontLeft2;
-    myMessage.data[2] = speedFrontLeft3;
-    myMessage.data[3] = speedFrontLeft4;
-  }
-engineRPM = rpm1*255 +rpm2;
-*/
+
+ }
+
 
 }
 
@@ -112,7 +86,7 @@ using namespace cansignal;
 
   myMessage.can_id = 0x20;  
   myMessage.can_dlc = 5; 
-  myMessage.data[0] = requestBlip;
+  myMessage.data[0] = 0;//requestBlip;
   myMessage.data[1] = 0;//engineCut
   myMessage.data[2] = 0;//clutchInSignal 
   myMessage.data[3] = gearPosition; 
