@@ -24,6 +24,9 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
         pinMode(red, OUTPUT);
         pinMode(green, OUTPUT);
         pinMode(blue, OUTPUT);
+        digitalWrite(red,HIGH);
+        digitalWrite(green,HIGH);
+        digitalWrite(blue,HIGH);
     }
 
     using namespace clutch;
