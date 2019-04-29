@@ -1,6 +1,6 @@
 void ShutdownActivation() {
 
-pinMode(ActivatePin,HIGH);
+digitalWrite(shutdowncircuit::activatePin, HIGH);
 
 
 }

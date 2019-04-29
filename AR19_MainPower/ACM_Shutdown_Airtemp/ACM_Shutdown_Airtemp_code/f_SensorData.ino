@@ -8,7 +8,7 @@
 
 void CheckShutdownStatus() {
 using namespace shutdowncircuit;
-  sensorValue = analogRead(SensePin);
+  sensorValue = analogRead(sensePin);
 
   if(sensorValue < global::threshold)
   {

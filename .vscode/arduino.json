@@ -1,6 +1,6 @@
 {
-    "programmer": "AVR ISP",
+    "programmer": "AVRISP mkII",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328",
-    "sketch": "AR19_MainPower\\ACM_Shutdown_Airtemp\\ACM_Shutdown_Airtemp_code\\ACM_Shutdown_Airtemp_code.ino"
+    "sketch": "AR19_EGS\\GEAR_ACM\\GEAR_ACM.ino"
 }
