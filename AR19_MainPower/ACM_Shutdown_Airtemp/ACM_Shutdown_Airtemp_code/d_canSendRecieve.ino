@@ -24,6 +24,16 @@ using namespace cansignal;
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
+    if (myMessage.can_id == 0x1 || millis() - shutdowncircuit::lockoutTimer > 300)
+    {
+      digitalWrite(shutdowncircuit::activatepin, LOW)
+    }
+    else
+    {
+      digitalWrite(shutdowncircuit::activatepin, HIGH)
+    }
+
+
     if (myMessage.can_id == 0x12 && myMessage.can_dlc == 1)
     {
       helloImHereStartupPedal = myMessage.data[0]; 
