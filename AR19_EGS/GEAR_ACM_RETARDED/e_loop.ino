@@ -6,7 +6,7 @@ CanRecieve();               //Revieves Can messages.
 GatherSensorData();         //Updates sensor values.
 
 CheckDriverIntention();
-
+/*
 GearUp();                   //Gears up initial values are set.  // cansignal::GearUp = global::sant
 
 GearDown();                 //Gears down initial values are set // cansignal::GearDown = global::sant
@@ -16,5 +16,5 @@ GoToNeutral();              //Goes to neutral if initial values are set // cansi
 ClutchIn();                 //activated when millis() - clutchTimer < clutchDuration
 
 CanSend();                  //sends Can messages
-
+*/
 }
