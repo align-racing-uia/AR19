@@ -1,3 +1,5 @@
+#include <stdint.h>     //library for aduino
+#include <arduino.h>    //Standard arduino library.
 #include <SPI.h>
 #include <mcp2515.h>
 
@@ -34,7 +36,8 @@ void setup() {
   pinMode(neutralPin, OUTPUT);
   pinMode(clutchPin, OUTPUT);
   digitalWrite(neutralLED, HIGH);
-  
+  digitalWrite(redLED, LOW);
+  digitalWrite(greenLED, LOW);
 
   SPI.begin();
   mcp2515.reset();
@@ -86,7 +89,7 @@ void loop() {
     digitalWrite(intergrertGreenLED, HIGH);
   }
 
-if (timeStampCanbus > 100){
+if (millis()-timeStampCanbus > 100){
   if (neutralSignal == sant || clutchOverride == sant){
   
     myMessage.can_id = 0x42;  

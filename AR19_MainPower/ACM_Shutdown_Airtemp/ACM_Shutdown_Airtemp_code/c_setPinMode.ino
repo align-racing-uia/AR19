@@ -4,7 +4,7 @@ using namespace shutdowncircuit;
 {
     pinMode(sensePin, INPUT_PULLUP);
     pinMode(activatePin, OUTPUT);
-    digitalWrite(activatePin, HIGH)
+    digitalWrite(activatePin, LOW);
     
 }
 

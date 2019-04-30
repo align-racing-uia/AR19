@@ -1,24 +1,26 @@
 #include <SPI.h>
 #include <mcp2515.h>
+#include <stdint.h>     //library for aduino
+#include <arduino.h>    //Standard arduino library.
 
 MCP2515 mcp2515(7);
 struct can_frame myMessage;
 
 
-long timeStampGearUp = 0;
-long timeStampGearDown = 0;
-int sant = 0xF0;
-int tull = 0x0F;
-int red = 5;
-int green = 6;
-int blue = 9;
-int GearUpPIN = 18;
-int GearDownPIN = 19;
-int GearUpSignal = tull;
-int GearDownSignal = tull;
-int GearUpMeasure = 0;
-int GearDownMeasure = 0;
-int terkeliknipe = 200;
+unsigned long timeStampGearUp = 0;
+unsigned long timeStampGearDown = 0;
+const uint8_t sant = 0xF0;
+const uint8_t  tull = 0x0F;
+const uint8_t  red = 5;
+const uint8_t  green = 6;
+const uint8_t  blue = 9;
+const uint8_t  GearUpPIN = 18;
+const uint8_t  GearDownPIN = 19;
+int8_t GearUpSignal = tull;
+int8_t GearDownSignal = tull;
+int16_t GearUpMeasure = 0;
+int16_t GearDownMeasure = 0;
+const uint8_t terkeliknipe = 200;
 
 
 void setup() {
@@ -70,7 +72,7 @@ else
   }
 
 
-if (GearUpSignal == sant && millis() - timeStampGearUp > 100){
+if (GearUpSignal == sant && millis() - timeStampGearUp > 50){
   
   myMessage.can_id = 0x240;  
   myMessage.can_dlc = 2; 
@@ -83,7 +85,7 @@ if (GearUpSignal == sant && millis() - timeStampGearUp > 100){
 
 
 
-if (GearDownSignal == sant && millis() - timeStampGearDown > 100){
+if (GearDownSignal == sant && millis() - timeStampGearDown > 50){
   
   myMessage.can_id = 0x240;  
   myMessage.can_dlc = 2; 
