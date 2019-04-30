@@ -1,5 +1,5 @@
 {
-    "programmer": "AVRISP mkII",
+    "programmer": "Arduino as ISP",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328",
     "sketch": "AR19_EGS\\GEAR_ACM_RETARDED\\GEAR_ACM_RETARDED.ino"
