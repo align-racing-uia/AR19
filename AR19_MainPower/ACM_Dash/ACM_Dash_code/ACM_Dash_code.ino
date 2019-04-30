@@ -8,8 +8,8 @@ struct can_frame myMessage;
 
 const uint8_t sant = 0xF0;
 const uint8_t tull = 0x0F;
-const uint8_t redLED = 16;
-const uint8_t greenLED = 17;
+const uint8_t redLED = 17;
+const uint8_t greenLED = 16;
 const uint8_t neutralPin = 18;
 const uint8_t terskel = 150;
 const uint8_t intergrertRedLED = 5;
