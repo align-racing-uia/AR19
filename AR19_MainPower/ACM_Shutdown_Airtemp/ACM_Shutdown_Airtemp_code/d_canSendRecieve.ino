@@ -26,11 +26,11 @@ using namespace cansignal;
   
     if (myMessage.can_id == 0x1 || millis() - shutdowncircuit::lockoutTimer > 300)
     {
-      digitalWrite(shutdowncircuit::activatepin, LOW)
+      digitalWrite(shutdowncircuit::activatePin, LOW);
     }
     else
     {
-      digitalWrite(shutdowncircuit::activatepin, HIGH)
+      digitalWrite(shutdowncircuit::activatePin, HIGH);
     }
 
 

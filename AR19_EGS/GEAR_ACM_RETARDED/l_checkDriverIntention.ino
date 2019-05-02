@@ -4,27 +4,21 @@ if (cansignal::gearDownSignal == global::sant && millis() - geardown::timestamp 
     { 
       gearposition::newGear = gearposition::currentGear - 1;
       geardown::timestamp = millis();
-      SetGreenLED(true);
-      SetGreenLED(false);
-      SetBlueLED(false);
+      digitalWrite(red,LOW);
     }
 
 
-if (cansignal::gearDownSignal == global::sant && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout && millis() - gotoneutral::timestamp > gotoneutral::timerLockout)
+if (cansignal::gearUpSignal == global::sant && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout && millis() - gotoneutral::timestamp > gotoneutral::timerLockout)
   {
     gearposition::newGear = gearposition::currentGear + 1;
     gearup::timestamp = millis();
-    SetBlueLED(true);
-    SetGreenLED(false);
-    SetRedLED(false);
+    digitalWrite(green,LOW);
   } 
 
 if(cansignal::neutralSignal == global::sant && millis() - gotoneutral::timestamp > gotoneutral::timer)
 {
     gotoneutral::timestamp = millis();
-    SetRedLED(true);
-    SetGreenLED(false);
-    SetBlueLED(false);
+    digitalWrite(blue,LOW);
 }
 
 }

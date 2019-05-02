@@ -35,7 +35,6 @@ clutchOverride = global::tull;
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) 
  {
 
-
   // CAN message 0x42 - Neutral signal and clutch override.
   if (myMessage.can_id == 0x42)
   {

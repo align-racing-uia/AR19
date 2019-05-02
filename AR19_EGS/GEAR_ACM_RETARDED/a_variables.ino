@@ -1,25 +1,6 @@
 
 // Viktig at denne fila kjem først i kompileringa(etter GEAR_ACM)
-    
-//Declare functions present in GEAR_ACM
 
-void SetPinMode();
-void CanSetup();
-void CanRecieve();
-void GatherSensorData();
-void CheckDriverIntention();
-void GearUp();
-void GearDown();
-void GoToNeutral();
-void ClutchIn();
-void CanSend();
-void CheckClutchPressure ();
-void CheckGear ();
-void SetGreenLED(bool);
-void SetRedLED(bool);
-void SetBlueLED(bool);
-
-//////////////////////////////////
 
 namespace global{
     const uint8_t sant = 0xF0;
@@ -28,7 +9,7 @@ namespace global{
 
 
 namespace gearposition{  // CheckGear -  Declarations
-    const uint8_t inputPin = 17;  // Make namespace for CheckGear
+    const uint8_t inputPin = 116;  // Make namespace for CheckGear
     uint8_t sensorInput;
     uint8_t voltage;
     uint8_t currentGear = 0;
@@ -41,7 +22,7 @@ namespace gotoneutral
 {
 long timestamp= 0;
 const uint16_t timer = 2000;// Length of a goToNeutral attempt duartion
-const uint16_t timerLockout = timer + 250; 
+const uint16_t timerLockout = 2500; 
 
 
 }
@@ -52,16 +33,16 @@ const uint16_t timerLockout = timer + 250;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 100;
-    const uint16_t timerLockout = timer + 200;
+    const uint16_t timer = 200;
+    const uint16_t timerLockout = 1000;
 
 }
 
 namespace geardown{
     long timestamp = 0;
-    const uint8_t pin = 10;
-    const uint16_t timer = 100;
-    const uint16_t timerLockout = timer + 200;
+    const uint8_t pin = 17;
+    const uint16_t timer = 200;
+    const uint16_t timerLockout = 1000;
 
 }
 
@@ -71,7 +52,7 @@ namespace geardown{
 
 namespace clutchpressure
 {              
-    uint8_t sensorPin = 16;     
+    uint8_t sensorPin = 19;     
     uint8_t sensorValue = 0;
     uint8_t InBar = 0;
 
@@ -83,7 +64,7 @@ namespace clutchpressure
 
 
 namespace clutch{
-    uint8_t servoPin = 16; // pin servo 
+    uint8_t servoPin = 3; // pin servo - egentlig pin 3
     int16_t engage = 0; // servo position 0 degrees
     int16_t disengage = 90; // servo position 90 degrees
     long timestamp = 0;
