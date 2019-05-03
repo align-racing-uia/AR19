@@ -46,15 +46,15 @@ Pleas visit this <a href="https://github.com/stianrognhaugen/AR19_ETC">GitHub Re
 
 <div align="center">
 <a href="https://www.linkedin.com/in/stian-rognhaugen/" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Stian Rognhaugen LinkedIn">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Stian Rognhaugen LinkedIn" style="width:42px;height:42px;border:0;">
 </a>
 
 <a href="https://www.linkedin.com/in/sandmag/" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Sander Bråten Johannessen LinkedIn">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Sander Bråten Johannessen LinkedIn" style="width:42px;height:42px;border:0;">
 </a>
 
 <a href="https://www.linkedin.com/in/j%C3%B8rgennilsen/" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Jørgen Nilsen LinkedIn">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Jørgen Nilsen LinkedIn" style="width:42px;height:42px;border:0;">
 </a>
 </div>
 
