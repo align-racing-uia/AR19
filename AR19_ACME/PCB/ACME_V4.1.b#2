@@ -333,10 +333,11 @@
 <rectangle x1="26.52" y1="-0.05" x2="29.72" y2="1.14" layer="25"/>
 <text x="31.05" y="3.75" size="1.778" layer="25" align="center">10</text>
 <text x="17.25" y="3.75" size="1.778" layer="25" align="center">3</text>
-<text x="36" y="2" size="1.778" layer="22" rot="MR0">N-Mosfet - ■ GND
-P-Mosfet - ■ 12V
+<text x="36" y="-1" size="1.778" layer="22" rot="MR0">Pull up or pull down
 
-■ Pull up or pull down</text>
+N-Mosfet - GND
+P-Mosfet - 12V
+</text>
 </plain>
 <libraries>
 <library name="wirepad" urn="urn:adsk.eagle:library:412">
