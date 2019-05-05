@@ -734,7 +734,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="11.86" y="10.3765" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="11.86" y="10.3765" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="11.86" y="10.3765" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="13.65" y="10.4565" size="1.27" layer="25" align="center"/>
+<attribute name="NAME" x="11.085" y="10.3765" size="1.27" layer="25" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="11.86" y="10.3765" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="11.86" y="10.3765" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="16.48" y="9.5665" size="1.27" layer="27" align="center"/>
@@ -746,7 +746,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="25.91" y="10.4865" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="25.91" y="10.4865" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="25.91" y="10.4865" size="1.778" layer="27" rot="R270" display="off"/>
-<attribute name="NAME" x="27.62" y="10.5165" size="1.27" layer="25" rot="R180" align="center"/>
+<attribute name="NAME" x="25.135" y="10.4865" size="1.27" layer="25" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="25.91" y="10.4865" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="25.91" y="10.4865" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="23.95" y="7.4565" size="1.27" layer="27" rot="R270" align="center"/>

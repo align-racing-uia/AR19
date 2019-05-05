@@ -323,7 +323,7 @@
 <vertex x="36.09799375" y="33.587240625"/>
 </polygon>
 <text x="29" y="32" size="1.5" layer="26" rot="MR0" align="center-left">ACME - ACM Extention</text>
-<text x="29" y="30.5" size="1" layer="26" rot="MR0" align="center-left">v4.1</text>
+<text x="29" y="30.5" size="1" layer="26" rot="MR0" align="center-left">v4.2</text>
 <text x="29" y="29" size="1" layer="26" rot="MR0" align="center-left">Rev. B</text>
 <text x="3" y="15.5" size="1.1" layer="26" rot="MR270" align="center">*Designed by Humans from Earth*</text>
 <text x="19.5" y="31" size="1" layer="25" align="center-left">with dual mosfet switch</text>

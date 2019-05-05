@@ -158,14 +158,14 @@
 </layers>
 <board>
 <plain>
-<wire x1="4" y1="0" x2="45" y2="0" width="0" layer="20"/>
-<wire x1="45" y1="0" x2="48" y2="2" width="0" layer="20" curve="90"/>
+<wire x1="3" y1="0" x2="44" y2="0" width="0" layer="20"/>
+<wire x1="44" y1="0" x2="48" y2="2" width="0" layer="20" curve="90"/>
 <wire x1="48" y1="2" x2="48" y2="32" width="0" layer="20"/>
 <wire x1="48" y1="32" x2="45" y2="34" width="0" layer="20" curve="90"/>
 <wire x1="45" y1="34" x2="4" y2="34" width="0" layer="20"/>
 <wire x1="4" y1="34" x2="1" y2="32" width="0" layer="20" curve="90"/>
 <wire x1="1" y1="32" x2="1" y2="2" width="0" layer="20"/>
-<wire x1="1" y1="2" x2="4" y2="0" width="0" layer="20" curve="90"/>
+<wire x1="1" y1="2" x2="3" y2="0" width="0" layer="20" curve="90"/>
 <text x="6.46" y="30.51" size="1" layer="25" align="center-right">12V</text>
 <text x="11" y="30.5" size="1" layer="25" align="center-left">CANH</text>
 <text x="6.44" y="27.84" size="1" layer="25" align="center-right">CANL</text>
@@ -329,8 +329,8 @@
 <text x="19.5" y="31" size="1" layer="25" align="center-left">with dual mosfet switch</text>
 <wire x1="19.5" y1="30.5" x2="34.5" y2="30.5" width="0.1" layer="25"/>
 <hole x="32.9" y="20.75" drill="3"/>
-<rectangle x1="18.68" y1="-0.14" x2="21.88" y2="0.95" layer="25"/>
-<rectangle x1="32.52" y1="-0.3" x2="35.72" y2="0.89" layer="25"/>
+<rectangle x1="12.68" y1="-0.14" x2="15.88" y2="0.95" layer="25"/>
+<rectangle x1="26.52" y1="-0.3" x2="29.72" y2="0.89" layer="25"/>
 </plain>
 <libraries>
 <library name="wirepad" urn="urn:adsk.eagle:library:412">
@@ -1048,10 +1048,6 @@ design rules under a new name.</description>
 </polygon>
 <contactref element="U$1" pad="5V1_P"/>
 <contactref element="U$5" pad="7"/>
-<wire x1="41" y1="7" x2="41" y2="4.5" width="1" layer="1"/>
-<wire x1="41" y1="4.5" x2="40" y2="3.5" width="1" layer="1"/>
-<wire x1="40" y1="3.5" x2="38.69" y2="3.5" width="1" layer="1"/>
-<wire x1="42.26" y1="8.26" x2="41" y2="7" width="1" layer="1"/>
 <polygon width="0.5" layer="1" pour="cutout">
 <vertex x="38" y="-2"/>
 <vertex x="37" y="-1"/>
@@ -1063,6 +1059,11 @@ design rules under a new name.</description>
 <vertex x="7.777034375" y="14.176446875"/>
 <vertex x="7.777034375" y="-2"/>
 </polygon>
+<wire x1="41" y1="4.81" x2="39.69" y2="3.5" width="1" layer="1"/>
+<wire x1="38.69" y1="3.5" x2="39.69" y2="3.5" width="1" layer="1"/>
+<wire x1="41" y1="4.81" x2="41" y2="7" width="1" layer="1"/>
+<wire x1="41" y1="7" x2="42.26" y2="8.26" width="1" layer="1"/>
+<wire x1="42.26" y1="8.26" x2="43.5" y2="8.26" width="1" layer="1"/>
 </signal>
 <signal name="PWM0">
 <contactref element="U$1" pad="PWM0_P"/>

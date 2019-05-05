@@ -324,7 +324,7 @@
 </polygon>
 <text x="29" y="32" size="1.5" layer="26" rot="MR0" align="center-left">ACME - ACM Extention</text>
 <text x="29" y="30.5" size="1" layer="26" rot="MR0" align="center-left">v4.2</text>
-<text x="29" y="29" size="1" layer="26" rot="MR0" align="center-left">Rev. B</text>
+<text x="25" y="30.5" size="1" layer="26" rot="MR0" align="center-left">Rev. B</text>
 <text x="3" y="15.5" size="1.1" layer="26" rot="MR270" align="center">*Designed by Humans from Earth*</text>
 <text x="19.5" y="31" size="1" layer="25" align="center-left">with dual mosfet switch</text>
 <wire x1="19.5" y1="30.5" x2="34.5" y2="30.5" width="0.1" layer="25"/>
@@ -789,7 +789,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="15" y="21.65" size="1.27" layer="26" rot="MR0" align="center-left"/>
+<attribute name="NAME" x="18.1" y="21.65" size="1.27" layer="26" rot="MR0" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
 </element>
@@ -800,7 +800,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="15" y="18.47" size="1.27" layer="26" rot="MR0" align="center-left"/>
+<attribute name="NAME" x="18.1" y="18.47" size="1.27" layer="26" rot="MR0" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
 </element>
@@ -878,7 +878,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="15" y="20.05" size="1.27" layer="26" rot="MR0" align="center-left"/>
+<attribute name="NAME" x="18.1" y="20.05" size="1.27" layer="26" rot="MR0" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="VALUE" x="16.55" y="20.05" size="1.27" layer="28" rot="MR0" align="center"/>
@@ -890,7 +890,7 @@ design rules under a new name.</description>
 <attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="15" y="16.9" size="1.27" layer="26" rot="MR0" align="center-left"/>
+<attribute name="NAME" x="18.1" y="16.9" size="1.27" layer="26" rot="MR0" align="center-right"/>
 <attribute name="RS_PART_NUMBER" value="" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="VALUE" x="16.55" y="16.9" size="1.27" layer="28" rot="MR0" align="center"/>
