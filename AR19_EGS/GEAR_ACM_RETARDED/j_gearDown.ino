@@ -5,10 +5,10 @@ void GearDown()
   {       
     if (millis()-geardown::timestamp < geardown::timer)
     {
-        if(gearposition::currentGear =! gearposition::newGear)
-        {
+        //if(gearposition::currentGear =! gearposition::newGear)
+        //{
             clutch::timestamp = millis();
-        }
+        //}
     
         if (/*clutchpressure::InBar > 5 && */gearposition::currentGear != gearposition::newGear)
         {

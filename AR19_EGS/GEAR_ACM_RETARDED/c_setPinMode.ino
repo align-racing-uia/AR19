@@ -31,6 +31,6 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
 
     using namespace clutch;
     {
-        servo.attach(servoPin,750,2000); // set arduino to use pin 16 as servo control
+        servo.attach(servoPin);
     }
 }

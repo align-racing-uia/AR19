@@ -9,7 +9,7 @@ namespace global{
 
 
 namespace gearposition{  // CheckGear -  Declarations
-    const uint8_t inputPin = 116;  // Make namespace for CheckGear
+    const uint8_t inputPin = 16;  // Make namespace for CheckGear
     uint8_t sensorInput;
     uint8_t voltage;
     uint8_t currentGear = 0;
@@ -64,17 +64,18 @@ namespace clutchpressure
 
 
 namespace clutch{
-    uint8_t servoPin = 3; // pin servo - egentlig pin 3
-    int16_t engage = 0; // servo position 0 degrees
-    int16_t disengage = 90; // servo position 90 degrees
+    uint8_t servoPin = 10; // pin servo - egentlig pin 10
+    int16_t engage = 2100; // servo position 0 degrees
+    int16_t disengage = 1200; // servo position 90 degrees
     long timestamp = 0;
-    uint8_t duration = 30; //how long the clutch takes to engage.
+    uint8_t duration = 3000; //how long the clutch takes to engage.
 
 }
 
 
 // Variables derived from the CAN-Bus
 namespace cansignal{
+    unsigned long timer = 0;
     uint8_t breakPressure1 = 0;
     uint8_t gearUpSignal = global::tull;
     uint8_t gearDownSignal = global::tull;

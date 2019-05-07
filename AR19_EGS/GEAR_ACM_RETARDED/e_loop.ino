@@ -1,20 +1,23 @@
 
 void loop() 
 {   
-CanRecieve();               //Revieves Can messages.
+    CanRecieve();               //Revieves Can messages.
 
-GatherSensorData();         //Updates sensor values.
+    GatherSensorData();         //Updates sensor values.
 
-CheckDriverIntention();
+    CheckDriverIntention();
 
-GearUp();                   //Gears up initial values are set.  // cansignal::GearUp = global::sant
+    GearUp();                   //Gears up initial values are set.  // cansignal::GearUp = global::sant
 
-GearDown();                 //Gears down initial values are set // cansignal::GearDown = global::sant
+    GearDown();                 //Gears down initial values are set // cansignal::GearDown = global::sant
 
-GoToNeutral();              //Goes to neutral if initial values are set // cansignal::neutralSignal = global::sant
+    GoToNeutral();              //Goes to neutral if initial values are set // cansignal::neutralSignal = global::sant
 
-ClutchIn();                 //activated when millis() - clutchTimer < clutchDuration
+    ClutchIn();                 //activated when millis() - clutchTimer < clutchDuration
 
-CanSend();                  //sends Can messages
-
+    if (millis()-cansignal::timer > 100)
+    {
+        CanSend();                  //sends Can messages
+        cansignal::timer = millis();
+    }
 }
