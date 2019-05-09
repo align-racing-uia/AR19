@@ -19,7 +19,7 @@ union toInt
 
 
 class ErrorHandler
-{
+{  
     
     
     private:

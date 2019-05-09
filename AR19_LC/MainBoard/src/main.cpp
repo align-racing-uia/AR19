@@ -3,7 +3,7 @@
 /*
 ===============================================2019==================================================
 | This program is developed as a part of the bachelor projcet "Launch Control and Traction Control" |
-| at the university of Agder. It is purposes is to serve as the main component of the systen.       |
+| at the university of Agder. Its purposes is to serve as the main component of the systen.         |
 | Developed for Align Racing UiA, by Henrik Brådland. Spring 2019.                                  |
 =====================================================================================================
 */
@@ -25,7 +25,7 @@
 
 
 
-
+ 
 
 //Tells the system what state it's in, ref: "Launch Control State Chart.docx"
 uint8_t currentSystemState;
@@ -51,8 +51,10 @@ PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPID
 SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            RightFrontHall(&IC, &EH, 0, 11, 0x210),
            DifferentialHall(&IC, &EH, 0, 12, 0x2D0),
-           GearHall(&IC, &EH, 0, 13, 0x2E0),
+           SprocketHall(&IC, &EH, 0, 13, 0x2E0),
            EngineSpeedHall(&IC, &EH, 0, 14, 0x2F0);
+
+
 
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
                     GasPedal(&IC, &EH, 0, 21, 0x010);
@@ -64,7 +66,7 @@ SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
 
 ICuppdater userInterface(&IC, &EH, &userAccess, 50, 0x448);
 
-ExternalSource* externalSources[] = {&LeftFrontHall, &RightFrontHall, &DifferentialHall, &GearHall, &StearingPot, 
+ExternalSource* externalSources[] = {&LeftFrontHall, &RightFrontHall, &DifferentialHall, &SprocketHall, &StearingPot, 
                                      &StearingBtn, &ClutchBtn, &GasPedal, &EngineSpeedHall, &ETCBtn};
 
 CanReader DataReader(&IC, &EH, 5, &mcp2515);
