@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.2.2">
+<eagle version="9.2.1">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.05" altunitdist="mm" altunit="mm"/>
+<grid distance="1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
@@ -29,11 +29,11 @@
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="24" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="yes" active="yes"/>
@@ -325,7 +325,7 @@
 <text x="29" y="32" size="1.5" layer="26" rot="MR0" align="center-left">ACME - ACM Extention</text>
 <text x="29" y="30.5" size="1" layer="26" rot="MR0" align="center-left">v4.2</text>
 <text x="25" y="30.5" size="1" layer="26" rot="MR0" align="center-left">Rev. B</text>
-<text x="3" y="15.5" size="1.1" layer="26" rot="MR270" align="center">*Designed by Humans from Earth*</text>
+<text x="46" y="15.5" size="1.1" layer="26" rot="MR90" align="center">*Designed by Humans from Earth*</text>
 <text x="19.5" y="31" size="1" layer="25" align="center-left">with dual mosfet switch</text>
 <wire x1="19.5" y1="30.5" x2="34.5" y2="30.5" width="0.1" layer="25"/>
 <hole x="32.9" y="20.75" drill="3"/>
@@ -503,6 +503,32 @@ P-Mosfet: 12V</text>
 <pad name="7" x="15.24" y="0" drill="1" shape="octagon"/>
 <pad name="8" x="17.78" y="0" drill="1" shape="octagon"/>
 <rectangle x1="-1.5" y1="-3.1" x2="19.28" y2="3.1" layer="51"/>
+</package>
+</packages>
+</library>
+<library name="0603_Tantalum_Capacitor">
+<description>&lt;Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%&lt;/b&gt;&lt;p&gt;
+&lt;author&gt;Created by SamacSys&lt;/author&gt;</description>
+<packages>
+<package name="CAPPC1709X100N">
+<description>&lt;b&gt;TAC(L-SIZECODE)&lt;/b&gt;&lt;br&gt;
+</description>
+<smd name="1" x="-0.95" y="0" dx="1.05" dy="0.65" layer="1" rot="R90"/>
+<smd name="2" x="0.95" y="0" dx="1.05" dy="0.65" layer="1" rot="R90"/>
+<text x="0" y="-1.778" size="1.27" layer="25" align="center">&gt;NAME</text>
+<text x="0" y="1.778" size="1.27" layer="27" align="center">&gt;VALUE</text>
+<wire x1="-1.725" y1="0.975" x2="1.725" y2="0.975" width="0.05" layer="51"/>
+<wire x1="1.725" y1="0.975" x2="1.725" y2="-0.975" width="0.05" layer="51"/>
+<wire x1="1.725" y1="-0.975" x2="-1.725" y2="-0.975" width="0.05" layer="51"/>
+<wire x1="-1.725" y1="-0.975" x2="-1.725" y2="0.975" width="0.05" layer="51"/>
+<wire x1="-0.85" y1="0.462" x2="0.85" y2="0.462" width="0.1" layer="51"/>
+<wire x1="0.85" y1="0.462" x2="0.85" y2="-0.462" width="0.1" layer="51"/>
+<wire x1="0.85" y1="-0.462" x2="-0.85" y2="-0.462" width="0.1" layer="51"/>
+<wire x1="-0.85" y1="-0.462" x2="-0.85" y2="0.462" width="0.1" layer="51"/>
+<wire x1="-0.85" y1="0.138" x2="-0.525" y2="0.462" width="0.1" layer="51"/>
+<wire x1="0.95" y1="0.875" x2="-1.625" y2="0.875" width="0.2" layer="21"/>
+<wire x1="-1.625" y1="0.875" x2="-1.625" y2="-0.875" width="0.2" layer="21"/>
+<wire x1="-1.625" y1="-0.875" x2="0.95" y2="-0.875" width="0.2" layer="21"/>
 </package>
 </packages>
 </library>
@@ -784,27 +810,27 @@ design rules under a new name.</description>
 <attribute name="RS_PART_NUMBER" value="" x="22.49" y="26.28" size="1.778" layer="28" rot="SMR180" display="off"/>
 <attribute name="RS_PRICE-STOCK" value="" x="22.49" y="26.28" size="1.778" layer="28" rot="SMR180" display="off"/>
 </element>
-<element name="N_FET0" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="21.65" smashed="yes" rot="MR0">
-<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="HEIGHT" value="0.55mm" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="18.1" y="21.65" size="1.27" layer="26" rot="MR0" align="center-right"/>
-<attribute name="RS_PART_NUMBER" value="" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="21.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<element name="N_FET0" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="22.55" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="0.55mm" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="18.1" y="22.55" size="1.27" layer="26" rot="MR0" align="center-right"/>
+<attribute name="RS_PART_NUMBER" value="" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="22.55" size="1.778" layer="28" rot="MR0" display="off"/>
 </element>
-<element name="N_FET1" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="18.47" smashed="yes" rot="MR0">
-<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="HEIGHT" value="0.55mm" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="18.1" y="18.47" size="1.27" layer="26" rot="MR0" align="center-right"/>
-<attribute name="RS_PART_NUMBER" value="" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="18.47" size="1.778" layer="28" rot="MR0" display="off"/>
+<element name="N_FET1" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="18.77" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="0.55mm" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="18.1" y="18.77" size="1.27" layer="26" rot="MR0" align="center-right"/>
+<attribute name="RS_PART_NUMBER" value="" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="18.77" size="1.778" layer="28" rot="MR0" display="off"/>
 </element>
 <element name="D0" library="wirepad" library_urn="urn:adsk.eagle:library:412" package="5-2,5" package3d_urn="urn:adsk.eagle:package:30845/1" value="" x="34" y="3.73" smashed="yes" rot="R180">
 <attribute name="NAME" x="34.77" y="-1.578" size="1.27" layer="25" ratio="10" rot="R180"/>
@@ -873,17 +899,17 @@ design rules under a new name.</description>
 <attribute name="RS_PRICE-STOCK" value="" x="12.45" y="10" size="1.778" layer="28" rot="MR0" display="off"/>
 <attribute name="VALUE" x="12.45" y="10" size="1.27" layer="28" rot="MR0" align="center"/>
 </element>
-<element name="P_FET10" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="20.05" smashed="yes" rot="MR0">
-<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="HEIGHT" value="0.55mm" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="NAME" x="18.1" y="20.05" size="1.27" layer="26" rot="MR0" align="center-right"/>
-<attribute name="RS_PART_NUMBER" value="" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="20.05" size="1.778" layer="28" rot="MR0" display="off"/>
-<attribute name="VALUE" x="16.55" y="20.05" size="1.27" layer="28" rot="MR0" align="center"/>
+<element name="P_FET10" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="20.65" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="0.55mm" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="Panasonic" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="ERA-3AEB2262V" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="667-ERA-3AEB2262V" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=667-ERA-3AEB2262V" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="18.1" y="20.65" size="1.27" layer="26" rot="MR0" align="center-right"/>
+<attribute name="RS_PART_NUMBER" value="" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="16.55" y="20.65" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="VALUE" x="16.55" y="20.65" size="1.27" layer="28" rot="MR0" align="center"/>
 </element>
 <element name="P_FET11" library="ERA-3AEB2262V(0603 Resistor)" package="RESC1608X55N" value="" x="16.55" y="16.9" smashed="yes" rot="MR0">
 <attribute name="DESCRIPTION" value="Thin Film Resistors - SMD 0603 22.6Kohm 0.1% 25ppm" x="16.55" y="16.9" size="1.778" layer="28" rot="MR0" display="off"/>
@@ -898,6 +924,50 @@ design rules under a new name.</description>
 <attribute name="VALUE" x="16.55" y="16.9" size="1.27" layer="28" rot="MR0" align="center"/>
 </element>
 <element name="U$5" library="8P_Connector holes_Screwterminal" package="16P_CONNECTOR_FP" value="16P_CONNECTOR" x="43.5" y="23.5" smashed="yes" rot="R270"/>
+<element name="C1" library="0603_Tantalum_Capacitor" package="CAPPC1709X100N" value="TACL105K006XTA" x="4.1" y="29.5" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="1mm" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="AVX" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="TACL105K006XTA" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="581-TACL105K006X" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=581-TACL105K006X" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="2.223" y="29.5" size="0.8128" layer="26" rot="MR90" align="top-center"/>
+<attribute name="RS_PART_NUMBER" value="" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="4.1" y="29.5" size="1.778" layer="28" rot="MR0" display="off"/>
+</element>
+<element name="C2" library="0603_Tantalum_Capacitor" package="CAPPC1709X100N" value="TACL105K006XTA" x="4.1" y="27.4" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="1mm" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="AVX" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="TACL105K006XTA" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="581-TACL105K006X" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=581-TACL105K006X" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="2.223" y="27.4" size="0.8128" layer="26" rot="MR90" align="top-center"/>
+<attribute name="RS_PART_NUMBER" value="" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="4.1" y="27.4" size="1.778" layer="28" rot="MR0" display="off"/>
+</element>
+<element name="C3" library="0603_Tantalum_Capacitor" package="CAPPC1709X100N" value="TACL105K006XTA" x="4.1" y="25.3" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="1mm" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="AVX" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="TACL105K006XTA" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="581-TACL105K006X" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=581-TACL105K006X" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="2.223" y="25.3" size="0.8128" layer="26" rot="MR90" align="top-center"/>
+<attribute name="RS_PART_NUMBER" value="" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="4.1" y="25.3" size="1.778" layer="28" rot="MR0" display="off"/>
+</element>
+<element name="C4" library="0603_Tantalum_Capacitor" package="CAPPC1709X100N" value="TACL105K006XTA" x="4.1" y="23.2" smashed="yes" rot="MR0">
+<attribute name="DESCRIPTION" value="Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="HEIGHT" value="1mm" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_NAME" value="AVX" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MANUFACTURER_PART_NUMBER" value="TACL105K006XTA" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PART_NUMBER" value="581-TACL105K006X" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=581-TACL105K006X" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="NAME" x="2.223" y="23.2" size="0.8128" layer="26" rot="MR90" align="top-center"/>
+<attribute name="RS_PART_NUMBER" value="" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+<attribute name="RS_PRICE-STOCK" value="" x="4.1" y="23.2" size="1.778" layer="28" rot="MR0" display="off"/>
+</element>
 </elements>
 <signals>
 <signal name="GATE0">
@@ -958,9 +1028,10 @@ design rules under a new name.</description>
 </polygon>
 <via x="29.7" y="23.05" extent="1-16" drill="0.8"/>
 <via x="4.8" y="20.25" extent="1-16" drill="0.8"/>
-<via x="6.25" y="23.2" extent="1-16" drill="0.8"/>
-<wire x1="6.25" y1="23.2" x2="4.8" y2="21.75" width="0.8" layer="1"/>
-<wire x1="4.8" y1="21.75" x2="4.8" y2="20.25" width="0.8" layer="1"/>
+<via x="9.3" y="25" extent="1-16" drill="0.8"/>
+<wire x1="9.3" y1="25" x2="7.05" y2="25" width="0.8" layer="1"/>
+<wire x1="7.05" y1="25" x2="4.8" y2="22.75" width="0.8" layer="1"/>
+<wire x1="4.8" y1="22.75" x2="4.8" y2="20.25" width="0.8" layer="1"/>
 <via x="43.45" y="25.6" extent="1-16" drill="0.8"/>
 <wire x1="43.2" y1="25.6" x2="43.45" y2="25.6" width="1" layer="1"/>
 <wire x1="43.2" y1="25.6" x2="41.366" y2="23.766" width="1" layer="1"/>
@@ -968,8 +1039,12 @@ design rules under a new name.</description>
 <wire x1="30.93473125" y1="23.05" x2="31.65073125" y2="23.766" width="1" layer="1"/>
 <wire x1="31.65073125" y1="23.766" x2="41.366" y2="23.766" width="1" layer="1"/>
 <via x="11.7" y="20.5" extent="1-16" drill="0.8"/>
-<wire x1="11.7" y1="20.5" x2="9" y2="23.2" width="1" layer="1"/>
-<wire x1="9" y1="23.2" x2="6.25" y2="23.2" width="1" layer="1"/>
+<contactref element="C1" pad="2"/>
+<contactref element="C4" pad="2"/>
+<contactref element="C3" pad="2"/>
+<contactref element="C2" pad="2"/>
+<wire x1="9.3" y1="25" x2="11.7" y2="22.6" width="0.8" layer="1"/>
+<wire x1="11.7" y1="22.6" x2="11.7" y2="20.5" width="0.8" layer="1"/>
 </signal>
 <signal name="GATE1">
 <contactref element="Q2" pad="1"/>
@@ -1024,24 +1099,30 @@ design rules under a new name.</description>
 <wire x1="41.04" y1="30.5" x2="41.04" y2="30.5230875" width="1.33" layer="1"/>
 <wire x1="41.04" y1="30.5230875" x2="39.2651875" y2="32.2979" width="1.33" layer="1"/>
 <wire x1="39.2651875" y1="32.2979" x2="8.5079" y2="32.2979" width="1.33" layer="1"/>
-<wire x1="4.8671" y1="22.12375" x2="4.8671" y2="29.57625" width="1" layer="16"/>
-<wire x1="6.69" y1="21.28" x2="5.71085" y2="21.28" width="1" layer="16"/>
-<wire x1="5.71085" y1="21.28" x2="4.8671" y2="22.12375" width="1" layer="16"/>
-<wire x1="7.5" y1="30.5" x2="5.79085" y2="30.5" width="1" layer="16"/>
-<wire x1="5.79085" y1="30.5" x2="4.8671" y2="29.57625" width="1" layer="16"/>
 <contactref element="N_FET0" pad="2"/>
 <contactref element="N_FET1" pad="2"/>
-<via x="13.95" y="21.65" extent="1-16" drill="0.8"/>
-<via x="14.05" y="18.45" extent="1-16" drill="0.8"/>
-<wire x1="15.75" y1="18.47" x2="14.07" y2="18.47" width="1" layer="16"/>
-<wire x1="14.05" y1="18.45" x2="14.07" y2="18.47" width="1" layer="16"/>
-<wire x1="15.75" y1="21.65" x2="13.95" y2="21.65" width="1" layer="16"/>
-<wire x1="13.95" y1="21.65" x2="13.95" y2="18.85" width="1" layer="1"/>
-<wire x1="14.05" y1="18.45" x2="14.05" y2="18.75" width="1" layer="1"/>
-<wire x1="14.05" y1="18.75" x2="13.95" y2="18.85" width="1" layer="1"/>
-<wire x1="14.05" y1="18.45" x2="13.9" y2="18.6" width="1" layer="1"/>
-<wire x1="13.9" y1="18.6" x2="9.37" y2="18.6" width="1" layer="1"/>
-<wire x1="6.69" y1="21.28" x2="9.37" y2="18.6" width="1" layer="1"/>
+<via x="14.35" y="22.15" extent="1-16" drill="0.8"/>
+<via x="14.35" y="18.85" extent="1-16" drill="0.8"/>
+<wire x1="15.75" y1="18.77" x2="14.43" y2="18.77" width="1" layer="16"/>
+<wire x1="14.35" y1="18.85" x2="14.43" y2="18.77" width="1" layer="16"/>
+<wire x1="15.75" y1="22.55" x2="14.75" y2="22.55" width="1" layer="16"/>
+<wire x1="14.75" y1="22.55" x2="14.35" y2="22.15" width="1" layer="16"/>
+<wire x1="14.35" y1="22.15" x2="14.35" y2="18.85" width="1" layer="1"/>
+<wire x1="14.35" y1="18.85" x2="14.1" y2="18.6" width="1" layer="1"/>
+<wire x1="14.1" y1="18.6" x2="10.57" y2="18.6" width="1" layer="1"/>
+<wire x1="10.57" y1="18.6" x2="7.89" y2="21.28" width="1" layer="1"/>
+<wire x1="6.69" y1="21.28" x2="7.89" y2="21.28" width="1" layer="1"/>
+<contactref element="C4" pad="1"/>
+<contactref element="C3" pad="1"/>
+<contactref element="C2" pad="1"/>
+<contactref element="C1" pad="1"/>
+<wire x1="7.5" y1="30.5" x2="6.05" y2="30.5" width="1" layer="16"/>
+<wire x1="6.05" y1="30.5" x2="5.05" y2="29.5" width="1" layer="16"/>
+<wire x1="5.05" y1="29.5" x2="5.05" y2="27.4" width="1" layer="16"/>
+<wire x1="5.05" y1="27.4" x2="5.05" y2="25.3" width="1" layer="16"/>
+<wire x1="5.05" y1="25.3" x2="5.05" y2="23.2" width="1" layer="16"/>
+<wire x1="5.05" y1="23.2" x2="5.05" y2="22.92" width="1" layer="16"/>
+<wire x1="5.05" y1="22.92" x2="6.69" y2="21.28" width="1" layer="16"/>
 </signal>
 <signal name="5V">
 <contactref element="U$1" pad="5V_P"/>
@@ -1067,11 +1148,11 @@ design rules under a new name.</description>
 <vertex x="7.777034375" y="14.176446875"/>
 <vertex x="7.777034375" y="-2"/>
 </polygon>
-<wire x1="41" y1="4.81" x2="39.69" y2="3.5" width="1" layer="1"/>
-<wire x1="38.69" y1="3.5" x2="39.69" y2="3.5" width="1" layer="1"/>
+<wire x1="39.69" y1="3.5" x2="41" y2="4.81" width="1" layer="1"/>
 <wire x1="41" y1="4.81" x2="41" y2="7" width="1" layer="1"/>
 <wire x1="41" y1="7" x2="42.26" y2="8.26" width="1" layer="1"/>
 <wire x1="42.26" y1="8.26" x2="43.5" y2="8.26" width="1" layer="1"/>
+<wire x1="38.69" y1="3.5" x2="39.69" y2="3.5" width="1" layer="1"/>
 </signal>
 <signal name="PWM0">
 <contactref element="U$1" pad="PWM0_P"/>
@@ -1104,7 +1185,6 @@ design rules under a new name.</description>
 <via x="26" y="26" extent="1-16" drill="0.8"/>
 <wire x1="30" y1="25" x2="29" y2="26" width="1" layer="1"/>
 <wire x1="29" y1="26" x2="26" y2="26" width="1" layer="1"/>
-<wire x1="6.69" y1="11.12" x2="9.85" y2="14.28" width="1" layer="16"/>
 <wire x1="9.85" y1="14.28" x2="9.85" y2="21.5858875" width="1" layer="16"/>
 <wire x1="23.29" y1="26.77783125" x2="23.29" y2="26.28" width="1" layer="16"/>
 <wire x1="23.29" y1="26.77783125" x2="22.00893125" y2="28.0589" width="1" layer="16"/>
@@ -1112,13 +1192,13 @@ design rules under a new name.</description>
 <wire x1="16.3230125" y1="28.0589" x2="22.00893125" y2="28.0589" width="1" layer="16"/>
 <wire x1="26" y1="26" x2="25.72" y2="26.28" width="1" layer="16"/>
 <wire x1="25.72" y1="26.28" x2="23.29" y2="26.28" width="1" layer="16"/>
+<wire x1="6.69" y1="11.12" x2="9.85" y2="14.28" width="1" layer="16"/>
 </signal>
 <signal name="CANL">
 <contactref element="U$1" pad="CANL_P"/>
 <contactref element="U$3" pad="3"/>
 <contactref element="U$4" pad="4"/>
 <wire x1="3.5721" y1="10.4979" x2="3.5721" y2="25.5821" width="0.8" layer="1"/>
-<wire x1="6.69" y1="8.58" x2="5.49" y2="8.58" width="0.8" layer="1"/>
 <wire x1="5.49" y1="8.58" x2="3.5721" y2="10.4979" width="0.8" layer="1"/>
 <wire x1="5.95" y1="27.96" x2="7.5" y2="27.96" width="0.8" layer="1"/>
 <wire x1="5.95" y1="27.96" x2="3.5721" y2="25.5821" width="0.8" layer="1"/>
@@ -1131,6 +1211,7 @@ design rules under a new name.</description>
 <wire x1="40.51" y1="27.96" x2="41.04" y2="27.96" width="0.85" layer="1"/>
 <wire x1="40.51" y1="27.96" x2="39" y2="26.45" width="0.85" layer="1"/>
 <wire x1="36.33" y1="26.45" x2="39" y2="26.45" width="0.85" layer="1"/>
+<wire x1="6.69" y1="8.58" x2="5.49" y2="8.58" width="0.8" layer="1"/>
 </signal>
 <signal name="CANH">
 <contactref element="U$1" pad="CANH_P"/>
@@ -1141,38 +1222,38 @@ design rules under a new name.</description>
 <wire x1="38.14" y1="30.86" x2="38.5" y2="30.5" width="0.85" layer="1"/>
 <wire x1="8.77" y1="29.23" x2="10.04" y2="30.5" width="0.85" layer="1"/>
 <wire x1="5.3669125" y1="29.23" x2="8.77" y2="29.23" width="0.85" layer="1"/>
-<wire x1="6.69" y1="6.04" x2="5.4452375" y2="6.04" width="0.8" layer="1"/>
 <wire x1="5.4452375" y1="6.04" x2="2.4532" y2="9.0320375" width="0.8" layer="1"/>
 <wire x1="2.4532" y1="9.0320375" x2="2.4532" y2="26.3162875" width="0.8" layer="1"/>
 <wire x1="2.4532" y1="26.3162875" x2="5.3669125" y2="29.23" width="0.8" layer="1"/>
+<wire x1="6.69" y1="6.04" x2="5.4452375" y2="6.04" width="0.8" layer="1"/>
 </signal>
 <signal name="AD0">
 <contactref element="U$1" pad="I/O_AD0_P"/>
 <contactref element="U$5" pad="1"/>
-<wire x1="38.69" y1="21.28" x2="40.68" y2="21.28" width="1" layer="1"/>
 <wire x1="40.68" y1="21.28" x2="42.9" y2="23.5" width="1" layer="1"/>
 <wire x1="42.9" y1="23.5" x2="43.5" y2="23.5" width="1" layer="1"/>
+<wire x1="38.69" y1="21.28" x2="40.68" y2="21.28" width="1" layer="1"/>
 </signal>
 <signal name="AD1">
 <contactref element="U$1" pad="I/O_AD1_P"/>
 <contactref element="U$5" pad="2"/>
-<wire x1="38.69" y1="18.74" x2="40.24" y2="18.74" width="1" layer="1"/>
-<wire x1="42.46" y1="20.96" x2="40.24" y2="18.74" width="1" layer="1"/>
+<wire x1="40.24" y1="18.74" x2="42.46" y2="20.96" width="1" layer="1"/>
 <wire x1="43.5" y1="20.96" x2="42.46" y2="20.96" width="1" layer="1"/>
+<wire x1="38.69" y1="18.74" x2="40.24" y2="18.74" width="1" layer="1"/>
 </signal>
 <signal name="AD2">
 <contactref element="U$1" pad="I/O_AD2_SDA_P"/>
 <contactref element="U$5" pad="3"/>
-<wire x1="38.69" y1="16.2" x2="40.2" y2="16.2" width="1" layer="1"/>
-<wire x1="42.42" y1="18.42" x2="40.2" y2="16.2" width="1" layer="1"/>
+<wire x1="40.2" y1="16.2" x2="42.42" y2="18.42" width="1" layer="1"/>
 <wire x1="43.5" y1="18.42" x2="42.42" y2="18.42" width="1" layer="1"/>
+<wire x1="38.69" y1="16.2" x2="40.2" y2="16.2" width="1" layer="1"/>
 </signal>
 <signal name="AD3">
 <contactref element="U$1" pad="I/O_AD3_SCL_P"/>
 <contactref element="U$5" pad="4"/>
-<wire x1="38.69" y1="13.66" x2="40.1999375" y2="13.66" width="1" layer="1"/>
-<wire x1="42.4199375" y1="15.88" x2="40.1999375" y2="13.66" width="1" layer="1"/>
+<wire x1="40.1999375" y1="13.66" x2="42.4199375" y2="15.88" width="1" layer="1"/>
 <wire x1="43.5" y1="15.88" x2="42.4199375" y2="15.88" width="1" layer="1"/>
+<wire x1="38.69" y1="13.66" x2="40.1999375" y2="13.66" width="1" layer="1"/>
 </signal>
 <signal name="N$4">
 <contactref element="P_FET0" pad="1"/>
@@ -1182,8 +1263,8 @@ design rules under a new name.</description>
 <wire x1="27.71" y1="15.26" x2="27.71" y2="16.04" width="1" layer="16"/>
 <wire x1="25.2" y1="12.75" x2="27.71" y2="15.26" width="1" layer="16"/>
 <wire x1="26.45" y1="19.3" x2="20.45" y2="19.3" width="0.5" layer="16"/>
-<wire x1="20.45" y1="19.3" x2="18.1" y2="21.65" width="0.5" layer="16"/>
-<wire x1="17.35" y1="21.65" x2="18.1" y2="21.65" width="0.5" layer="16"/>
+<wire x1="20.45" y1="19.3" x2="17.35" y2="22.4" width="0.5" layer="16"/>
+<wire x1="17.35" y1="22.55" x2="17.35" y2="22.4" width="0.5" layer="16"/>
 <wire x1="27.71" y1="18.04" x2="27.71" y2="16.04" width="1" layer="16"/>
 <wire x1="27.71" y1="18.04" x2="26.45" y2="19.3" width="0.5" layer="16"/>
 </signal>
@@ -1197,8 +1278,8 @@ design rules under a new name.</description>
 <wire x1="22.63" y1="16.04" x2="22.63" y2="17.25150625" width="0.5" layer="16"/>
 <wire x1="22.63" y1="17.25150625" x2="22.015384375" y2="18.1" width="0.5" layer="16"/>
 <wire x1="22.015384375" y1="18.1" x2="18.62" y2="18.1" width="0.5" layer="16"/>
-<wire x1="18.62" y1="18.1" x2="18.25" y2="18.47" width="0.5" layer="16"/>
-<wire x1="17.35" y1="18.47" x2="18.25" y2="18.47" width="0.5" layer="16"/>
+<wire x1="18.62" y1="18.1" x2="17.95" y2="18.77" width="0.5" layer="16"/>
+<wire x1="17.35" y1="18.77" x2="17.95" y2="18.77" width="0.5" layer="16"/>
 </signal>
 <signal name="N$8">
 <contactref element="P_FET11" pad="1"/>
@@ -1216,9 +1297,9 @@ design rules under a new name.</description>
 <contactref element="IC1" pad="7"/>
 <contactref element="N_FET10" pad="1"/>
 <wire x1="25.17" y1="16.04" x2="23.3" y2="14.17" width="1" layer="16"/>
-<wire x1="24.31" y1="18.7" x2="19.25" y2="18.7" width="0.5" layer="16"/>
-<wire x1="19.25" y1="18.7" x2="17.9" y2="20.05" width="0.5" layer="16"/>
-<wire x1="17.35" y1="20.05" x2="17.9" y2="20.05" width="0.5" layer="16"/>
+<wire x1="24.31" y1="18.7" x2="19.55" y2="18.7" width="0.5" layer="16"/>
+<wire x1="19.55" y1="18.7" x2="17.6" y2="20.65" width="0.5" layer="16"/>
+<wire x1="17.35" y1="20.65" x2="17.6" y2="20.65" width="0.5" layer="16"/>
 <wire x1="25.17" y1="17.84" x2="25.17" y2="16.04" width="0.5" layer="16"/>
 <wire x1="25.17" y1="17.84" x2="24.31" y2="18.7" width="0.5" layer="16"/>
 <wire x1="23.3" y1="14.17" x2="23.3" y2="10.7" width="1" layer="16"/>

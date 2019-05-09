@@ -1265,6 +1265,7 @@ Source: &lt;a href="http://www.mouser.com/ds/2/40/tac-776418.pdf"&gt; Datasheet 
 <part name="C2" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
 <part name="C3" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
 <part name="C4" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
+<part name="C5" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1371,6 +1372,9 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <instance part="C4" gate="G$1" x="-58.42" y="-15.24" smashed="yes" rot="R270">
 <attribute name="NAME" x="-62.23" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
 </instance>
+<instance part="C5" gate="G$1" x="-68.58" y="-15.24" smashed="yes" rot="R270">
+<attribute name="NAME" x="-72.39" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -1470,9 +1474,13 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <pinref part="C1" gate="G$1" pin="-"/>
 <wire x1="-27.94" y1="-27.94" x2="-27.94" y2="-30.48" width="0.1524" layer="91"/>
 <wire x1="-27.94" y1="-30.48" x2="-38.1" y2="-30.48" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="-"/>
 <wire x1="-38.1" y1="-30.48" x2="-48.26" y2="-30.48" width="0.1524" layer="91"/>
 <wire x1="-48.26" y1="-30.48" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
-<wire x1="-58.42" y1="-30.48" x2="-66.04" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-58.42" y1="-30.48" x2="-68.58" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-68.58" y1="-30.48" x2="-76.2" y2="-30.48" width="0.1524" layer="91"/>
+<wire x1="-68.58" y1="-27.94" x2="-68.58" y2="-30.48" width="0.1524" layer="91"/>
+<junction x="-68.58" y="-30.48"/>
 <pinref part="C4" gate="G$1" pin="-"/>
 <wire x1="-58.42" y1="-27.94" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
 <junction x="-58.42" y="-30.48"/>
@@ -1482,7 +1490,7 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <pinref part="C2" gate="G$1" pin="-"/>
 <wire x1="-38.1" y1="-27.94" x2="-38.1" y2="-30.48" width="0.1524" layer="91"/>
 <junction x="-38.1" y="-30.48"/>
-<label x="-66.04" y="-30.48" size="1.778" layer="95"/>
+<label x="-76.2" y="-30.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="GATE1" class="0">
@@ -1570,7 +1578,9 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <label x="-5.08" y="-71.12" size="1.778" layer="95"/>
 </segment>
 <segment>
-<wire x1="-66.04" y1="-12.7" x2="-58.42" y2="-12.7" width="0.1524" layer="91"/>
+<pinref part="C5" gate="G$1" pin="+"/>
+<wire x1="-68.58" y1="-15.24" x2="-68.58" y2="-12.7" width="0.1524" layer="91"/>
+<wire x1="-68.58" y1="-12.7" x2="-58.42" y2="-12.7" width="0.1524" layer="91"/>
 <pinref part="C4" gate="G$1" pin="+"/>
 <wire x1="-58.42" y1="-12.7" x2="-58.42" y2="-15.24" width="0.1524" layer="91"/>
 <pinref part="C3" gate="G$1" pin="+"/>
@@ -1585,7 +1595,9 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <wire x1="-27.94" y1="-15.24" x2="-27.94" y2="-12.7" width="0.1524" layer="91"/>
 <wire x1="-27.94" y1="-12.7" x2="-38.1" y2="-12.7" width="0.1524" layer="91"/>
 <junction x="-38.1" y="-12.7"/>
-<label x="-66.04" y="-12.7" size="1.778" layer="95"/>
+<wire x1="-68.58" y1="-12.7" x2="-76.2" y2="-12.7" width="0.1524" layer="91"/>
+<junction x="-68.58" y="-12.7"/>
+<label x="-76.2" y="-12.7" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="5V" class="0">

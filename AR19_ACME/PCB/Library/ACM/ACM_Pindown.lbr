@@ -160,7 +160,6 @@
 <packages>
 <package name="ACM_CAS_FP">
 <rectangle x1="0" y1="0.06" x2="32" y2="25.06" layer="39"/>
-<text x="16" y="15" size="6.4516" layer="25" align="center">ACM</text>
 <text x="15.5" y="22" size="2" layer="25" align="center">FUSE</text>
 <pad name="GND1_P" x="0" y="3.61" drill="1" shape="square"/>
 <pad name="CANH_P" x="0" y="6.15" drill="1" shape="square"/>

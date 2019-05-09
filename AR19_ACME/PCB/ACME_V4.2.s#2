@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE eagle SYSTEM "eagle.dtd">
-<eagle version="9.2.1">
+<eagle version="9.2.2">
 <drawing>
 <settings>
 <setting alwaysvectorfont="no"/>
@@ -1159,73 +1159,6 @@ Source: &lt;a href="https://toshiba.semicon-storage.com/info/docget.jsp?did=6217
 </deviceset>
 </devicesets>
 </library>
-<library name="0603_Tantalum_Capacitor">
-<description>&lt;Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%&lt;/b&gt;&lt;p&gt;
-&lt;author&gt;Created by SamacSys&lt;/author&gt;</description>
-<packages>
-<package name="CAPPC1709X100N">
-<description>&lt;b&gt;TAC(L-SIZECODE)&lt;/b&gt;&lt;br&gt;
-</description>
-<smd name="1" x="-0.95" y="0" dx="1.05" dy="0.65" layer="1" rot="R90"/>
-<smd name="2" x="0.95" y="0" dx="1.05" dy="0.65" layer="1" rot="R90"/>
-<text x="0" y="-1.778" size="1.27" layer="25" align="center">&gt;NAME</text>
-<text x="0" y="1.778" size="1.27" layer="27" align="center">&gt;VALUE</text>
-<wire x1="-1.725" y1="0.975" x2="1.725" y2="0.975" width="0.05" layer="51"/>
-<wire x1="1.725" y1="0.975" x2="1.725" y2="-0.975" width="0.05" layer="51"/>
-<wire x1="1.725" y1="-0.975" x2="-1.725" y2="-0.975" width="0.05" layer="51"/>
-<wire x1="-1.725" y1="-0.975" x2="-1.725" y2="0.975" width="0.05" layer="51"/>
-<wire x1="-0.85" y1="0.462" x2="0.85" y2="0.462" width="0.1" layer="51"/>
-<wire x1="0.85" y1="0.462" x2="0.85" y2="-0.462" width="0.1" layer="51"/>
-<wire x1="0.85" y1="-0.462" x2="-0.85" y2="-0.462" width="0.1" layer="51"/>
-<wire x1="-0.85" y1="-0.462" x2="-0.85" y2="0.462" width="0.1" layer="51"/>
-<wire x1="-0.85" y1="0.138" x2="-0.525" y2="0.462" width="0.1" layer="51"/>
-<wire x1="0.95" y1="0.875" x2="-1.625" y2="0.875" width="0.2" layer="21"/>
-<wire x1="-1.625" y1="0.875" x2="-1.625" y2="-0.875" width="0.2" layer="21"/>
-<wire x1="-1.625" y1="-0.875" x2="0.95" y2="-0.875" width="0.2" layer="21"/>
-</package>
-</packages>
-<symbols>
-<symbol name="TACL105K006XTA">
-<wire x1="5.588" y1="2.54" x2="5.588" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="7.112" y1="2.54" x2="7.112" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="5.08" y1="0" x2="5.588" y2="0" width="0.254" layer="94"/>
-<wire x1="7.112" y1="0" x2="7.62" y2="0" width="0.254" layer="94"/>
-<text x="8.89" y="6.35" size="1.778" layer="95" align="center-left">&gt;NAME</text>
-<text x="8.89" y="3.81" size="1.778" layer="96" align="center-left">&gt;VALUE</text>
-<pin name="+" x="0" y="0" visible="pad" length="middle"/>
-<pin name="-" x="12.7" y="0" visible="pad" length="middle" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="TACL105K006XTA" prefix="C">
-<description>&lt;b&gt;Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%&lt;/b&gt;&lt;p&gt;
-Source: &lt;a href="http://www.mouser.com/ds/2/40/tac-776418.pdf"&gt; Datasheet &lt;/a&gt;</description>
-<gates>
-<gate name="G$1" symbol="TACL105K006XTA" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="CAPPC1709X100N">
-<connects>
-<connect gate="G$1" pin="+" pad="1"/>
-<connect gate="G$1" pin="-" pad="2"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="DESCRIPTION" value="Tantalum Capacitors - Solid SMD 0603 6.3V 1.0uF 10%" constant="no"/>
-<attribute name="HEIGHT" value="1mm" constant="no"/>
-<attribute name="MANUFACTURER_NAME" value="AVX" constant="no"/>
-<attribute name="MANUFACTURER_PART_NUMBER" value="TACL105K006XTA" constant="no"/>
-<attribute name="MOUSER_PART_NUMBER" value="581-TACL105K006X" constant="no"/>
-<attribute name="MOUSER_PRICE-STOCK" value="https://www.mouser.com/Search/Refine.aspx?Keyword=581-TACL105K006X" constant="no"/>
-<attribute name="RS_PART_NUMBER" value="" constant="no"/>
-<attribute name="RS_PRICE-STOCK" value="" constant="no"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 </libraries>
 <attributes>
 </attributes>
@@ -1261,10 +1194,6 @@ Source: &lt;a href="http://www.mouser.com/ds/2/40/tac-776418.pdf"&gt; Datasheet 
 <part name="P_FET10" library="ERA-3AEB2262V(0603 Resistor)" deviceset="ERA-3AEB2262V" device="" value=""/>
 <part name="P_FET11" library="ERA-3AEB2262V(0603 Resistor)" deviceset="ERA-3AEB2262V" device="" value=""/>
 <part name="U$5" library="8P_Connector holes_Screwterminal" deviceset="16P_CONNECTOR" device=""/>
-<part name="C1" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
-<part name="C2" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
-<part name="C3" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
-<part name="C4" library="0603_Tantalum_Capacitor" deviceset="TACL105K006XTA" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -1359,18 +1288,6 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <attribute name="VALUE" x="14.732" y="-73.914" size="1.778" layer="96" align="center-left"/>
 </instance>
 <instance part="U$5" gate="G$1" x="65.532" y="68.58" smashed="yes" rot="R270"/>
-<instance part="C1" gate="G$1" x="-27.94" y="-15.24" smashed="yes" rot="R270">
-<attribute name="NAME" x="-31.75" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
-</instance>
-<instance part="C2" gate="G$1" x="-38.1" y="-15.24" smashed="yes" rot="R270">
-<attribute name="NAME" x="-41.91" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
-</instance>
-<instance part="C3" gate="G$1" x="-48.26" y="-15.24" smashed="yes" rot="R270">
-<attribute name="NAME" x="-52.07" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
-</instance>
-<instance part="C4" gate="G$1" x="-58.42" y="-15.24" smashed="yes" rot="R270">
-<attribute name="NAME" x="-62.23" y="-20.574" size="1.778" layer="95" rot="R180" align="bottom-center"/>
-</instance>
 </instances>
 <busses>
 </busses>
@@ -1466,24 +1383,6 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <wire x1="70.358" y1="59.69" x2="73.66" y2="59.69" width="0.1524" layer="91"/>
 <label x="73.66" y="59.69" size="1.778" layer="95"/>
 </segment>
-<segment>
-<pinref part="C1" gate="G$1" pin="-"/>
-<wire x1="-27.94" y1="-27.94" x2="-27.94" y2="-30.48" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="-30.48" x2="-38.1" y2="-30.48" width="0.1524" layer="91"/>
-<wire x1="-38.1" y1="-30.48" x2="-48.26" y2="-30.48" width="0.1524" layer="91"/>
-<wire x1="-48.26" y1="-30.48" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
-<wire x1="-58.42" y1="-30.48" x2="-66.04" y2="-30.48" width="0.1524" layer="91"/>
-<pinref part="C4" gate="G$1" pin="-"/>
-<wire x1="-58.42" y1="-27.94" x2="-58.42" y2="-30.48" width="0.1524" layer="91"/>
-<junction x="-58.42" y="-30.48"/>
-<pinref part="C3" gate="G$1" pin="-"/>
-<wire x1="-48.26" y1="-27.94" x2="-48.26" y2="-30.48" width="0.1524" layer="91"/>
-<junction x="-48.26" y="-30.48"/>
-<pinref part="C2" gate="G$1" pin="-"/>
-<wire x1="-38.1" y1="-27.94" x2="-38.1" y2="-30.48" width="0.1524" layer="91"/>
-<junction x="-38.1" y="-30.48"/>
-<label x="-66.04" y="-30.48" size="1.778" layer="95"/>
-</segment>
 </net>
 <net name="GATE1" class="0">
 <segment>
@@ -1568,24 +1467,6 @@ Electricity move from 6 to 5 and 8 to 7</text>
 <pinref part="N_FET1" gate="G$1" pin="2"/>
 <wire x1="-7.366" y1="-71.12" x2="-5.08" y2="-71.12" width="0.1524" layer="91"/>
 <label x="-5.08" y="-71.12" size="1.778" layer="95"/>
-</segment>
-<segment>
-<wire x1="-66.04" y1="-12.7" x2="-58.42" y2="-12.7" width="0.1524" layer="91"/>
-<pinref part="C4" gate="G$1" pin="+"/>
-<wire x1="-58.42" y1="-12.7" x2="-58.42" y2="-15.24" width="0.1524" layer="91"/>
-<pinref part="C3" gate="G$1" pin="+"/>
-<wire x1="-48.26" y1="-15.24" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
-<wire x1="-48.26" y1="-12.7" x2="-58.42" y2="-12.7" width="0.1524" layer="91"/>
-<junction x="-58.42" y="-12.7"/>
-<pinref part="C2" gate="G$1" pin="+"/>
-<wire x1="-38.1" y1="-15.24" x2="-38.1" y2="-12.7" width="0.1524" layer="91"/>
-<wire x1="-38.1" y1="-12.7" x2="-48.26" y2="-12.7" width="0.1524" layer="91"/>
-<junction x="-48.26" y="-12.7"/>
-<pinref part="C1" gate="G$1" pin="+"/>
-<wire x1="-27.94" y1="-15.24" x2="-27.94" y2="-12.7" width="0.1524" layer="91"/>
-<wire x1="-27.94" y1="-12.7" x2="-38.1" y2="-12.7" width="0.1524" layer="91"/>
-<junction x="-38.1" y="-12.7"/>
-<label x="-66.04" y="-12.7" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="5V" class="0">
