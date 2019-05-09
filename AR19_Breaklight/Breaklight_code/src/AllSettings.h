@@ -6,8 +6,8 @@ const int breakPressureCANID = 0x19A;
 int breakPressure1 = 0 ;
 int breakPressure2 = 0 ;
 
-const int pressureThresholdOn = 12; //Threshold i hex av bremsen på 0 - 255 (Brems på)
-const int pressureThresholdOff = 8; //Threshold i hex av bremsen på 0 - 255 (Brems av)
+const int pressureThresholdOn = 20; //Threshold i hex av bremsen på 0 - 255 (Brems på)
+const int pressureThresholdOff = 15; //Threshold i hex av bremsen på 0 - 255 (Brems av)
 
 const int breaklightout = 3;
 
