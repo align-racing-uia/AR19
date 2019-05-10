@@ -46,6 +46,7 @@ access userAccess(&EH, 9);
 PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPIDRPM, IC._KdPIDRPM, DIRECT), 
     RegulatorPIDSlip(&inputSlip, &outputSlip, &setpointSlip, IC._KpPIDSlip, IC._KiPIDSlip, IC._KdPIDSlip, REVERSE);
 
+    
 
 //External sources represented as objects 
 SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
@@ -60,7 +61,7 @@ SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
                     GasPedal(&IC, &EH, 0, 21, 0x010);
 
 SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
-             ClutchBtn(&IC, &EH, 0, 31, 0x2C8), //????
+             ClutchBtn(&IC, &EH, 0, 31, 0x2C8), 
              ETCBtn(&IC, &EH, 0, 32, 0x2B0),
              ACMping(&IC, &EH, 0, 33, 0x019);
 
