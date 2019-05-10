@@ -2,7 +2,10 @@ void SetPinMode(){ // Section for initilizing pins
 
 using namespace shutdowncircuit;
 {
-    pinMode(shutdownPin, OUTPUT);
+    pinMode(sensePin, INPUT_PULLUP);
+    pinMode(activatePin, OUTPUT);
+    digitalWrite(activatePin, LOW);
+    
 }
 
 // Sets pinmode air temp sensors.

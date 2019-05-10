@@ -6,7 +6,7 @@ void CanSetup() // Sets up the CAN-Bus protocol.
   mcp2515.setNormalMode();
 
 
-  mcp2515.sendMessage(&myMessage);
+  //mcp2515.sendMessage(&myMessage);
 
 }
 
@@ -24,7 +24,17 @@ using namespace cansignal;
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
-    if (myMessage.can_id == 0x12 && myMessage.can_dlc == 1)//Her må riktig CAN-id leggast inn. 
+    if (myMessage.can_id == 0x1 || millis() - shutdowncircuit::lockoutTimer > 300)
+    {
+      digitalWrite(shutdowncircuit::activatePin, LOW);
+    }
+    else
+    {
+      digitalWrite(shutdowncircuit::activatePin, HIGH);
+    }
+
+
+    if (myMessage.can_id == 0x12 && myMessage.can_dlc == 1)
     {
       helloImHereStartupPedal = myMessage.data[0]; 
       if (helloImHereStartupPedal == global::sant)
@@ -37,7 +47,7 @@ using namespace cansignal;
       }
     }
 
-    else if (myMessage.can_id == 0x13)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x13)
     {
       helloImHereStartupDash = myMessage.data[0]; 
       if (helloImHereStartupDash == global::sant)
@@ -50,7 +60,7 @@ using namespace cansignal;
       }
     }
 
-    else if (myMessage.can_id == 0x14)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x14) 
     {
       helloImHereStartupStearingWheel = myMessage.data[0]; 
       if (helloImHereStartupStearingWheel == global::sant)
@@ -64,7 +74,7 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x15)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x15) 
     {
       helloImHereStartupLC = myMessage.data[0]; 
       if (helloImHereStartupLC == global::sant)
@@ -78,7 +88,7 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x16)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x16)
     {
       helloImHereStartupETB = myMessage.data[0]; 
       if (helloImHereStartupETB == global::sant)
@@ -92,7 +102,7 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x17)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x17)
     {
       helloImHereStartupEGS = myMessage.data[0]; 
       if (helloImHereStartupEGS == global::sant)
@@ -106,7 +116,7 @@ using namespace cansignal;
     }
 
 
-    else if (myMessage.can_id == 0x18)//Her må riktig CAN-id leggast inn. 
+    else if (myMessage.can_id == 0x18)
     {
       helloImHereStartupBreaklight = myMessage.data[0]; 
       if (helloImHereStartupBreaklight == global::sant)

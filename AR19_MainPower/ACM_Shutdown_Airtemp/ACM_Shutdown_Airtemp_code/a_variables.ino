@@ -11,8 +11,11 @@ namespace global{
 
 
 namespace shutdowncircuit{  // shutdowncircuit -  Declarations
-    const uint8_t shutdownPin = 17;  // Make namespace for CheckGear
+    const uint8_t sensePin = 17;
+    const uint8_t activatePin = 10;
     uint16_t sensorValue = 0;
+    long lockoutTimer = 0;
+    
 
 } 
 

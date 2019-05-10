@@ -1,0 +1,16 @@
+Source code for ACM AR19.
+
+To do:
+
+---Pinout.h---
+- define i/o ports used, including "active ports" on Atmega328p (https://www.theengineeringprojects.com/wp-content/uploads/2017/07/ATmega328-Pinout.png)
+- 
+
+---AllSettings.h---
+- convert to this project
+
+---Voltmeter.h---
+- add checker?
+
+---StatusLED.h---
+- add _CS

@@ -44,6 +44,20 @@ Pleas visit this <a href="https://github.com/stianrognhaugen/AR19_ETC">GitHub Re
 </a>
 </div>
 
+<div align="center">
+<a href="https://www.linkedin.com/in/stian-rognhaugen/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Stian Rognhaugen LinkedIn" width="42" height="42">
+</a>
+
+<a href="https://www.linkedin.com/in/sandmag/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Sander Bråten Johannessen LinkedIn" width="42" height="42">
+</a>
+
+<a href="https://www.linkedin.com/in/j%C3%B8rgennilsen/" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png" alt="Jørgen Nilsen LinkedIn" width="42" height="42">
+</a>
+</div>
+
 ## Acknowledgments
 
 Special thanks to our supervisor <a href="https://www.uia.no/kk/profil/kristimk">Kristian Muri Knausgård</a> for helping and supporting our project.
