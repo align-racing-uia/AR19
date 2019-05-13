@@ -1,3 +1,17 @@
+/*
+Align Racing UiA - Electronic Throttle Control
+Bachelor Thesis
+University of Agder 2019
+
+Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
+
+Title: Electronic Throttle Body Controller
+Description: Code for controlling the ETB
+
+v 1.0
+Last Revision Date: 11.05.2019
+*/
+
 //  Include Arduino libraries
 #include <Arduino.h>
 

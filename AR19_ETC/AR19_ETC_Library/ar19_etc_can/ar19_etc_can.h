@@ -3,10 +3,10 @@ Align Racing UiA - Electronic Throttle Control
 Bachelor Thesis
 University of Agder 2019
 
-Members: Stian Rognhaugen, Sander Bråten Johannessen, Jørgen Nilsen
+Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 
-Title: Sensor node object
-Description: Object for reading and processing sensor data
+Title: CAN object
+Description: Object for sending CAN messages. Uses the library mcp2515.h
 
 v 1.0
 Last Revision Date: 17.04.2019

@@ -3,10 +3,10 @@ Align Racing UiA - Electronic Throttle Control
 Bachelor Thesis
 University of Agder 2019
 
-Members: Stian Rognhaugen, Sander Bråten Johannessen, Jørgen Nilsen
+Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 
-Title: Sensor node object
-Description: Object for reading and processing sensor data
+Title: LED settings object
+Description: Object for using the RGB LED on the ACM 
 
 v 1.0
 Last Revision Date: 17.04.2019

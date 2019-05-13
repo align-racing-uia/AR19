@@ -3,7 +3,7 @@ Align Racing UiA - Electronic Throttle Control
 Bachelor Thesis
 University of Agder 2019
 
-Members: Stian Rognhaugen, Sander Bråten Johannessen, Jørgen Nilsen
+Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 
 Title: ACM Pedalbox
 Description: Main code for the pedalbox ACM sensornode. 
