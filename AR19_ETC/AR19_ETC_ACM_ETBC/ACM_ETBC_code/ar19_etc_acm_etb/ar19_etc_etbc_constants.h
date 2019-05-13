@@ -60,14 +60,14 @@ double setpoint                             = 0;
 
 namespace tps 
 {
-const uint8_t sensor1Pin                    = 16;       //  TPS1 pin
-const uint8_t sensor2Pin                    = 17;       //  TPS2 pin
+const uint8_t sensor1Pin                    = 17;       //  TPS1 pin
+const uint8_t sensor2Pin                    = 16;       //  TPS2 pin
 const uint16_t value1Min                    = 103;      //  Physically min value of TPS1 103
 const uint16_t value1Idle                   = 193;      //  Idle position of TPS1 193
-const uint16_t value1Max                    = 853;      //  Physically max value of TPS1 903
+const uint16_t value1Max                    = 903;      //  Physically max value of TPS1 903
 const uint16_t value2Min                    = 919;      //  Physically min value of TPS2 919
 const uint16_t value2Idle                   = 829;      //  Idle position of TPS2 829
-const uint16_t value2Max                    = 169;      //  Physically max value of TPS2 119
+const uint16_t value2Max                    = 119;      //  Physically max value of TPS2 119
 uint8_t implausibility;
 }
 
