@@ -21,8 +21,6 @@
 
 This is the directory for Align Racing 2019 Electronic Throttle Control bachelor thesis. The goal of the project is to develop and implement an electronic throttle control system for a Formula Student race car.
 
-Pleas visit this <a href="https://github.com/stianrognhaugen/AR19_ETC">GitHub Repository</a> for the complete project.
-
 ## Align Racing UiA
 
 <a href="http://www.alignracing.no/">Align Racing UiA (AR)</a> is a multidisciplinary student organisation at <a href="https://www.uia.no/">The University of Agder (UiA)</a>, that take part in the world’s largest yearly engineering competition; <a href="https://www.imeche.org/events/formula-student">Formula Student (FS)</a>. The organisation continuously consists of around 60 students, from a wide variety of disciplines. The competition includes developing, building, budgeting and marketing a small scale formula type racing car. AR takes this a bit further by having more focus on developing a strong organisation, open for all disciplines, that gives the members a taste of future work-life.
