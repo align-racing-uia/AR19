@@ -104,14 +104,12 @@ void loop()
         bps::implausibilityOutOfRange1  = sensor.implausibilityOutOfRange( bps::sensor1Pin, bps::value1Min, bps::value1Max );
         bps::implausibilityOutOfRange2  = sensor.implausibilityOutOfRange( bps::sensor2Pin, bps::value2Min, bps::value2Max );
         bps::implausibilityDifference   = sensor.implausibilityDifference( bps::sensor1Pin, bps::sensor2Pin, bps::value1Min, bps::value1Max, bps::value2Min, bps::value2Max );
-        
+        apps::implausible   = sensor.implausibilityCheck( apps::implausibilityOutOfRange1, apps::implausibilityOutOfRange2, apps::implausibilityDifference, apps::implausibleLast_ms, apps::impInterval_ms );
+        bps::implausible    = sensor.implausibilityCheck( bps::implausibilityOutOfRange1, bps::implausibilityOutOfRange2, bps::implausibilityDifference, bps::implausibleLast_ms, bps::impInterval_ms );
 
-        apps::implausible   = sensor.implausibilityCheck( apps::implausibilityOutOfRange1, apps::implausibilityOutOfRange2, apps::implausibilityDifference, apps::implausibleLast_ms );
-        bps::implausible    = sensor.implausibilityCheck( bps::implausibilityOutOfRange1, bps::implausibilityOutOfRange2, bps::implausibilityDifference, bps::implausibleLast_ms );
-
-        if ( ( apps::implausible != 0 || bps::implausible != 0 ) && millis() > impCanLast_ms + impCanInterval_ms ) {
+        if ( ( apps::implausible != 0 || bps::implausible != 0 ) && millis() > canbus::impLast_ms + canbus::impInterval_ms ) {
             can.send( canbus::pedalboxImplausibilityId, apps::implausible, bps::implausible );
-            impCanLast_ms = millis();
+            canbus::impLast_ms = millis();
         }
     }
 }

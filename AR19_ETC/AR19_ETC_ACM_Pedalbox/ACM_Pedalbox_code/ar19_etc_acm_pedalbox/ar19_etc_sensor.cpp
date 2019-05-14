@@ -163,10 +163,8 @@ uint8_t SensorData::implausibilityDifference( uint8_t pin1, uint8_t pin2, uint16
     }
 }
 
-uint8_t SensorData::implausibilityCheck( uint8_t impSensor1, uint8_t impSensor2, uint8_t impDiff, unsigned long &implausibleLast_ms )
+uint8_t SensorData::implausibilityCheck( uint8_t impSensor1, uint8_t impSensor2, uint8_t impDiff, unsigned long &implausibleLast_ms, unsigned long implausibleInterval_ms )
 {
-    //  Assigns interval to check for implausibility
-    const unsigned long implausibleInterval_ms = 100;
     //  Declares variable to return
     uint8_t implausible;
     //  Checks state of implausibility and returns implausible value if not plausible
