@@ -55,8 +55,6 @@ SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            SprocketHall(&IC, &EH, 0, 13, 0x2E0),
            EngineSpeedHall(&IC, &EH, 0, 14, 0x2F0);
 
-
-
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
                     GasPedal(&IC, &EH, 0, 21, 0x010);
 
