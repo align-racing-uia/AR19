@@ -8,8 +8,8 @@ Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 Title: Electronic Throttle Body Controller
 Description: Code for controlling the ETB
 
-v 1.0
-Last Revision Date: 11.05.2019
+v 1.1
+Last Revision Date: 20.05.2019 (Implemented launch control functionality)
 */
 
 //  Include Arduino libraries
@@ -112,6 +112,17 @@ void loop()
             canbus::throttleTarget      = msgIn.data[0];
             canbus::accPedalDirection   = msgIn.data[1];
 
+        //  Set and reset Launch Control Mode 
+        } else if ( msgIn.can_id == canbus::launchModeRequest )
+            // Checks first byte of message to reset or set mode
+            if ( msgIn.data[0] == globalFalse ) {
+                launchControlMode = false;
+                canbus::launchModeConfirmedMsgCounter = 0;
+            } else if ( msgIn.data[0] == globalTrue ) {
+                launchControlMode = true;
+                canbus::throttleTargetLaunch = msgIn.data[1];
+            }
+
         //  Blip mode request, Set blipmode to true if requested
         } else if ( msgIn.can_id == canbus::requestBlipId && msgIn.data[0] == 0xF0 ) {
             blipMode = true;
@@ -120,8 +131,23 @@ void loop()
 
     //  Read, write & send TPS SensorData. Assigns current TPS1 value to variable for PID calculation
     pid::input = sensor.tpsData();
-    //  Sets PID setpoint to throttle target 
-    pid::setpoint  = canbus::throttleTarget;
+
+    if ( launchControlMode ) {
+        //  Sets PID setpoint to throttle target given by launch control 
+        pid::setpoint  = canbus::throttleTargetLaunch;
+
+        //  Assign interval for sending launch mode confirmed
+        const unsigned long launchModeConfirmedInterval_ms = 100;
+        //  Performs action if current millis is greater than last timestamp
+        if ( canbus::launchModeConfirmedMsgCounter <= 3 ) {
+            can.send( canbus::launchModeConfirmedId, globalTrue );
+            canbus::launchModeConfirmedMsgCounter++;
+        }
+
+    } else {
+        //  Sets PID setpoint to throttle target 
+        pid::setpoint  = canbus::throttleTarget;
+    }
         
     //  Calculates PID
     etbPid.Compute();
@@ -136,7 +162,7 @@ void loop()
         digitalWrite( etb::enable, LOW );
 
         blipMode    = false;
-        lcMode      = false;
+        launchControlMode      = false;
 
     //  Blip mode 
     } else if ( blipMode && not etb::safeState ) {
@@ -166,12 +192,8 @@ void loop()
         //  Sets blipmode to false after blip
         blipMode        = false;
 
-    //  Launch control mode
-    } else if ( lcMode && not etb::safeState ) {
-        //  To be implemented
-
-    //  Normal mode
     } else {
+
         //  Write HIGH to enable pin to ensure the H-bridge is enabled if it has been in a safe state
         digitalWrite( etb::enable, HIGH );
 

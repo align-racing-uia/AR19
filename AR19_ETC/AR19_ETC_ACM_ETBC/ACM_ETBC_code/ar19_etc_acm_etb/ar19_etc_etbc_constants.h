@@ -12,7 +12,7 @@ bool pwmSuccess2                            = false;    //  Bool set true if PWM
 bool bootSuccess                            = false;    //  Bool set true if boot is successful
 
 bool blipMode                               = false;
-bool lcMode                                 = false;
+bool launchControlMode                      = false;
 
 namespace pwm
 {
@@ -38,10 +38,12 @@ const uint16_t pedalboxImplausibilityId     = 0x10;     //  CAN ID for outgoing 
 const uint16_t appsId                       = 0x11;     //  CAN ID for incoming APPS data
 const uint16_t requestBlipId                = 0x20;     //  CAN ID for incoming blip request
 const uint16_t tpsId                        = 0x460;    //  CAN ID for outgoing TPS data
+const uint16_t launchModeRequest            = 0x290;    //  CAN ID for incoming LC request and throttle target for launch
 const uint16_t launchModeConfirmedId        = 0x2B0;    //  CAN ID for outgoing launch confirmation
 const uint16_t blipConfirmedId              = 0x2C0;    //  CAN ID for outgoing blip confirmed
 const uint16_t etbSafeStateId               = 0x470;    //  CAN ID for outgoing message if ETB is set in safe state
-uint8_t throttleTarget, accPedalDirection;              //  Variables for throttle target and pedal direction
+uint8_t throttleTarget, throttleTargetLaunch, accPedalDirection;  //  Variables for throttle target and pedal direction
+uint8_t launchModeConfirmedMsgCounter       = 0;                 
 }
 
 namespace pid
@@ -51,7 +53,7 @@ const double outputLimitMin                 = -250;     //  Minimun value of PID
 const double outputLimitMax                 = 250;      //  Maximum value of PID output
 double kp                                   = 1.00;     //  Proportional parameter of PID
 double ki                                   = 3.20;     //  Integral parameter of PID
-double kd                                   = 12.50;     //  Derivative parameter of PID
+double kd                                   = 12.50;    //  Derivative parameter of PID
 uint8_t controllerDirection                 = DIRECT;   //  PID controller direction (DIRECT/INVERSE)
 double input                                = 0;        //  Declaration of PID variables. 
 double output                               = 0;
