@@ -161,8 +161,8 @@ void loop()
         //  Write LOW to enable pin to ensure that nothing is sent to the ETB
         digitalWrite( etb::enable, LOW );
 
-        blipMode    = false;
-        launchControlMode      = false;
+        blipMode            = false;
+        launchControlMode   = false;
 
     //  Blip mode 
     } else if ( blipMode && not etb::safeState ) {
@@ -207,7 +207,7 @@ void loop()
             pwmWrite( etb::directionPinFwd, pid::output );
             
             //  For testing
-            can.send( 0x666, etb::directionPinFwd, pid::setpoint, pid::input, pid::output );
+            //can.send( 0x666, etb::directionPinFwd, pid::setpoint, pid::input, pid::output );
         
         } else if ( pid::output < 0 ) {
             double pidOutputAbs = abs( pid::output );
@@ -215,7 +215,7 @@ void loop()
             pwmWrite( etb::directionPinRev, pidOutputAbs );
 
             // For testing
-            can.send( 0x666, etb::directionPinRev, pid::setpoint, pid::input, pidOutputAbs  );
+            //can.send( 0x666, etb::directionPinRev, pid::setpoint, pid::input, pidOutputAbs  );
         } 
        
     }
