@@ -29,6 +29,7 @@ Component ID and CANbus ID:
 
     020, 0x235 --> Potentiometer steering, data storrage object
     021, 0x010 --> Potentiometer gas pedal, data storrage object
+    022, 0x020 --> Gear position, data sorrage object
 
     030, 0x250 --> Buttons steering wheel, data storrage object
     031, 0x2C8 --> The system has control over the Clutch, data storrage object
