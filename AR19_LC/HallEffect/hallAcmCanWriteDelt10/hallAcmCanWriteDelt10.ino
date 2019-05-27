@@ -202,8 +202,7 @@ void rpmAvansert(){
   numberOfPulsesArray[0] = numberOfPulses;
   timeArray[0] = micros();
 
-    ThForrige =ThForrigeArray[9];
-
+    ThForrige = ThForrigeArray[9];
 
         data.floatNum =(float)rpm;
 

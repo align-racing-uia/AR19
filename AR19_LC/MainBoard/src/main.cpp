@@ -119,6 +119,7 @@ void loop() {
 
 
  //   ======DEBUGGING========
+ /*
   if(millis() - times > 100){
 
       DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);
@@ -135,7 +136,7 @@ void loop() {
 
       times = millis(); 
     }
-  
+  */
   
 
   //Updating the system state, and if the system enters a new state, it sends a message
@@ -160,10 +161,13 @@ void loop() {
     case 15:
       if (millis() - timeStampSate15 > IC._timeDelayMessagesState15Millis){
 
+
+          //Requesting control over the ETC
           if (ETCBtn.getDataU8() != IC._valueTrueBtn){
-            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRequestControlETC);
+            DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRequestControlETC);
           }
 
+          //Requesting control over the clutch
           if (ClutchBtn.getDataU8() != IC._valueTrueBtn){
             DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageRequestControl);
           }
@@ -171,7 +175,7 @@ void loop() {
         timeStampSate15 = millis();
       }
 
-
+ 
 
     break;
 
@@ -183,7 +187,7 @@ void loop() {
 
       inputRPM = (double) EngineSpeedHall.getDataU32();
       if(RegulatorPIDRPM.Compute()){
-          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRelinquishControlETC + calculon.mappingRPM(outputRPM));
+          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRequestControlETC + calculon.mappingRPM(outputRPM));
       }
       
     break;
@@ -192,21 +196,23 @@ void loop() {
 
 
       if (millis() - timeStampSate40 > IC._timeDelayMessagesState40Millis){
-
+        
+        //Relinquishing control over the clutch
         if(ClutchBtn.getDataU8() == IC._valueTrueBtn){
           DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageRelinquishControl);
-         
         }
+
+        //Relinquishing control over the ETC        
         if (ETCBtn.getDataU8() == IC._valueTrueBtn){
-              DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControlETC);
-          }
-
-        inputSlip = calculon.slipInputCalculator();
-        RegulatorPIDSlip.Compute();
-
-        IgnitionSlayer.uppdateFrequency(calculon.mappingCutter(outputSlip));
-        
+          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRelinquishControlETC);
+        }
         timeStampSate40 = millis();
+      }
+
+      inputSlip = calculon.slipInputCalculator();
+
+      if(RegulatorPIDSlip.Compute()){
+        IgnitionSlayer.uppdateFrequency(calculon.mappingCutter(outputSlip));
       }
 
       IgnitionSlayer.slaughter();
@@ -215,7 +221,9 @@ void loop() {
 
     case 90:  //Safemode step 1/2
       if (millis() - timeStampSate90 > IC._timeDelayMessagesState90Millis){
-          DataSender.newMessage(IC._canIdCommunicationETC, 1, 0);
+      
+
+          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRequestControlETC);
           DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageAborte);
           DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);
           timeStampSate90 = millis();
@@ -230,7 +238,7 @@ void loop() {
 
     case 91:  //Safemode step 2/2
       if(millis() - timeStampSate91 > IC._timeDelayMessagesState91Millis){
-          DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControl);
+          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRelinquishControl);
           DataSender.newMessage(IC._canIdSystemState, 1, currentSystemState);          
           timeStampSate91 = millis();    
       }

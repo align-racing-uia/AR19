@@ -69,10 +69,10 @@ class InitialConditions
     //Regualtor PID RPM
     const double _ControllerRPMOutputMax = 1.0f;
     const double _ControllerRPMOutputMin = 0.0f;
-    const double _KpPIDRPM = 0xFFFF;
-    const double _KiPIDRPM = 0xFFFF;
-    const double _KdPIDRPM = 0xFFFF;
-    const double _setPointRPM = 0xFFFF;
+    const double _KpPIDRPM = 2,105f;
+    const double _KiPIDRPM = 4,890f;
+    const double _KdPIDRPM = 0.0f;
+    const double _setPointRPM = 3000.0f;
 
     //Regualtor PID Slip
     const double _ControllerSlipOutputMax = 1.0f;
