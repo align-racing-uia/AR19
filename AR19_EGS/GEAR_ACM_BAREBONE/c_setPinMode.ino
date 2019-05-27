@@ -7,6 +7,12 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
     pinMode(inputPin, INPUT_PULLUP);
     }
 
+//Clutchpressure pins
+
+    using namespace Clutchpressure;
+    {
+    pinMode(sensorPin, INPUT_PULLUP);
+    }
 
 // Sets pinmode for gear up and down variables.
 
@@ -33,4 +39,6 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
     {
         servo.attach(servoPin);
     }
+
+    
 }

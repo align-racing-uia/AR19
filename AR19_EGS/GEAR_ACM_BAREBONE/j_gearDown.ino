@@ -5,17 +5,16 @@ void GearDown()
   {       
     if (millis()-geardown::timestamp < geardown::timer)
     {
-        //if(gearposition::currentGear =! gearposition::newGear)
-        //{
-            clutch::timestamp = millis();
-        //}
-    
-        if (/*clutchpressure::InBar > 5 && */gearposition::currentGear != gearposition::newGear)
+        if(gearposition::currentGear =! gearposition::newGear)
         {
-            digitalWrite(geardown::pin, HIGH);
-          
+            clutch::timestamp = millis();
         }
-        else if (gearposition::currentGear == gearposition::newGear)
+    
+        if (clutchpressure::InBar > 5 && gearposition::currentGear != gearposition::newGear && millis()- geardown::timestamp > 200)
+        {
+            digitalWrite(geardown::pin, HIGH);    
+        }
+        else if (gearposition::currentGear == gearposition::newGear && millis()- geardown::timestamp > 500)
         {
           digitalWrite(geardown::pin, LOW);
     

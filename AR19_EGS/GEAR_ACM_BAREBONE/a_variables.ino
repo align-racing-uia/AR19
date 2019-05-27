@@ -33,7 +33,7 @@ const uint16_t timerLockout = 2500;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 200;
+    const uint16_t timer = 600;
     const uint16_t timerLockout = 1000;
 
 }
@@ -41,7 +41,7 @@ namespace gearup{
 namespace geardown{
     long timestamp = 0;
     const uint8_t pin = 17;
-    const uint16_t timer = 200;
+    const uint16_t timer = 600;
     const uint16_t timerLockout = 1000;
 
 }
@@ -52,7 +52,7 @@ namespace geardown{
 
 namespace clutchpressure
 {              
-    uint8_t sensorPin = 19;     
+    const uint8_t sensorPin = 19;     
     uint8_t sensorValue = 0;
     uint8_t InBar = 0;
 
@@ -65,10 +65,10 @@ namespace clutchpressure
 
 namespace clutch{
     uint8_t servoPin = 10; // pin servo - egentlig pin 10
-    int16_t engage = 2100; // servo position 0 degrees
+    int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
     long timestamp = 0;
-    uint8_t duration = 3000; //how long the clutch takes to engage.
+    uint8_t duration = 200; //how long the clutch takes to engage.
 
 }
 
