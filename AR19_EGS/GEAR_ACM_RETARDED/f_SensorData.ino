@@ -4,7 +4,7 @@
 
 void GatherSensorData()
 {
-  CheckClutchPressure(); 
+  //CheckClutchPressure(); 
   //CheckGear();
 }
 

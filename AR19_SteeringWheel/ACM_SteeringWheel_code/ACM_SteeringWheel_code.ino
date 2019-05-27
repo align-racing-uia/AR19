@@ -6,9 +6,8 @@
 MCP2515 mcp2515(7);
 struct can_frame myMessage;
 
-
-unsigned long timeStampGearUp = 0;
-unsigned long timeStampGearDown = 0;
+long timeStampGearUp = 0;
+long timeStampGearDown = 0;
 const uint8_t sant = 0xF0;
 const uint8_t  tull = 0x0F;
 const uint8_t  red = 5;
@@ -16,8 +15,8 @@ const uint8_t  green = 6;
 const uint8_t  blue = 9;
 const uint8_t  GearUpPIN = 18;
 const uint8_t  GearDownPIN = 19;
-int8_t GearUpSignal = tull;
-int8_t GearDownSignal = tull;
+uint8_t GearUpSignal = tull;
+uint8_t GearDownSignal = tull;
 int16_t GearUpMeasure = 0;
 int16_t GearDownMeasure = 0;
 const uint8_t terkeliknipe = 200;
@@ -36,13 +35,29 @@ pinMode(GearDownPIN, OUTPUT);
   mcp2515.setBitrate(CAN_1000KBPS);
   mcp2515.setNormalMode();
 
+  myMessage.can_id = 0x14;  
+  myMessage.can_dlc = 1; 
+  myMessage.data[0] = sant;
+  mcp2515.sendMessage(&myMessage);
+
 }
 
 void loop() {
 
 
+// Lese CAN messages
 
-// Sende data
+  //Responds to pings
+  if (myMessage.can_id == 0x19 && bitRead(myMessage.data[0],3) == 1)
+  { 
+  myMessage.can_id = 0x14;  
+  myMessage.can_dlc = 1; 
+  myMessage.data[0] = sant;
+  mcp2515.sendMessage(&myMessage);
+  }
+
+
+// Sjekke girhendler
 
 GearUpMeasure   = analogRead(GearUpPIN);
 GearDownMeasure = analogRead(GearDownPIN);
@@ -54,10 +69,10 @@ if ( GearUpMeasure > terkeliknipe)
   GearUpSignal = sant;
 }
 else 
-  {
-    setLEDsREDGREEN(false);
-    GearUpSignal = tull;
-   }
+    {
+  setLEDsREDGREEN(false);
+  GearUpSignal = tull;
+    }
 
 
 if ( GearDownMeasure > terkeliknipe)
@@ -72,29 +87,12 @@ else
   }
 
 
-if (GearUpSignal == sant && millis() - timeStampGearUp > 50){
-  
-  myMessage.can_id = 0x240;  
-  myMessage.can_dlc = 2; 
-  myMessage.data[0] = GearUpSignal;
-  myMessage.data[1] = tull;
-  
-  mcp2515.sendMessage(&myMessage);
-  timeStampGearUp = millis();
- }
+myMessage.can_id = 0x240;  
+myMessage.can_dlc = 2; 
+myMessage.data[0] = GearUpSignal;
+myMessage.data[1] = GearDownSignal;
 
-
-
-if (GearDownSignal == sant && millis() - timeStampGearDown > 50){
-  
-  myMessage.can_id = 0x240;  
-  myMessage.can_dlc = 2; 
-  myMessage.data[0] = tull;
-  myMessage.data[1] = GearDownSignal;
-  
-  mcp2515.sendMessage(&myMessage);
-  timeStampGearDown = millis();
-  }
+mcp2515.sendMessage(&myMessage);
 }
 
 
