@@ -30,6 +30,7 @@
 //Tells the system what state it's in, ref: "Launch Control State Chart.docx"
 uint8_t currentSystemState;
 uint16_t componentID;
+uint8_t CurrentGear;
 
 unsigned long timeStampSate15, timeStampSate30, timeStampSate40, timeStampSate90, timeStampSate91, timeStampError, times, timeStampMessagesOK;
 
@@ -44,7 +45,7 @@ access userAccess(&EH, 9);
 
 
 PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPIDRPM, IC._KdPIDRPM, DIRECT), 
-    RegulatorPIDSlip(&inputSlip, &outputSlip, &setpointSlip, IC._KpPIDSlip, IC._KiPIDSlip, IC._KdPIDSlip, REVERSE);
+    RegulatorPIDSlip(&inputSlip, &outputSlip, &setpointSlip, IC._KpPIDSlip[0], IC._KiPIDSlip[0], IC._KdPIDSlip[0], REVERSE);
 
     
 
@@ -55,20 +56,19 @@ SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            SprocketHall(&IC, &EH, 0, 13, 0x2E0),
            EngineSpeedHall(&IC, &EH, 0, 14, 0x2F0);
 
-
-
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
-                    GasPedal(&IC, &EH, 0, 21, 0x010);
+                    GasPedal(&IC, &EH, 0, 21, 0x010)
+                    GearPosition(&IC, &EH, 3, 22, 0x020);
 
 SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
              ClutchBtn(&IC, &EH, 0, 31, 0x2C8), 
              ETCBtn(&IC, &EH, 0, 32, 0x2B0),
-             ACMping(&IC, &EH, 0, 33, 0x019);
+             ACMping(&IC, &EH, 0, 33, 0x019);    
 
 ICuppdater userInterface(&IC, &EH, &userAccess, 50, 0x448);
 
 ExternalSource* externalSources[] = {&LeftFrontHall, &RightFrontHall, &DifferentialHall, &SprocketHall, &StearingPot, 
-                                     &StearingBtn, &ClutchBtn, &GasPedal, &EngineSpeedHall, &ETCBtn};
+                                     &StearingBtn, &ClutchBtn, &GasPedal, &EngineSpeedHall, &ETCBtn, &GearPosition};
 
 CanReader DataReader(&IC, &EH, 5, &mcp2515);
 CanSender DataSender(&IC, &EH, 3, &mcp2515);
@@ -90,10 +90,9 @@ void setup() {
   times = 0;
   timeStampMessagesOK = 0;
 
-  RegulatorPIDRPM.SetMode(AUTOMATIC);
-  RegulatorPIDSlip.SetMode(AUTOMATIC);
+  initializeController()
 
-  setpointRPM = IC._setPointRPM;
+  CurrentGear = 0;
 
   componentID = 01;
   SPI.begin();
@@ -101,14 +100,13 @@ void setup() {
   mcp2515.reset();
   mcp2515.setBitrate(CAN_1000KBPS);
   mcp2515.setNormalMode();
-
  
 }
 
 void loop() {
 
   //Setting default values
-  dataDistributer(externalSources, 10, DataReader.readMessages(), 6, &EH);
+  dataDistributer(externalSources, 11, DataReader.readMessages(), 6, &EH);
 
 
 
@@ -163,7 +161,7 @@ void loop() {
       if (millis() - timeStampSate15 > IC._timeDelayMessagesState15Millis){
 
           if (ETCBtn.getDataU8() != IC._valueTrueBtn){
-            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRequestControl);
+            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRequestControlETC);
           }
 
           if (ClutchBtn.getDataU8() != IC._valueTrueBtn){
@@ -182,13 +180,10 @@ void loop() {
     break;
 
     case 30:  //Launch Active - RPM regulering
-      if (millis() - timeStampSate30 > IC._timeDelayMessagesState30Millis){
 
-          inputRPM = (double) EngineSpeedHall.getDataU32();
-          RegulatorPIDRPM.Compute();
-          DataSender.newMessage(IC._canIdCommunicationETC, 1, calculon.mappingRPM(outputRPM));
-  
-          timeStampSate30 = millis();
+      inputRPM = (double) EngineSpeedHall.getDataU32();
+      if(RegulatorPIDRPM.Compute()){
+          DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRelinquishControlETC + calculon.mappingRPM(outputRPM));
       }
       
     break;
@@ -202,9 +197,9 @@ void loop() {
           DataSender.newMessage(IC._canIdCommunicationCluch, 1, IC._canMessageRelinquishControl);
          
         }
-      if (ETCBtn.getDataU8() == IC._valueTrueBtn){
-            DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControl);
-        }
+        if (ETCBtn.getDataU8() == IC._valueTrueBtn){
+              DataSender.newMessage(IC._canIdCommunicationETC, 1, IC._canMessageRelinquishControlETC);
+          }
 
         inputSlip = calculon.slipInputCalculator();
         RegulatorPIDSlip.Compute();
@@ -254,6 +249,29 @@ void loop() {
     DataSender.newMessage(IC._canIdErrorMessages, 4, EH.getErrorMessages());
 
     timeStampError = millis();
+  }
+
+}
+
+
+
+void initializeController(){
+
+  RegulatorPIDRPM.SetOutputLimits(IC._ControllerRPMOutputMin, IC._ControllerRPMOutputMax);
+  RegulatorPIDSlip.SetOutputLimits(IC._ControllerSlipOutputMin, IC._ControllerSlipOutputMax);
+
+  RegulatorPIDRPM.SetMode(AUTOMATIC);
+  RegulatorPIDSlip.SetMode(AUTOMATIC);
+  
+  setpointRPM = IC._setPointRPM;
+
+}
+
+void uppdateRegulatorParameters(){
+
+  if (CurrentGear != GasPedal.getDataU8() - 1){
+      CurrentGear = GasPedal.getDataU8() - 1;
+      RegulatorPIDSlip().SetTunings(IC._KpPIDSlip[CurrentGear], IC._KiPIDSlip[CurrentGear], IC._KpPIDSlip[CurrentGear]);
   }
 
 }

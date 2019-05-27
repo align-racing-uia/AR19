@@ -71,8 +71,8 @@ bool PID::Compute()
       /*Add Proportional on Measurement, if P_ON_M is specified*/
       if(!pOnE) outputSum-= kp * dInput;
 
-      if(outputSum > outMax) outputSum= outMax;
-      else if(outputSum < outMin) outputSum= outMin;
+      if(outputSum > outMax) outputSum= 0;
+      else if(outputSum < outMin) outputSum= 0;
 
       /*Add Proportional on Error, if P_ON_E is specified*/
 	   double output;
@@ -190,8 +190,8 @@ void PID::Initialize()
 {
    outputSum = *myOutput;
    lastInput = *myInput;
-   if(outputSum > outMax) outputSum = outMax;
-   else if(outputSum < outMin) outputSum = outMin;
+   if(outputSum > outMax) outputSum = 0;
+   else if(outputSum < outMin) outputSum = 0;
 }
 
 /* SetControllerDirection(...)*************************************************
@@ -204,7 +204,7 @@ void PID::SetControllerDirection(int Direction)
 {
    if(inAuto && Direction !=controllerDirection)
    {
-	    kp = (0 - kp);
+	   kp = (0 - kp);
       ki = (0 - ki);
       kd = (0 - kd);
    }
