@@ -52,7 +52,7 @@ namespace geardown{
 
 namespace clutchpressure
 {              
-    uint8_t sensorPin = 19;     
+    const uint8_t sensorPin = 19;     
     uint8_t sensorValue = 0;
     uint8_t InBar = 0;
 

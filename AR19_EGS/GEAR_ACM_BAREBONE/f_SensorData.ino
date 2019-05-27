@@ -19,7 +19,7 @@ void CheckClutchPressure()
 using namespace clutchpressure;
     sensorValue = analogRead(sensorPin);
  
-    InBar = map(sensorValue, 102.3, 902, 0, 100);
+    InBar = map(sensorValue, 250, 902, 0, 100);
 } 
 
 

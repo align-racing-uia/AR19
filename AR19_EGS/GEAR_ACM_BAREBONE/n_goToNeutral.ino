@@ -4,7 +4,7 @@ if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > go
 {
   clutch::timestamp = millis();
   
-  /*
+  
 }
   if ( millis() - gotoneutral::timestamp < gotoneutral::timer && gearposition::currentGear != 0)
   {
@@ -32,7 +32,7 @@ if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > go
     digitalWrite(geardown::pin, LOW);
     digitalWrite(gearup::pin, LOW);
   }
-*/
+
 }
 
 }
