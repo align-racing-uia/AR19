@@ -1,3 +1,13 @@
+Barebones is the current sw on the car.
+Protype serves more of an outline of what is planned for the future.
+
+
+
+
+
+
+
+
 # AR19
 Repository for Align Racing 2019
 
