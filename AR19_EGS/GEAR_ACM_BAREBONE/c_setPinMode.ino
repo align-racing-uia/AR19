@@ -9,7 +9,7 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
 
 //Clutchpressure pins
 
-    using namespace Clutchpressure;
+    using namespace clutchpressure;
     {
     pinMode(sensorPin, INPUT_PULLUP);
     }

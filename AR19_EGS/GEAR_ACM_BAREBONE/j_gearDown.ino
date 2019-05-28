@@ -1,7 +1,7 @@
 void GearDown()
 {
   // geartimer er satt i variables og er omtrent 100ms
-  if (millis()- geardown::timestamp < geardown::timerLockout && millis() > geardown::timerLockout )
+  if (millis()- geardown::timestamp < geardown::timerLockout && millis() > geardown::timerLockout)
   {       
     if (millis()-geardown::timestamp < geardown::timer)
     {
@@ -14,7 +14,7 @@ void GearDown()
         {
             digitalWrite(geardown::pin, HIGH);    
         }
-        else if (gearposition::currentGear == gearposition::newGear && millis()- geardown::timestamp > 500)
+        else if (gearposition::currentGear == gearposition::newGear || millis()- geardown::timestamp > 500)
         {
           digitalWrite(geardown::pin, LOW);
     

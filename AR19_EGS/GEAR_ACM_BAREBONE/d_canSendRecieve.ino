@@ -85,32 +85,29 @@ using namespace cansignal;
 
   myMessage.can_id = 0x20;  
   myMessage.can_dlc = 5; 
-  myMessage.data[0] = 0;//requestBlip;
-  myMessage.data[1] = 0;//engineCut
-  myMessage.data[2] = 0;//clutchInSignal 
-  myMessage.data[3] = gearPosition; 
-  myMessage.data[4] = clutchPressure; 
+  myMessage.data[0] = requestBlip;
+  myMessage.data[1] = gearPosition; 
+  myMessage.data[2] = clutchPressure; 
 
   mcp2515.sendMessage(&myMessage);
 
-// CAN message 0x470 - Error states to telemetry.
-/*
-  myMessage.can_id = 0x470;  
-  myMessage.can_dlc = 8; 
-  myMessage.data[0] = Errorstate;
-  myMessage.data[1] = Errorstate;
-  myMessage.data[2] = Errorstate; 
+
+if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant)
+// CAN message 0x480 - Error states to telemetry.
+
+  myMessage.can_id = 0x480;  
+  myMessage.can_dlc = 2; 
+  myMessage.data[0] = clutchPressureError; //Errorstate - Clutch Pressure out of range
+  myMessage.data[1] = gearAttemptInFalsePosition;//Errorstate - Signal to change gear was sent when gear position was undefined.
+  /*myMessage.data[2] = Errorstate; 
   myMessage.data[3] = Errorstate; 
   myMessage.data[4] = Errorstate; 
   myMessage.data[5] = Errorstate; 
   myMessage.data[6] = Errorstate; 
   myMessage.data[7] = Errorstate; 
-
-
-  mcp2515.sendMessage(&myMessage);
 */
 
-
+  mcp2515.sendMessage(&myMessage);
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
