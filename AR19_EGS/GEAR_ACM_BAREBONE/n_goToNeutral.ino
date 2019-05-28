@@ -1,11 +1,10 @@
 void GoToNeutral()
 {
-if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > gotoneutral::timerLockout)
-{
-  clutch::timestamp = millis();
+  if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > gotoneutral::timerLockout && gearposition::currentGear != 0)
+  {
+    clutch::timestamp = millis();
+  }
   
-  
-}
   if ( millis() - gotoneutral::timestamp < gotoneutral::timer && gearposition::currentGear != 0)
   {
       clutch::timestamp = millis();
@@ -35,7 +34,7 @@ if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > go
 
 }
 
-}
+
 
 
 

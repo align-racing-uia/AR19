@@ -18,8 +18,19 @@ void CheckClutchPressure()
 {
 using namespace clutchpressure;
     sensorValue = analogRead(sensorPin);
+    InBar = map(sensorValue, 250, 902, 0, 100); // Remaps the bit value to conincide with BAR - info in datasheet
+
+    // Giver error code to the telemetry if clutch pressure is out of range.
+    if (sensorValue < 250 || sensorValue > 902)
+    {
+      cansignal::clutchPressureError = global::sant;
+    }
+    else
+    {
+      cansignal::clutchPressureError = global::tull;
+    }
  
-    InBar = map(sensorValue, 250, 902, 0, 100);
+
 } 
 
 
