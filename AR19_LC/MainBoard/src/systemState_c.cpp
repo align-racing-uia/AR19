@@ -135,14 +135,16 @@ bool stateGuardian::updateSystemState(){
 
 
 bool stateGuardian::launchOn(){
-    return(_ES[4]->getDataU8() > _IC->_lowerThresholdPot);
+    return(_ES[4]->getDataU8() > _IC->_lowerThresholdPot &&
+           _ES[8]->getDataU32() > _IC->_lowerThresholdEngineSpeed);
 }
 bool stateGuardian::modeCheck(){
     return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed &&
-           _ES[5]->getDataU8() == _IC->_valueTrueBtn);
+           _ES[5]->getDataU8() == _IC->_valueTrueBtn &&
+           _ES[8]->getDataU32() > _IC->_lowerThresholdEngineSpeed);
 }
 bool stateGuardian::LCorTCmode(){
-    return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed)
+    return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed);
 }
 
 bool stateGuardian::controlCheck(){
@@ -160,7 +162,7 @@ bool stateGuardian::buttonRelease(){
     return(_ES[5]->getDataU8() == _IC->_valueFalseBtn);
 }
 bool stateGuardian::safeCheck1(){
-    return(_ES[8]->getData() < _IC->_safeEngineSpeed &&
+    return(_ES[8]->getDataU32() < _IC->_safeEngineSpeed &&
            _ES[7]->getDataU8() < _IC->_safeGasPedal);
 }
 bool stateGuardian::safeCheck2(){

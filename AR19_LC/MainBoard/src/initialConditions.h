@@ -33,6 +33,7 @@ class InitialConditions
     const uint32_t _lowerThresholdWheelSpeed = 0xFFFFFFFF;
     const uint32_t _safeEngineSpeed = 0xFFFFFFFF;
     const uint32_t _safeGasPedal = 0xFFFFFFFF;
+    const uint32_t _lowerThresholdEngineSpeed = 100;
 
     //CANbus Reader
     const uint32_t _maxNumberOfByteInCANMessage = 4;
@@ -69,8 +70,8 @@ class InitialConditions
     //Regualtor PID RPM
     const double _ControllerRPMOutputMax = 1.0f;
     const double _ControllerRPMOutputMin = 0.0f;
-    const double _KpPIDRPM = 2,105f;
-    const double _KiPIDRPM = 4,890f;
+    const double _KpPIDRPM = 2.105f;
+    const double _KiPIDRPM = 4.890f;
     const double _KdPIDRPM = 0.0f;
     const double _setPointRPM = 3000.0f;
 
