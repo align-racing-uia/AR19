@@ -90,6 +90,7 @@ namespace cansignal{
     uint8_t clutchPressureError = global::tull;
     uint8_t gearAttemptInFalsePosition = global::tull;
     uint8_t gearPositionError = global::tull;
+    uint8_t gearChangeFailed = global::tull;
     }
 
 

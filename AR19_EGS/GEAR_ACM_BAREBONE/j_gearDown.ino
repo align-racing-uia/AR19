@@ -23,6 +23,7 @@ void GearDown()
     else
     {
       digitalWrite(geardown::pin, LOW);
+      cansignal::gearChangeFailed = global::sant;
     }
   }
 

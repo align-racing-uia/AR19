@@ -24,6 +24,7 @@ void GearUp()
     else
     {
       digitalWrite(gearup::pin, LOW);
+      cansignal::gearChangeFailed = global::sant;
     }
   }
 
