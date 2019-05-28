@@ -20,7 +20,6 @@
 #include "errorHandler.h"
 #include "initialConditions.h" 
 #include "systemState.h"
-#include "regulator.h"
 #include "calculator.h"
 
 
@@ -57,7 +56,7 @@ SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            EngineSpeedHall(&IC, &EH, 0, 14, 0x2F0);
 
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
-                    GasPedal(&IC, &EH, 0, 21, 0x010)
+                    GasPedal(&IC, &EH, 0, 21, 0x010),
                     GearPosition(&IC, &EH, 3, 22, 0x020);
 
 SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
@@ -90,7 +89,7 @@ void setup() {
   times = 0;
   timeStampMessagesOK = 0;
 
-  initializeController()
+  initializeController();
 
   CurrentGear = 0;
 
@@ -105,12 +104,12 @@ void setup() {
 
 void loop() {
 
-  //Setting default values
-  dataDistributer(externalSources, 11, DataReader.readMessages(), 6, &EH);
+
+  dataDistributer(externalSources, 11, DataReader.readMessages(), 6, &EH, &userInterface);
 
 
 
-  if (ACMping.getDataU8 == IC._canMessageOk){
+  if (ACMping.getDataU8() == IC._canMessageOk){
 
     DataSender.newMessage(IC._canIdOk, 1, IC._canMessageOk);
     ACMping.eraseData();
@@ -279,7 +278,7 @@ void uppdateRegulatorParameters(){
 
   if (CurrentGear != GasPedal.getDataU8() - 1){
       CurrentGear = GasPedal.getDataU8() - 1;
-      RegulatorPIDSlip().SetTunings(IC._KpPIDSlip[CurrentGear], IC._KiPIDSlip[CurrentGear], IC._KpPIDSlip[CurrentGear]);
+      RegulatorPIDSlip.SetTunings(IC._KpPIDSlip[CurrentGear], IC._KiPIDSlip[CurrentGear], IC._KpPIDSlip[CurrentGear]);
   }
 
 }

@@ -79,7 +79,7 @@ class ExternalSource
 };
  
 
-void dataDistributer(ExternalSource** pES, uint16_t n, CanMessage data, uint16_t componentID, ErrorHandler* EH);
+void dataDistributer(ExternalSource** pES, uint16_t n, CanMessage data, uint16_t componentID, ErrorHandler* EH, ICuppdater* ICu);
 
 
 
