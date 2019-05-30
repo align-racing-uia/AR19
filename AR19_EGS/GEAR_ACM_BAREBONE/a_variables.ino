@@ -33,7 +33,7 @@ const uint16_t timerLockout = 2500;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 600;
+    const uint16_t timer = 500;
     const uint16_t timerLockout = 1000;
 
 }
@@ -41,7 +41,7 @@ namespace gearup{
 namespace geardown{
     long timestamp = 0;
     const uint8_t pin = 10;
-    const uint16_t timer = 600;
+    const uint16_t timer = 500;
     const uint16_t timerLockout = 1000;
 
 }
@@ -64,11 +64,12 @@ namespace clutchpressure
 
 
 namespace clutch{
-    uint8_t servoPin = 10; // pin servo - egentlig pin 10
+    uint8_t servoPin = 18; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
     long timestamp = 0;
     uint8_t duration = 200; //how long the clutch takes to engage.
+    uint8_t emergencyEngage = global::tull;
 
 }
 
@@ -92,6 +93,7 @@ namespace cansignal{
     uint8_t gearAttemptInFalsePosition = global::tull;
     uint8_t gearPositionError = global::tull;
     uint8_t gearChangeFailed = global::tull;
+    uint8_t neutralFailed = global::tull;    
     }
 
 

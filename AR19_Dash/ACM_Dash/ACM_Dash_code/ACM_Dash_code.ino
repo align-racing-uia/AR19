@@ -50,57 +50,55 @@ void loop() {
 
 // Ta imot data
 
- if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
-  
-   if (myMessage.can_id == 0x270)
-   {
-      shutdownActive = myMessage.data[0]; // Det første bytet med data
-   }
-   else if (myMessage.can_id ==  0x19 &&  myMessage.data[0] == sant)
-   {
-      myMessage.can_id = 0x13;  
-      myMessage.can_dlc = 1; 
-      myMessage.data[0] = sant;
-      mcp2515.sendMessage(&myMessage);
-   }
-  }
+if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
+
+ if (myMessage.can_id == 0x270)
+ {
+    shutdownActive = myMessage.data[0]; // Det første bytet med data
+ }
+ else if (myMessage.can_id ==  0x19 &&  myMessage.data[0] == sant)
+ {
+    myMessage.can_id = 0x13;  
+    myMessage.can_dlc = 1; 
+    myMessage.data[0] = sant;
+    mcp2515.sendMessage(&myMessage);
+ }
+}
  
 
 // Sende data
 
-  if (analogRead(neutralPin) > terskel)
-  {
-    neutralSignal = sant;
-    digitalWrite(intergrertRedLED, LOW);
-  }
-  else
-  {
-    digitalWrite(intergrertRedLED, HIGH);
-  }
+if (analogRead(neutralPin) > terskel)
+{
+  neutralSignal = sant;
+  digitalWrite(intergrertRedLED, LOW);
+}
+else
+{
+  digitalWrite(intergrertRedLED, HIGH);
+  neutralSignal = tull;
+}
 
 
-  if (analogRead(clutchPin) > terskel)
-  {
-    clutchOverride = sant;
-    digitalWrite(intergrertGreenLED, LOW);
-  }
-  else
-  {
-    digitalWrite(intergrertGreenLED, HIGH);
-  }
+if (analogRead(clutchPin) > terskel)
+{
+  clutchOverride = sant;
+  digitalWrite(intergrertGreenLED, LOW);
+}
+else
+{
+  digitalWrite(intergrertGreenLED, HIGH);
+  clutchOverride = tull;
+}
 
-if (millis()-timeStampCanbus > 100){
-  if (neutralSignal == sant || clutchOverride == sant){
-  
-    myMessage.can_id = 0x42;  
-    myMessage.can_dlc = 2; 
-    myMessage.data[0] = neutralSignal;
-    myMessage.data[1] = clutchOverride;
-    mcp2515.sendMessage(&myMessage);
-    timeStampCanbus = millis();
-
-  }
-
+if ((millis()-timeStampCanbus > 100) && (neutralSignal == sant || clutchOverride == sant))
+{
+  myMessage.can_id = 0x42;  
+  myMessage.can_dlc = 2; 
+  myMessage.data[0] = neutralSignal;
+  myMessage.data[1] = clutchOverride;
+  mcp2515.sendMessage(&myMessage);
+  timeStampCanbus = millis();
 }
   
 
