@@ -40,7 +40,7 @@ void setup()
     //  Initialise CAN
     SPI.begin();
     can.mcp2515.reset();
-    can.mcp2515.setBitrate( CAN_1000KBPS );
+    can.mcp2515.setBitrate( CAN_500KBPS );
     can.mcp2515.setNormalMode();
 
     //  Set controller specific variables to class functions
