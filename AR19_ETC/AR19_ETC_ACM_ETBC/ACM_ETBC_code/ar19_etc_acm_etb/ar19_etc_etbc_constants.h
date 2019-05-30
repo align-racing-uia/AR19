@@ -29,7 +29,7 @@ const uint8_t directionPinRev               = 3;        //  H-bridge Out 2
 uint8_t throttlePosition;
 //  ETB limp compensation
 uint16_t value1, value2;
-const uint16_t limp                         = 193;      //  Median of limp range 193
+const uint16_t limp                         = 193;      //  Median of limp range 193, 829 for TPS2
 const uint16_t limp_pos                     = 225;      //  Positive top of limp range 225
 const uint16_t limp_neg                     = 160;      //  Negative botto of limp range 160
 const uint8_t limpCompensation              = 95;       //  Compensation for limp range due to opposing springs in ETB
@@ -72,10 +72,10 @@ namespace tps
 const uint8_t sensor1Pin                    = 16;       //  TPS1 pin
 const uint8_t sensor2Pin                    = 17;       //  TPS2 pin
 const uint16_t value1Min                    = 103;      //  Physically min value of TPS1 103
-const uint16_t value1Idle                   = 148;      //  Idle position of TPS1 1148
+const uint16_t value1Idle                   = 148;      //  Idle position of TPS1 148
 const uint16_t value1Max                    = 603;      //  Physically max value of TPS1 903
 const uint16_t value2Min                    = 919;      //  Physically min value of TPS2 919
-const uint16_t value2Idle                   = 914;      //  Idle position of TPS2 914
+const uint16_t value2Idle                   = 874;      //  Idle position of TPS2 874
 const uint16_t value2Max                    = 419;      //  Physically max value of TPS2 119
 uint8_t implausibility;
 }
