@@ -2,7 +2,7 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 {
   SPI.begin();
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
 
 
@@ -24,14 +24,20 @@ using namespace cansignal;
 
  if (mcp2515.readMessage(&myMessage) == MCP2515::ERROR_OK) {
   
-    if (myMessage.can_id == 0x1 || millis() - shutdowncircuit::lockoutTimer > 300)
-    {
-      digitalWrite(shutdowncircuit::activatePin, LOW);
-    }
-    else
-    {
-      digitalWrite(shutdowncircuit::activatePin, HIGH);
-    }
+  if (myMessage.can_id == 0x1)
+  {
+    shutdowncircuit::lockoutTimer = millis();
+  }
+  if (millis() - shutdowncircuit::lockoutTimer < 300)
+  {
+    digitalWrite(shutdowncircuit::activatePin, HIGH);
+    digitalWrite(leds::blue,HIGH);
+  }
+  else
+  {
+    digitalWrite(shutdowncircuit::activatePin, LOW);
+    digitalWrite(leds::blue,HIGH);
+  }
 
 
     if (myMessage.can_id == 0x12 && myMessage.can_dlc == 1)

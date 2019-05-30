@@ -84,7 +84,7 @@ using namespace cansignal;
 // CAN message 0x20 - div
 
   myMessage.can_id = 0x20;  
-  myMessage.can_dlc = 5; 
+  myMessage.can_dlc = 3; 
   myMessage.data[0] = requestBlip;
   myMessage.data[1] = gearPosition; 
   myMessage.data[2] = clutchPressure; 
@@ -92,7 +92,7 @@ using namespace cansignal;
   mcp2515.sendMessage(&myMessage);
 
 
-if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant)
+if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant)
 // CAN message 0x480 - Error states to telemetry.
 
   myMessage.can_id = 0x480;  
