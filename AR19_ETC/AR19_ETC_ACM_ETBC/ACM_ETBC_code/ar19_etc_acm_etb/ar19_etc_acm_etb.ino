@@ -227,7 +227,7 @@ void loop()
             pwmWrite( etb::directionPinFwd, pid::output );
             
             //  For testing
-            //can.send( 0x666, etb::directionPinFwd, pid::setpoint, pid::input, pid::output, etb::compensation );
+            can.send( 0x666, etb::directionPinFwd, pid::setpoint, pid::input, pid::output, etb::compensation );
         
         } else if ( pid::output < 0 ) {
             double pidOutputAbs = abs( pid::output );
@@ -235,7 +235,7 @@ void loop()
             pwmWrite( etb::directionPinRev, pidOutputAbs );
 
             // For testing
-            //can.send( 0x666, etb::directionPinRev, pid::setpoint, pid::input, pidOutputAbs, etb::compensation  );
+            can.send( 0x666, etb::directionPinRev, pid::setpoint, pid::input, pidOutputAbs, etb::compensation  );
         } 
        
     }
