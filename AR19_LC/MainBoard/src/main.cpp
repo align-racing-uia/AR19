@@ -20,6 +20,7 @@
 #include "errorHandler.h"
 #include "initialConditions.h" 
 #include "systemState.h"
+
 #include "calculator.h"
 
 
@@ -52,8 +53,9 @@ PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPID
 SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            RightFrontHall(&IC, &EH, 0, 11, 0x210),
            DifferentialHall(&IC, &EH, 0, 12, 0x2D0),
-           SprocketHall(&IC, &EH, 0, 13, 0x2E0),
-           EngineSpeedHall(&IC, &EH, 0, 14, 0x2F0);
+           SprocketHall(&IC, &EH, 0, 13, 0x2E0);
+
+SensorEngine EngineSpeedHall(&IC, &EH, 6, 14, 0x5F0);
 
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
                     GasPedal(&IC, &EH, 0, 21, 0x010),
@@ -97,7 +99,7 @@ void setup() {
   SPI.begin();
   
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
  
 }
@@ -184,7 +186,7 @@ void loop() {
 
     case 30:  //Launch Active - RPM regulering
 
-      inputRPM = (double) EngineSpeedHall.getDataU32();
+      inputRPM = (double) EngineSpeedHall.getDataU16();
       if(RegulatorPIDRPM.Compute()){
           DataSender.newMessage(IC._canIdCommunicationETC, 2, IC._canMessageRequestControlETC + calculon.mappingRPM(outputRPM));
       }
