@@ -2,7 +2,7 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 {
   SPI.begin();
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
 
 // CAN message 0x15 - ACM OK Signal
@@ -99,15 +99,18 @@ if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::
   myMessage.can_dlc = 2; 
   myMessage.data[0] = clutchPressureError; //Errorstate - Clutch Pressure out of range
   myMessage.data[1] = gearAttemptInFalsePosition;//Errorstate - Signal to change gear was sent when gear position was undefined.
-  /*myMessage.data[2] = Errorstate; 
-  myMessage.data[3] = Errorstate; 
-  myMessage.data[4] = Errorstate; 
+  myMessage.data[2] = gearPositionError; //Sends telemetry signal if gear position sensor is invalid
+  myMessage.data[3] = gearChangeFailed; //The desired gear was not reached within the given period
+ /* myMessage.data[4] = Errorstate; 
   myMessage.data[5] = Errorstate; 
   myMessage.data[6] = Errorstate; 
   myMessage.data[7] = Errorstate; 
 */
 
   mcp2515.sendMessage(&myMessage);
+
+  gearPositionError = global::tull;
+  gearChangeFailed = global::tull;
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

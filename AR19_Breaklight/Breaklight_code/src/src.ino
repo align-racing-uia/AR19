@@ -35,7 +35,7 @@ void setup() {
 
   //CAN setup
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS, MCP_16MHZ);
   mcp2515.setNormalMode();
 
   //Brakelight setup
@@ -48,18 +48,18 @@ void setup() {
 void loop() {
   if (mcp2515.readMessage(&canMsg) == MCP2515::ERROR_OK) {
     
-    if(canMsg.can_id = breakPressureCANID){ //Henter ut data fra riktig CAN melding
+    if(canMsg.can_id == breakPressureCANID){ //Henter ut data fra riktig CAN melding
 
-      breakPressure1 = canMsg.data[0]; //Trykk i bremsekrets 1 (35 bar)
-      breakPressure2 = canMsg.data[1]; //Trykk i bremsekrets 2 (100 bar)
+      //breakPressure1 = canMsg.data[0]; //Trykk i bremsekrets 1 (35 bar)
+      breakPressure = canMsg.data[1]; //Trykk i bremsekrets 2 (100 bar)
 
-    } 
+    }else{}
 
 
-    if (breakPressure1 > pressureThresholdOn || breakPressure2 > pressureThresholdOn ) { //Skrur på bremselyset hvis den går forbi bremsethreshold (Vedien 0-255)
+    if (breakPressure > pressureThresholdOn) { //Skrur på bremselyset hvis den går forbi bremsethreshold (Vedien 0-255)
         lightsON = true;
     }
-    else if (breakPressure1 < pressureThresholdOff || breakPressure2 < pressureThresholdOff ) { //Skrur på bremselyset hvis den går forbi bremsethreshold (Vedien 0-255)
+    else if (breakPressure < pressureThresholdOff ) { //Skrur på bremselyset hvis den går forbi bremsethreshold (Vedien 0-255)
         lightsON = false;
     }
 
@@ -77,4 +77,5 @@ void loop() {
 
 
   }
+
 }
