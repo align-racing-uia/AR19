@@ -29,14 +29,14 @@ const uint8_t directionPinRev               = 3;        //  H-bridge Out 2
 uint8_t throttlePosition;
 //  ETB limp compensation
 uint16_t value1, value2;
-const uint16_t limp                         = 193;      //  Median of limp range 193
+const uint16_t limp                         = 193;      //  Median of limp range 193, 829 for TPS2
 const uint16_t limp_pos                     = 225;      //  Positive top of limp range 225
 const uint16_t limp_neg                     = 160;      //  Negative botto of limp range 160
 const uint8_t limpCompensation              = 95;       //  Compensation for limp range due to opposing springs in ETB
 double compensation;
 }
 
-namespace canbus 
+namespace canbus
 {
 const uint16_t acmPingId                    = 0x19;     //  CAN ID for incoming ping request
 const uint16_t acmOkId                      = 0x16;     //  CAN ID for outgoing ping reply
@@ -50,7 +50,7 @@ const uint16_t blipConfirmedId              = 0x2C0;    //  CAN ID for outgoing 
 const uint16_t etbLimpModeId                = 0x470;    //  CAN ID for outgoing message if ETB is set in limp mode
 const uint16_t calibrateModeToggleId        = 0x0F0;
 uint8_t throttleTarget, throttleTargetLaunch, accPedalDirection;  //  Variables for throttle target and pedal direction
-uint8_t launchModeConfirmedMsgCounter       = 0;                 
+uint8_t launchModeConfirmedMsgCounter       = 0;
 }
 
 namespace pid
@@ -62,12 +62,12 @@ double kp                                   = 1.00;     //  Proportional paramet
 double ki                                   = 3.30;     //  Integral parameter of PID 3.30
 double kd                                   = 22.50;    //  Derivative parameter of PID 22.50
 uint8_t controllerDirection                 = DIRECT;   //  PID controller direction (DIRECT/INVERSE)
-double input                                = 0;        //  Declaration of PID variables. 
+double input                                = 0;        //  Declaration of PID variables.
 double output                               = 0;
 double setpoint                             = 0;
 }
 
-namespace tps 
+namespace tps
 {
 const uint8_t sensor1Pin                    = 16;       //  TPS1 pin
 const uint8_t sensor2Pin                    = 17;       //  TPS2 pin
@@ -75,12 +75,12 @@ const uint16_t value1Min                    = 103;      //  Physically min value
 const uint16_t value1Idle                   = 148;      //  Idle position of TPS1 148
 const uint16_t value1Max                    = 603;      //  Physically max value of TPS1 903
 const uint16_t value2Min                    = 919;      //  Physically min value of TPS2 919
-const uint16_t value2Idle                   = 874;      //  Idle position of TPS2 914
+const uint16_t value2Idle                   = 874;      //  Idle position of TPS2 874
 const uint16_t value2Max                    = 419;      //  Physically max value of TPS2 119
 uint8_t implausibility;
 }
 
-namespace time 
+namespace time
 {
 const unsigned long tpsInterval             = 100;
 const unsigned long blipDurationInterval    = 100;
