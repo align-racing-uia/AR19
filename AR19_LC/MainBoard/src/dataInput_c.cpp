@@ -318,3 +318,68 @@ void ICuppdater::updateIC(uint64_t data){
 
 
 }
+
+
+SensorEngine::SensorEngine(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID) : ExternalSource(IC, EH, offSet, 2, componentID, canID){
+    
+        _sensorEngineData.value = 0;
+        _sensorEngineData.time = 0;
+
+}
+
+void SensorEngine::newData(uint16_t value){
+
+    _sensorEngineData.time = millis();
+    _sensorEngineData.value = value;
+
+}
+
+
+bool SensorEngine::verificationData(uint16_t value){
+
+    //testing the new value to see if it has changes too rappide
+    if ((value - _sensorEngineData.value)/_sensorEngineData.value > _IC->_maxIncreaseHall){
+        _EH->newError(101, _componentID);
+        return false;
+    }
+    //testing the new value to see if it is too high
+    else if (value > _IC->_maxValueHall){
+        _EH->newError(102, _componentID);
+        return false;
+    }
+    
+    return true;
+    
+}
+void SensorEngine::eraseData(){
+
+        _sensorEngineData.value = 0;
+        _sensorEngineData.time = 0;
+
+}
+
+uint8_t SensorEngine::getDataU8(){
+    return 0;}
+uint16_t SensorEngine::getDataU16(){
+
+    if (millis() - _sensorEngineData.time < _IC->_maxTimeDelayHallMillis){
+        return _sensorEngineData.value;
+    }
+
+    else{
+        _EH->newError(105, _componentID);
+        return _sensorEngineData.valeu;
+    } 
+}
+uint32_t SensorEngine::getDataU32(){
+    return 0;}
+uint64_t SensorEngine::getDataU64(){
+    return 0;}
+int16_t SensorEngine::getData16(){
+    return 0;}
+int32_t SensorEngine::getData32(){
+    return 0;}
+float SensorEngine::getDataF(){
+    return 0;}
+double SensorEngine::getDataD(){
+    return 0;}

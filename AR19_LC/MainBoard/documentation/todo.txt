@@ -1,12 +1,22 @@
 ﻿TO DO:
 
+
+
+	- Revurdere terskler for å sende feilmeldinger
+	- Se på nødvendighet for å koble til shut down-ACM
 	- Fikse riktig Kp, Ki og Kd
 	- koordinere med ETC
+
+LOG: 30.05.2019
+
+DONE 	- Konvertere RPM fra motor signal. Konvfaktor: 1/1
+
 
 LOG: 21.04.2019
 
 DONE	- Fikse mulighet til å slå av TC og/eller LC ved å sette potmeter = 0
 DONE	- Fikse mulighet til å slå på TC uten LC
+
 
 LOG: 20.04.2019:
 

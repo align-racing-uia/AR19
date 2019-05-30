@@ -62,7 +62,7 @@ N       1153mV                  1103mV - 1203mV
 */
     // 3.1.3 Deciding gear postion using bounderies
 
-else if (voltage < 515)
+if (voltage < 515)
 {
   currentGear = 69;
   cansignal::gearPositionError = global::sant;

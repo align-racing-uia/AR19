@@ -22,6 +22,12 @@ struct data
     uint32_t value;
 };
 
+struct data16
+{
+    unsigned long  time;
+    uint16_t value;
+};
+
 union myUnion
 {
     uint64_t int64;
@@ -148,6 +154,30 @@ class SensorHall : public ExternalSource
     
     virtual void newData(uint32_t value);
     virtual bool verificationData(uint32_t value);
+
+    virtual uint8_t getDataU8();    
+    virtual uint16_t getDataU16();  
+    virtual uint32_t getDataU32(); 
+    virtual uint64_t getDataU64();  //long long? trudde 64 bit var long
+    virtual int16_t getData16();
+    virtual int32_t getData32();  
+    virtual float getDataF();  
+    virtual double getDataD();  
+    virtual void eraseData();
+    
+};
+
+class SensorEngine : public ExternalSource
+{  
+    private:
+    data16 _sensorEngineData;
+
+    public:
+    SensorEngine(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID);
+    virtual ~SensorEngine() {}
+    
+    virtual void newData(uint16_t value);
+    virtual bool verificationData(uint16_t value);
 
     virtual uint8_t getDataU8();    
     virtual uint16_t getDataU16();  

@@ -2,7 +2,7 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 {
   SPI.begin();
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
 
 // CAN message 0x15 - ACM OK Signal
