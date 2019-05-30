@@ -3,11 +3,14 @@
         {
             "name": "Win32",
             "includePath": [
-                "D:\\\\Program\\\\Arduino\\\\tools\\\\**",
-                "D:\\\\Program\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\**"
+                "D:\\Program\\Arduino\\tools\\**",
+                "D:\\Program\\Arduino\\hardware\\arduino\\avr\\**",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\**",
+                "C:\\Program Files (x86)\\Arduino\\tools\\**"
             ],
             "forcedInclude": [
-                "D:\\\\Program\\\\Arduino\\\\hardware\\\\arduino\\\\avr\\\\cores\\\\arduino\\\\Arduino.h"
+                "D:\\Program\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h",
+                "C:\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino\\Arduino.h"
             ],
             "intelliSenseMode": "msvc-x64"
         }

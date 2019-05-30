@@ -9,7 +9,7 @@ namespace global{
 
 
 namespace gearposition{  // CheckGear -  Declarations
-    const uint8_t inputPin = 16;  // Make namespace for CheckGear
+    const uint8_t inputPin = 17;  // Make namespace for CheckGear
     uint8_t sensorInput;
     uint8_t voltage;
     uint8_t currentGear = 0;
@@ -40,7 +40,7 @@ namespace gearup{
 
 namespace geardown{
     long timestamp = 0;
-    const uint8_t pin = 17;
+    const uint8_t pin = 10;
     const uint16_t timer = 600;
     const uint16_t timerLockout = 1000;
 
@@ -52,7 +52,7 @@ namespace geardown{
 
 namespace clutchpressure
 {              
-    const uint8_t sensorPin = 19;     
+    const uint8_t sensorPin = 17;     
     uint8_t sensorValue = 0;
     uint8_t InBar = 0;
 
