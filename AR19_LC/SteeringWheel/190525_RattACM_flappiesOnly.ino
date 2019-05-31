@@ -8,6 +8,9 @@
 //By Marcus N. Løvdal /////////////
 ///////////////////////////////////
 
+// This version does not include launch buttons or rotary potmeter, it is a temporary version to be used for testing of vehicle.
+// This version is used on ACM with pull-down resistors soldered post-production
+// The rotary switch value will always be set to zero
 
 
   //CANbus 
@@ -24,7 +27,7 @@
 
 
   //Pin number setup
-  const int iButtonPins[4] = {A3, A2, A4, A5}; // In order: Left button, Right Button, Left Flappy, Right Flappy
+  const int iButtonPins[4] = {0, 0, A4, A5}; // In order: Left button, Right Button, Left Flappy, Right Flappy
 
   //Initialize variables
   bool bButtonValues[4] = {0,0,0,0}; //lb, rb, lf, rf (In order: Left button, Right button, Left flappy, Right flappy)
@@ -61,17 +64,18 @@ void setup() {
 
 
   InitiateButtonPins();
-//  InitiateRotarySwitchPin();
+  InitiateRotarySwitchPin();
 
 
 
 
   //CANbus ///
+  //List of messages:
   
 
   SPI.begin();
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_500KBPS);
+  mcp2515.setBitrate(CAN_1000KBPS);
   mcp2515.setNormalMode();
   
   launchButtonsMSG.can_id   = 0x250; 
@@ -82,7 +86,7 @@ void setup() {
   
   launchButtonsMSG.can_dlc  = 1; //? message length TBD
   debuggingMSG.can_dlc      = 5;
-  flappyMSG.can_dlc         = 2;
+  flappyMSG.can_dlc         = 1;
   potmeterMSG.can_dlc       = 1;
   rattACMonline.can_dlc     = 1;
 
@@ -119,9 +123,9 @@ void setup() {
 void loop() {
   CheckButtons();
   UpdateFlappies();
-//  CheckRotarySwitch();
-//  ActualPotmeterPosition();
-//  SendRotarySwitchData(ActualPotmeterPosition());
+  CheckRotarySwitch();
+  ActualPotmeterPosition();
+  SendRotarySwitchData(ActualPotmeterPosition());
   readCANbus();
   UpdateSystemState();
 
@@ -129,7 +133,7 @@ void loop() {
 //  {
 //    debuggingMSG.data[i] = bButtonValues[i];
 //  }
-//    debuggingMSG.data[4] = currentSystemState;
+//  debuggingMSG.data[4] = currentSystemState;
 
 //  mcp2515.sendMessage(&debuggingMSG);
 
@@ -262,28 +266,26 @@ void UpdateFlappies()
 
   if (bButtonValues[2] == 1 && previousLeftFlappyPosition == 0) //if left flappy is pulled (opp-flank)
   {
-    SetLEDColor('w');
-    flappyMSG.data[0] = 0xF0;
+    flappyMSG.data[0] = 1;
     mcp2515.sendMessage(&flappyMSG);
     previousLeftFlappyPosition = 1;
   }
   else if (bButtonValues[2] == 0 && previousLeftFlappyPosition == 1) //if left flappy is released (ned-flank)
   {
-    flappyMSG.data[0] = 0x0F;
+    flappyMSG.data[0] = 0xAA;
     previousLeftFlappyPosition = 0;
   }
 
   
   if (bButtonValues[3] == 1 && previousRightFlappyPosition == 0)  //if right flappy is pulled (opp-flank)
   {
-    SetLEDColor('w');
-    flappyMSG.data[1] = 0xF0;
+    flappyMSG.data[0] = 0xFF;
     mcp2515.sendMessage(&flappyMSG);
     previousRightFlappyPosition = 1;
   }
   else if (bButtonValues[3] == 0 && previousRightFlappyPosition == 1) //if right fappy is released (ned-flank)
   {
-    flappyMSG.data[1] = 0x0F;
+    flappyMSG.data[0] = 0xAA;
     previousRightFlappyPosition = 0;
   }
   
@@ -298,7 +300,7 @@ void CheckButtons()
     {
       for (int i = 0; i < 4; i++)
       {
-        bButtonValues[i] = !digitalRead(iButtonPins[i]);
+        bButtonValues[i] = digitalRead(iButtonPins[i]);
       }
       buttonTimeStamp = millis();
     }
@@ -457,7 +459,7 @@ void InitiateButtonPins()
 {
   for (int i = 0; i < 4; i++) //4 ink. flappies 
   {
-  pinMode(iButtonPins[i], INPUT_PULLUP);
+  pinMode(iButtonPins[i], INPUT);
   }
 }
 

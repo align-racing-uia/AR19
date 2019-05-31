@@ -11,8 +11,8 @@ namespace global{
 
 
 namespace shutdowncircuit{  // shutdowncircuit -  Declarations
-    const uint8_t sensePin = 17;
-    const uint8_t activatePin = 10;
+    const uint8_t sensePin = 16;
+    const uint8_t activatePin = 3;
     uint16_t sensorValue = 0;
     long lockoutTimer = 0;
     

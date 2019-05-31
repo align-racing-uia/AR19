@@ -13,14 +13,16 @@ using namespace shutdowncircuit;
   if(sensorValue < global::threshold)
   {
     cansignal::shutdownActive = global::sant;
+    digitalWrite(leds::green,HIGH);
   }
   else
   {
     cansignal::shutdownActive = global::tull;
+    digitalWrite(leds::green,LOW);
   }
     
  
-} 
+}   
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
