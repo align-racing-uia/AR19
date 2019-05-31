@@ -176,8 +176,8 @@ class SensorEngine : public ExternalSource
     SensorEngine(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID);
     virtual ~SensorEngine() {}
     
-    virtual void newData(uint16_t value);
-    virtual bool verificationData(uint16_t value);
+    virtual void newData(uint32_t value);
+    virtual bool verificationData(uint32_t value);
 
     virtual uint8_t getDataU8();    
     virtual uint16_t getDataU16();  
