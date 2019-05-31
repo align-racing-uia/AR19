@@ -1,11 +1,18 @@
 void SetPinMode(){ // Section for initilizing pins
 servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
-
 //GearCheck pins
-    pinMode(gearposition::sensorPin, INPUT);
-    
+
+    using namespace gearposition;
+    {
+    pinMode(inputPin, INPUT_PULLUP);
+    }
+
 //Clutchpressure pins
-    pinMode(clutchpressure::sensorPin, INPUT);
+
+    using namespace clutchpressure;
+    {
+    pinMode(sensorPin, INPUT_PULLUP);
+    }
 
 // Sets pinmode for gear up and down variables.
 

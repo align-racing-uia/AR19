@@ -23,8 +23,8 @@ unsigned long impLast_ms                    = 0;        //  Timestamp for implau
 namespace apps {
 const uint8_t sensor1Pin                    = 17;       //  Pin for APPS1 17
 const uint8_t sensor2Pin                    = 16;       //  Pin for APPS2 16
-const uint16_t value1Min                    = 278;      //  Min value for APPS1 278
-const uint16_t value1Max                    = 663;      //  Max value for APPS1 663
+const uint16_t value1Min                    = 205;      //  Min value for APPS1 212
+const uint16_t value1Max                    = 412;      //  Max value for APPS1 605
 const uint16_t value2Min                    = 205;      //  Min value for APPS2 189
 const uint16_t value2Max                    = 412;      //  Max value for APPS2 401
 const unsigned long impInterval_ms          = 100;      //  How long the implausibility has to last before trigger

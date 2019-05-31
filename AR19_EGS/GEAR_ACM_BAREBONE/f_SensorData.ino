@@ -4,8 +4,8 @@
 
 void GatherSensorData()
 {
-  CheckClutchPressure(); 
-  CheckGear();
+  //CheckClutchPressure(); 
+  //CheckGear();
 }
 
 
@@ -18,10 +18,10 @@ void CheckClutchPressure()
 {
 using namespace clutchpressure;
     sensorValue = analogRead(sensorPin);
-    InBar = map(sensorValue, 103, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet
+    InBar = map(sensorValue, 250, 902, 0, 100); // Remaps the bit value to conincide with BAR - info in datasheet
 
     // Giver error code to the telemetry if clutch pressure is out of range.
-    if (sensorValue < 200 || sensorValue > 950)
+    if (sensorValue < 250 || sensorValue > 902)
     {
       cansignal::clutchPressureError = global::sant;
     }
@@ -45,7 +45,7 @@ using namespace gearposition;
 
 // 3.1.1 Local code - obtaining gearpositionsensor data and converting to mV
 
-sensorInput = analogRead(sensorPin);
+sensorInput = analogRead(inputPin);
 voltage = map (sensorInput, 0, 1023, 0, 5000);
 
 // 3.1.2 Gear voltage calculation, with +/- 50mV margin 
@@ -68,7 +68,7 @@ if (voltage < 515)
   cansignal::gearPositionError = global::sant;
 }
 
-else if ( voltage > 515 && voltage < 615 )
+if ( voltage > 515 && voltage < 615 )
 {
   currentGear = 1;
 }
@@ -109,11 +109,12 @@ else if (voltage > 4482)
   cansignal::gearPositionError = global::sant;
 }
 
+
+
 else 
 {
   currentGear = 99;        // NB! Gear position "99" is no gear, and may be reached between gears. This signal in accordance with some timing, can be used to debuging and errorcode
 }
-
 }
 
 

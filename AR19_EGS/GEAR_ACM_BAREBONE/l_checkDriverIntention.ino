@@ -2,11 +2,11 @@ void CheckDriverIntention()
 {
   if (cansignal::gearDownSignal == global::sant && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout && millis() - gotoneutral::timestamp > gotoneutral::timerLockout)
   { 
-    if (/*gearposition::currentGear != 99 && */gearposition::currentGear != 69)
+    if (gearposition::currentGear != 99 && gearposition::currentGear != 69)
     {
       gearposition::newGear = gearposition::currentGear - 1;
       geardown::timestamp = millis();
-      digitalWrite(leds::red,LOW);
+      digitalWrite(red,LOW);
       cansignal::gearAttemptInFalsePosition = global::tull;
     }
     else
@@ -19,11 +19,11 @@ void CheckDriverIntention()
 
   if (cansignal::gearUpSignal == global::sant && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout && millis() - gotoneutral::timestamp > gotoneutral::timerLockout)
   {
-    if (/*gearposition::currentGear != 99 && */gearposition::currentGear != 69)
+    if (gearposition::currentGear != 99 && gearposition::currentGear != 69)
     {
       gearposition::newGear = gearposition::currentGear + 1;
       gearup::timestamp = millis();
-      digitalWrite(leds::green,LOW);
+      digitalWrite(green,LOW);
       cansignal::gearAttemptInFalsePosition = global::tull;
     }
     else
@@ -34,10 +34,10 @@ void CheckDriverIntention()
 
   if(cansignal::neutralSignal == global::sant && millis() - gotoneutral::timestamp > gotoneutral::timer)
   {
-    if (/*gearposition::currentGear != 99 && */gearposition::currentGear != 69)
+    if (gearposition::currentGear != 99 && gearposition::currentGear != 69)
     {
       gotoneutral::timestamp = millis();
-      digitalWrite(leds::blue,LOW);
+      digitalWrite(blue,LOW);
       cansignal::gearAttemptInFalsePosition = global::tull;
     }
     else

@@ -7,7 +7,7 @@
 
 //Settings
 
-const int iRotarySwitchPin = 0; //?Add correct pin number
+const int iRotarySwitchPin = A3; //?Add correct pin number
 uint32_t uiRotarySwitchPositionRaw = 0;
 
 const uint8_t maxSupplyVoltageOffset = 10; //% of supply, used to calculate the in-series resistor. R = Rg*( 1/Offset - 1)
