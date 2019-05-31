@@ -9,9 +9,9 @@ namespace global{
 
 
 namespace gearposition{  // CheckGear -  Declarations
-    const uint8_t inputPin = 16;  // Make namespace for CheckGear
-    uint8_t sensorInput;
-    uint8_t voltage;
+    const uint8_t sensorPin = 16;  // Make namespace for CheckGear
+    uint16_t sensorInput;
+    uint16_t voltage;
     uint8_t currentGear = 0;
     uint8_t newGear = 0;
 
@@ -33,7 +33,7 @@ const uint16_t timerLockout = 2500;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 600;
+    const uint16_t timer = 500;
     const uint16_t timerLockout = 1000;
 
 }
@@ -41,7 +41,7 @@ namespace gearup{
 namespace geardown{
     long timestamp = 0;
     const uint8_t pin = 17;
-    const uint16_t timer = 600;
+    const uint16_t timer = 500;
     const uint16_t timerLockout = 1000;
 
 }
@@ -53,8 +53,8 @@ namespace geardown{
 namespace clutchpressure
 {              
     const uint8_t sensorPin = 19;     
-    uint8_t sensorValue = 0;
-    uint8_t InBar = 0;
+    uint16_t sensorValue = 0;
+    uint16_t InBar = 0;
 
 }
 
@@ -69,6 +69,7 @@ namespace clutch{
     int16_t disengage = 1200; // servo position 90 degrees
     long timestamp = 0;
     uint8_t duration = 200; //how long the clutch takes to engage.
+    uint8_t emergencyEngage = global::tull;
 
 }
 
@@ -76,14 +77,15 @@ namespace clutch{
 // Variables derived from the CAN-Bus
 namespace cansignal{
     unsigned long timer = 0;
+    unsigned long telemetryTimer = 0;
+    unsigned long primaryTimer = 0;
+    unsigned long blipTimer = 0;
     uint8_t breakPressure1 = 0;
     uint8_t gearUpSignal = global::tull;
     uint8_t gearDownSignal = global::tull;
-    uint8_t gearPosition = 0;
     uint8_t rpm1 = 0;
     uint8_t rpm2 = 0;
     uint16_t engineRPM = 0;
-    uint8_t clutchPressure = 0;
     uint8_t neutralSignal = global::tull;
     uint8_t clutchOverride = global::tull;
     uint8_t requestBlip = global::tull;
@@ -91,6 +93,7 @@ namespace cansignal{
     uint8_t gearAttemptInFalsePosition = global::tull;
     uint8_t gearPositionError = global::tull;
     uint8_t gearChangeFailed = global::tull;
+    uint8_t neutralFailed = global::tull;    
     }
 
 

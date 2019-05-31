@@ -1,6 +1,5 @@
 void GearDown()
 {
-  // geartimer er satt i variables og er omtrent 100ms
   if (millis()- geardown::timestamp < geardown::timerLockout && millis() > geardown::timerLockout)
   {       
     if (millis()-geardown::timestamp < geardown::timer)
@@ -10,21 +9,24 @@ void GearDown()
             clutch::timestamp = millis();
         }
     
-        if (clutchpressure::InBar > 5 && gearposition::currentGear != gearposition::newGear && millis()- geardown::timestamp > 200)
+        if (clutchpressure::InBar > 5 && gearposition::currentGear != gearposition::newGear && millis()- geardown::timestamp < (geardown::timer - 100))
         {
             digitalWrite(geardown::pin, HIGH);    
         }
-        else if (gearposition::currentGear == gearposition::newGear || millis()- geardown::timestamp > 500)
+        if (gearposition::currentGear == gearposition::newGear && millis()- geardown::timestamp > (geardown::timer - 100))
         {
           digitalWrite(geardown::pin, LOW);
+          digitalWrite(leds::red,HIGH);
     
         }
+        if( gearposition::currentGear != gearposition::newGear && millis() - geardown::timestamp > geardown::timer - 100)
+        {
+          digitalWrite(geardown::pin, LOW);
+          cansignal::gearChangeFailed = global::sant;
+          digitalWrite(leds::red,HIGH);
+        }
     }
-    else
-    {
-      digitalWrite(geardown::pin, LOW);
-      cansignal::gearChangeFailed = global::sant;
-    }
+
   }
 
 }

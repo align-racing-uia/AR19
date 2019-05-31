@@ -4,8 +4,8 @@
 
 void GatherSensorData()
 {
-  //CheckClutchPressure(); 
-  //CheckGear();
+  CheckClutchPressure(); 
+  CheckGear();
 }
 
 
@@ -18,10 +18,10 @@ void CheckClutchPressure()
 {
 using namespace clutchpressure;
     sensorValue = analogRead(sensorPin);
-    InBar = map(sensorValue, 250, 902, 0, 100); // Remaps the bit value to conincide with BAR - info in datasheet
+    InBar = map(sensorValue, 103, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet
 
     // Giver error code to the telemetry if clutch pressure is out of range.
-    if (sensorValue < 250 || sensorValue > 902)
+    if (sensorValue < 200 || sensorValue > 950)
     {
       cansignal::clutchPressureError = global::sant;
     }
@@ -45,7 +45,7 @@ using namespace gearposition;
 
 // 3.1.1 Local code - obtaining gearpositionsensor data and converting to mV
 
-sensorInput = analogRead(inputPin);
+sensorInput = analogRead(sensorPin);
 voltage = map (sensorInput, 0, 1023, 0, 5000);
 
 // 3.1.2 Gear voltage calculation, with +/- 50mV margin 
@@ -62,60 +62,57 @@ N       1153mV                  1103mV - 1203mV
 */
     // 3.1.3 Deciding gear postion using bounderies
 
-if (voltage < 515)
+if (voltage < 100)
 {
-  currentGear = 69;
+  currentGear = 500;
   cansignal::gearPositionError = global::sant;
 }
 
-if ( voltage > 515 && voltage < 615 )
+else if ( voltage > 548 && voltage < 748 )
 {
   currentGear = 1;
 }
 
-else if (voltage > 1103 && voltage < 1203 )
+else if (voltage > 900 && voltage < 1150 )
 {
   currentGear = 0;           // NB! Gear position "0" is Netutral(N)
 }
 
-else if (voltage > 1333 && voltage < 1433 )
+else if (voltage > 1329 && voltage < 1529 )
 {
   currentGear = 2;
 }
 
-else if (voltage > 2113 && voltage < 2213 )
+else if (voltage > 2088 && voltage < 2288 )
 {
   currentGear = 3;
 }
 
-else if (voltage > 2973 && voltage < 3073 )
+else if (voltage > 2857 && voltage < 3057)
 {
   currentGear = 4;
 }
 
-else if (voltage > 3736 && voltage < 3836 )
+else if (voltage > 3588 && voltage < 3788 )
 {
   currentGear = 5;
 }
 
-else if (voltage > 4382 && voltage < 4482 )
+else if (voltage > 4320 && voltage < 4520 )
 {
   currentGear = 6;
 }
 
-else if (voltage > 4482)
+else if (voltage > 4600)
 {
   currentGear = 69;
   cansignal::gearPositionError = global::sant;
 }
-
-
 
 else 
 {
   currentGear = 99;        // NB! Gear position "99" is no gear, and may be reached between gears. This signal in accordance with some timing, can be used to debuging and errorcode
 }
+
 }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
