@@ -116,7 +116,6 @@ class SensorButton : public ExternalSource
 };
 
 
-
 class SensorPotentiometer : public ExternalSource
 {
     private:
@@ -140,8 +139,6 @@ class SensorPotentiometer : public ExternalSource
     virtual void eraseData();
 
 };
-
-
 
 class SensorHall : public ExternalSource
 {  
