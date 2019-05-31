@@ -72,10 +72,10 @@ namespace tps
 const uint8_t sensor1Pin                    = 16;       //  TPS1 pin
 const uint8_t sensor2Pin                    = 17;       //  TPS2 pin
 const uint16_t value1Min                    = 103;      //  Physically min value of TPS1 103
-const uint16_t value1Idle                   = 148;      //  Idle position of TPS1 148
+const uint16_t value1Idle                   = 160;      //  Idle position of TPS1 148
 const uint16_t value1Max                    = 603;      //  Physically max value of TPS1 903
 const uint16_t value2Min                    = 919;      //  Physically min value of TPS2 919
-const uint16_t value2Idle                   = 874;      //  Idle position of TPS2 874
+const uint16_t value2Idle                   = 862;      //  Idle position of TPS2 874
 const uint16_t value2Max                    = 419;      //  Physically max value of TPS2 119
 uint8_t implausibility;
 }
