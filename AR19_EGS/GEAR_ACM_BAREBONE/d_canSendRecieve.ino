@@ -45,8 +45,8 @@ clutchOverride = global::tull;
   // CAN message 0x240 - Gear paddles.
   if (myMessage.can_id == 0x240)
   {
-    gearUpSignal = myMessage.data[0];
-    gearDownSignal = myMessage.data[1];  
+    gearDownSignal = myMessage.data[0];
+    gearUpSignal = myMessage.data[1];  
   }
 
   // CAN message 0x2F0 - RPM from ECU
@@ -81,38 +81,60 @@ clutchOverride = global::tull;
 
 void CanSend() {      // Sende data
 using namespace cansignal;
-// CAN message 0x20 - div
-
-  myMessage.can_id = 0x20;  
-  myMessage.can_dlc = 5; 
-  myMessage.data[0] = requestBlip;
-  myMessage.data[1] = gearPosition; 
-  myMessage.data[2] = clutchPressure; 
-
-  mcp2515.sendMessage(&myMessage);
 
 
-if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant)
-// CAN message 0x480 - Error states to telemetry.
+// CAN message 0x21 - primary messages
 
-  myMessage.can_id = 0x480;  
-  myMessage.can_dlc = 2; 
-  myMessage.data[0] = clutchPressureError; //Errorstate - Clutch Pressure out of range
-  myMessage.data[1] = gearAttemptInFalsePosition;//Errorstate - Signal to change gear was sent when gear position was undefined.
-  myMessage.data[2] = gearPositionError; //Sends telemetry signal if gear position sensor is invalid
-  myMessage.data[3] = gearChangeFailed; //The desired gear was not reached within the given period
- /* myMessage.data[4] = Errorstate; 
-  myMessage.data[5] = Errorstate; 
-  myMessage.data[6] = Errorstate; 
-  myMessage.data[7] = Errorstate; 
+  if (primaryTimer - millis() > 20)
+
+  {
+    myMessage.can_id = 0x21;  
+    myMessage.can_dlc = 2; 
+    myMessage.data[0] = gearposition::currentGear; 
+    myMessage.data[1] = clutchpressure::InBar; 
+    
+    mcp2515.sendMessage(&myMessage);
+    primaryTimer = millis();
+  }
+
+/*
+// CAN message 0x20 -  BLIP
+  if (blipTimer - millis() > 20)
+
+  {
+    myMessage.can_id = 0x20;  
+    myMessage.can_dlc = 1; 
+    myMessage.data[0] = requestBlip;
+   
+    mcp2515.sendMessage(&myMessage);
+    blipTimer = millis();
+  }
 */
 
-  mcp2515.sendMessage(&myMessage);
+// CAN message 0x480 - Error states to telemetry.
 
-  gearPositionError = global::tull;
-  gearChangeFailed = global::tull;
+  if(clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant || telemetryTimer - millis() > 20)
+  {
+    myMessage.can_id = 0x480;  
+    myMessage.can_dlc = 4; 
+    myMessage.data[0] = clutchPressureError; //Errorstate - Clutch Pressure out of range
+    myMessage.data[1] = gearAttemptInFalsePosition;//Errorstate - Signal to change gear was sent when gear position was undefined.
+    myMessage.data[2] = gearPositionError; //Sends telemetry signal if gear position sensor is invalid
+    myMessage.data[3] = gearChangeFailed; //The desired gear was not reached within the given period
+   /* myMessage.data[4] = Errorstate; 
+    myMessage.data[5] = Errorstate; 
+    myMessage.data[6] = Errorstate; 
+    myMessage.data[7] = Errorstate; 
+  */
+  
+    mcp2515.sendMessage(&myMessage);
+  
+    gearPositionError = global::tull;
+    gearChangeFailed = global::tull;
+  
+    telemetryTimer = millis();
+  }
 }
-
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

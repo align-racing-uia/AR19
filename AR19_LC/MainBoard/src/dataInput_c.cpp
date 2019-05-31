@@ -327,7 +327,7 @@ SensorEngine::SensorEngine(InitialConditions* IC, ErrorHandler* EH, uint8_t offS
 
 }
 
-void SensorEngine::newData(uint32_t value){
+void SensorEngine::newData(uint16_t value){
 
     _sensorEngineData.time = millis();
     _sensorEngineData.value = value;
@@ -335,7 +335,7 @@ void SensorEngine::newData(uint32_t value){
 }
 
 
-bool SensorEngine::verificationData(uint32_t value){
+bool SensorEngine::verificationData(uint16_t value){
 
     //testing the new value to see if it has changes too rappide
     if ((value - _sensorEngineData.value)/_sensorEngineData.value > _IC->_maxIncreaseHall){
@@ -368,7 +368,7 @@ uint16_t SensorEngine::getDataU16(){
 
     else{
         _EH->newError(105, _componentID);
-        return _sensorEngineData.value;
+        return _sensorEngineData.valeu;
     } 
 }
 uint32_t SensorEngine::getDataU32(){
