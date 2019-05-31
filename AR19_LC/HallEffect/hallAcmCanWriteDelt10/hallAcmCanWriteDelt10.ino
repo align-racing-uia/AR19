@@ -5,15 +5,17 @@ unsigned volatile static long numberOfPulses = 0;
 volatile static long previousTimeMicro = 0;
 volatile static double timeBetweenPulses=9999999999.0;
 
-    double rpm = 0.0;
+    long rpm = 0.0;
   //  long previousTimeMicroCountingMethod = 0;
     long numberOfPulsesLastTime = 0;
     long exactTimeInterval;
     long pulsesInInterval;
     double rpmCountingMethod = 0.0;
-    double hallPPR = 24.0;
+    double hallPPR = 39.0;
 
-
+    uint8_t carSpeed =0;
+ 
+    
     long ThNaa = 0;
     long ThForrige = 0;
     
@@ -30,16 +32,18 @@ volatile static double timeBetweenPulses=9999999999.0;
 //struct can_frame canMsg2;
 //struct can_frame canMsg3;
 struct can_frame canMsg4;
+//struct can_frame canMsg5;
 MCP2515 mcp2515(7);
 
 union Data{
-    float floatNum;
+    long longNum;
     byte arrNum[4];
   };
   
 union Data data;
 
 long  timeForRPMPrint ;
+long  timeForCarSpeed;
 
 void setup() {
   //  Serial.begin(9600); 
@@ -58,6 +62,12 @@ void setup() {
 //  canMsg1.data[1] = 0x87;
 //  canMsg1.data[2] = 0x32;
 //  canMsg1.data[3] = 0xFA;
+//
+//
+//  
+//   canMsg5.can_id  = 0x218;  // fron Left  KM/T 
+//  canMsg5.can_dlc = 1;
+//  canMsg5.data[0] = 0;
   
 
 //  canMsg2.can_id  = 0x210;  //front right
@@ -88,7 +98,7 @@ void setup() {
   SPI.begin();
   
   mcp2515.reset();
-  mcp2515.setBitrate(CAN_1000KBPS);
+  mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
 
    timeForRPMPrint = micros();
@@ -98,12 +108,27 @@ void setup() {
 void loop() {
  rpmAvansert();
 
-if(250000<micros()-timeForRPMPrint){
-       // Serial.println(rpm);
-    //Serial.print("   " );
-  //  Serial.println(rpmCountingMethod);
-       timeForRPMPrint = micros();
-  }
+// if(200000<micros()-timeForCarSpeed){
+//      //carSpeed = (uint8_t)(rpm*2*3.141593*0.2032*60/(1000*1000));
+//    carSpeed = (uint8_t)((float)((float)rpm*2.0f*3.14f*0.2032f*60.0f/(1000.0f*1000.0f)));
+//    canMsg5.data[0] = carSpeed;    
+//    mcp2515.sendMessage(&canMsg5);
+//
+//
+////     Serial.print(rpm);
+////    Serial.print("   " );
+////    Serial.println(carSpeed);
+//    
+//            
+//    timeForCarSpeed = micros();
+//  }
+
+//if(250000<micros()-timeForRPMPrint){
+  //      Serial.println(rpm);
+//    //Serial.print("   " );
+//  //  Serial.println(rpmCountingMethod);
+  //     timeForRPMPrint = micros();
+  //}
 
     
   if(rpm == 0.0){
@@ -172,7 +197,8 @@ void rpmAvansert(){
            // rpm = 60.0*1000000.0/(hallPPR*((double)micros()-previousTimeMicro));
           }
       }else{
-              rpm =  1000000.0*60.0*(double)pulsesInInterval/(hallPPR*((double)(exactTimeInterval+ThForrige-ThNaa))); 
+              
+              rpm =  (long)(1000*1000000.0*60.0*pulsesInInterval/(hallPPR*((exactTimeInterval+ThForrige-ThNaa)))); 
               /* 
                Serial.print(" pulses  "); 
                Serial.print(pulsesInInterval);
@@ -182,7 +208,7 @@ void rpmAvansert(){
               Serial.print((double)ThForrige);   
               Serial.print(" Thnaa   ");
               Serial.print((double)ThNaa); 
-              Serial.print(" rpm   ");
+              Serial.print(" rpm   ")|1;
               Serial.print(rpm);
               Serial.println("   ");
               */
@@ -202,25 +228,22 @@ void rpmAvansert(){
   numberOfPulsesArray[0] = numberOfPulses;
   timeArray[0] = micros();
 
-    ThForrige = ThForrigeArray[9];
+    ThForrige =ThForrigeArray[9];
 
-        data.floatNum =(float)rpm;
+        data.longNum =rpm;
 
     for (int i = 0; i < 4; i++){                 // Receive the raw 'float' data.
-      //   canMsg1.data[i] = data.arrNum[i];    //    "     "     "     "     "   
+         //canMsg1.data[i] = data.arrNum[i];    //    "     "     "     "     "   
         // canMsg2.data[i] = data.arrNum[i]; 
-      //   canMsg3.data[i] = data.arrNum[i]; 
-         canMsg4.data[i] = data.arrNum[i];       
+       //  canMsg3.data[i] = data.arrNum[i]; 
+         canMsg4.data[3-i] = data.arrNum[i];       
     }
-
-
   
-  //  mcp2515.sendMessage(&canMsg1);
-  //  mcp2515.sendMessage(&canMsg2);
- //    mcp2515.sendMessage(&canMsg3);
-     mcp2515.sendMessage(&canMsg4);
+    //mcp2515.sendMessage(&canMsg1);
+    //mcp2515.sendMessage(&canMsg2);
+    // mcp2515.sendMessage(&canMsg3);
+      mcp2515.sendMessage(&canMsg4);
     
     }
-
     
   }
