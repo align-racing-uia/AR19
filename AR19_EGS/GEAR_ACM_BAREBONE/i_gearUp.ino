@@ -4,29 +4,28 @@ void GearUp()
   {       
     if (millis()-gearup::timestamp < gearup::timer)
     {
-        if(gearposition::currentGear =! gearposition::newGear)
-        {
-            clutch::timestamp = millis();
-        }
-    
-        if (clutchpressure::InBar > 5 && gearposition::currentGear != gearposition::newGear && millis()- gearup::timestamp < (gearup::timer - 100))
-        {
-            digitalWrite(gearup::pin, HIGH);    
-        }
-        if (gearposition::currentGear == gearposition::newGear && millis()- gearup::timestamp > (gearup::timer - 100))
-        {
-          digitalWrite(gearup::pin, LOW);
-          digitalWrite(leds::green,HIGH);
-    
-        }
-        if( gearposition::currentGear != gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
-        {
-          digitalWrite(gearup::pin, LOW);
-          cansignal::gearChangeFailed = global::sant;
-          digitalWrite(leds::green,HIGH);
-        }
+      if(/*gearposition::currentGear =! gearposition::newGear && */cansignal::clutchOverride == global::tull)
+      {
+          clutch::timestamp = millis();
+      }
+      if (clutchpressure::InBar > 13 && gearposition::currentGear != gearposition::newGear && millis()- gearup::timestamp < (gearup::timer - 100))
+      {
+          digitalWrite(gearup::pin, HIGH);    
+      }
+      else
+      {
+        digitalWrite(gearup::pin, LOW);  
+      }
+      if( gearposition::currentGear == gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
+      {
+        cansignal::gearChangeFailed = global::sant;
+        digitalWrite(leds::green,HIGH);
+      }
+      if( gearposition::currentGear != gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
+      {
+        cansignal::gearChangeFailed = global::sant;
+        digitalWrite(leds::green,HIGH);
+      }
     }
-
   }
-
 }

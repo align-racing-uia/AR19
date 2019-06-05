@@ -21,7 +21,7 @@ namespace gearposition{  // CheckGear -  Declarations
 namespace gotoneutral
 {
 long timestamp= 0;
-const uint16_t timer = 2000;// Length of a goToNeutral attempt duartion
+const uint16_t timer = 2000; // Length of a goToNeutral attempt duartion
 const uint16_t timerLockout = 2500; 
 
 
@@ -33,16 +33,16 @@ const uint16_t timerLockout = 2500;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 500;
-    const uint16_t timerLockout = 1000;
+    const uint16_t timer = 400;
+    const uint16_t timerLockout = 500;
 
 }
 
 namespace geardown{
     long timestamp = 0;
     const uint8_t pin = 17;
-    const uint16_t timer = 500;
-    const uint16_t timerLockout = 1000;
+    const uint16_t timer = 400;
+    const uint16_t timerLockout = 500;
 
 }
 
@@ -63,43 +63,49 @@ namespace clutchpressure
 
 
 
-namespace clutch{
+namespace clutch
+{
     uint8_t servoPin = 10; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
-    long timestamp = 0;
-    uint8_t duration = 200; //how long the clutch takes to engage.
+    uint8_t duration = 20; //Reset timer for the clutch
     uint8_t emergencyEngage = global::tull;
+    long timestamp = 0;
 
 }
 
-
+namespace cansignal
+{
 // Variables derived from the CAN-Bus
-namespace cansignal{
-    unsigned long timer = 0;
+//Timers
     unsigned long telemetryTimer = 0;
     unsigned long primaryTimer = 0;
-    unsigned long blipTimer = 0;
-    uint8_t breakPressure1 = 0;
-    uint8_t gearUpSignal = global::tull;
-    uint8_t gearDownSignal = global::tull;
-    uint8_t rpm1 = 0;
-    uint8_t rpm2 = 0;
-    uint16_t engineRPM = 0;
-    uint8_t neutralSignal = global::tull;
-    uint8_t clutchOverride = global::tull;
-    uint8_t requestBlip = global::tull;
-    uint8_t clutchPressureError = global::tull;
-    uint8_t gearAttemptInFalsePosition = global::tull;
-    uint8_t gearPositionError = global::tull;
-    uint8_t gearChangeFailed = global::tull;
-    uint8_t neutralFailed = global::tull;    
-    }
+//Recieving
+    //Steering Wheel ACM
+        uint8_t gearUpSignal = global::tull;
+        uint8_t gearDownSignal = global::tull;
+    //Dash ACM
+        uint8_t neutralSignal = global::tull;
+        uint8_t clutchOverride = global::tull;
+//Sending
+    //CAN ID 20
+        //uint8_t requestBlip = global::tull;
+    //CAN ID 21
+        // Frame 0 : Gear Position
+        // Frame 1 : Clutch Pressure
+    //CAN ID 480 - Telemetry
+        uint8_t clutchPressureError = global::tull;
+        uint8_t gearAttemptInFalsePosition = global::tull;
+        uint8_t gearPositionError = global::tull;
+        uint8_t gearChangeFailed = global::tull;
+        uint8_t neutralFailed = global::tull;    
+}
 
 
 
 // Defines the pins for internal LEDs.
-namespace leds{
+namespace leds
+{
     const uint8_t red = 5;
     const uint8_t green = 6;
     const uint8_t blue = 9;
