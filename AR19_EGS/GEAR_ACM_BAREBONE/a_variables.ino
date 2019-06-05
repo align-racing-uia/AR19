@@ -68,7 +68,7 @@ namespace clutch
     uint8_t servoPin = 10; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
-    uint8_t duration = 20; //Reset timer for the clutch
+    uint8_t duration = 120; //Reset timer for the clutch
     uint8_t emergencyEngage = global::tull;
     long timestamp = 0;
 
