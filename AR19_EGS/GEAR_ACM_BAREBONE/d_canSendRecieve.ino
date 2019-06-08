@@ -15,19 +15,9 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 }
 
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
 void CanRecieve() {
   
 using namespace cansignal;
-gearUpSignal = global::tull;  
-gearDownSignal = global::tull;  
-neutralSignal = global::tull;
-clutchOverride = global::tull;
 
 
 //Ta imot data
@@ -48,15 +38,11 @@ clutchOverride = global::tull;
     gearDownSignal  = myMessage.data[0];
     gearUpSignal    = myMessage.data[1];  
   }
-
-  // CAN message 0x2F0 - RPM from ECU
-  if (myMessage.can_id == 0x2F0)
-  { 
-    rpm1 = myMessage.data[0];
-    rpm2 = myMessage.data[1];
-    engineRPM = rpm1*255 +rpm2;
+  else
+  {
+    gearDownSignal = global::tull;
+    gearUpSignal = global::tull;    
   }
-
 
 
 
@@ -74,14 +60,8 @@ clutchOverride = global::tull;
 
 }
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 void CanSend() {      // Sende data
 using namespace cansignal;
-
 
 // CAN message 0x21 - primary messages
 
@@ -97,22 +77,9 @@ using namespace cansignal;
     primaryTimer = millis();
   }
 
-/*
-// CAN message 0x20 -  BLIP
-  if (blipTimer - millis() > 20)
-  {
-    myMessage.can_id = 0x20;  
-    myMessage.can_dlc = 1; 
-    myMessage.data[0] = requestBlip;
-   
-    mcp2515.sendMessage(&myMessage);
-    blipTimer = millis();
-  }
-*/
-
 // CAN message 0x480 - Error states to telemetry.
 
-  if((clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant) && (telemetryTimer - millis() > 20))
+  if((clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant || neutralFailed == global::sant) && (telemetryTimer - millis() > 20))
   {
     myMessage.can_id  = 0x480;  
     myMessage.can_dlc = 5; 
@@ -121,15 +88,8 @@ using namespace cansignal;
     myMessage.data[2] = gearPositionError; //Sends telemetry signal if gear position sensor is invalid
     myMessage.data[3] = gearChangeFailed; //The desired gear was not reached within the given period
     myMessage.data[4] = neutralFailed; //sens error message that neutral attempt failed
-    /*myMessage.data[5] = Errorstate; 
-    myMessage.data[6] = Errorstate; 
-    myMessage.data[7] = Errorstate; 
-  */
-  
+
     mcp2515.sendMessage(&myMessage);
-  
-    gearPositionError = global::tull;
-    gearChangeFailed = global::tull;
     telemetryTimer = millis();
   }
 }

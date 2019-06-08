@@ -15,9 +15,6 @@ void loop()
 
     ClutchIn();                 //activated when millis() - clutchTimer < clutchDuration
 
-    if (millis()-cansignal::timer > 100)
-    {
-        CanSend();                  //sends Can messages
-        cansignal::timer = millis();
-    }
+    CanSend();                  //sends Can messages
+
 }
