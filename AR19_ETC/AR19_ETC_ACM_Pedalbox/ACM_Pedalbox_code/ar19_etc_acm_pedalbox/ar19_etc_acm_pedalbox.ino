@@ -5,12 +5,12 @@ University of Agder 2019
 
 Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 
-Title: ACM Pedalbox
+Title: ACM Pedalbox (For bench test. Hard coded)
 Description: Main code for the pedalbox ACM sensornode. 
              Reads APPS & BPS and sends the values over CAN. 
 
-v 1.0
-Last Revision Date: 06.05.2019
+v 2.0
+Last Revision Date: 03.06.2019 03.06.2019 (Moved constant to constants header.)
 */
 
 //  Include Arduino libraries
@@ -20,7 +20,7 @@ Last Revision Date: 06.05.2019
 #include "src\mcp2515\mcp2515.h"
 
 //  Include internal libraries
-#include "ar19_etc_pedalbox_constants.h"
+#include "ar19_etc_acm_pedalbox_constants.h"
 #include "ar19_etc_can.h"
 #include "ar19_etc_led_settings.h"
 #include "ar19_etc_sensor.h"
@@ -35,6 +35,8 @@ Can can;
 LedSettings led;
 SensorData sensor( &can, &led );
 
+struct can_frame msgIn;
+
 void setup()
 {
     //  Initialise CAN
@@ -43,73 +45,126 @@ void setup()
     can.mcp2515.setBitrate( CAN_500KBPS );
     can.mcp2515.setNormalMode();
 
-    //  Set controller specific variables to class functions
-    sensor.setVariablesPedalbox(    apps::sensor1Pin, apps::sensor2Pin, 
-                                    apps::value1Min, apps::value1Max, apps::value2Min, apps::value2Max, 
-                                    bps::sensor1Pin, bps::sensor2Pin, 
-                                    bps::value1Min, bps::value1Max, bps::value2Min, bps::value2Max,
-                                    canbus::appsId, canbus::bpsId );
+    pinMode(apps1Pin,INPUT);
+    pinMode(apps2Pin,INPUT);
 
-    //  If setup is successful, write true to bool
-    bootSuccess = true;
-
-    pinMode( apps::sensor1Pin, INPUT_PULLUP );
-    pinMode( apps::sensor2Pin, INPUT_PULLUP );
-    pinMode( bps::sensor1Pin, INPUT_PULLUP );
-    pinMode( bps::sensor2Pin, INPUT_PULLUP );
-    
-    //  Checks to see if controller is set to calibrateMode, or setup is successful
-    //  Blinks yellow if in calibration mode, green if successful or red if not
-    if ( calibrateMode ) {
-        sensor.calibrateSetup();
-    } else if ( not calibrateMode && bootSuccess ) {
-        led.blink( led.green, 5 );
-    } else {
-        led.blink( led.red, 5 );
-    }
+    led.blink( led.green, 5 );
 }
 
 void loop()
 {
-    //  Reads incoming messages
-    if ( can.mcp2515.readMessage(&msgIn) == MCP2515::ERROR_OK ) {
+    //  Reads incoming CAN messages
+    if ( can.mcp2515.readMessage( &msgIn ) == MCP2515::ERROR_OK ) {
 
-        //  ACM OK ping
-        if ( msgIn.can_id == canbus::acmPingId && msgIn.data[0] == globalTrue ) {
-            can.send( canbus::acmOkId, globalTrue );
-
-        //  Set to calibrate mode
-        } else if ( msgIn.can_id == canbus::calibrateModeToggleId ) {
-            if ( not calibrateMode ) {
+        // Check for calibration mode toggle
+        if ( msgIn.can_id == canIdCalibrateToggle ) {
+            //  Enable calibration mode 
+            if ( msgIn.data[0] == globalTrue && msgIn.data[1] == acmId ) {
                 calibrateMode = true;
-            } else {
-                calibrateMode = false;
+                led.ledsSwitch( led.yellow );
+            }
+
+        //  Check for ACM ping
+        } else if ( msgIn.can_id == canIdAcmCheck ) {
+            if ( msgIn.data[0] == globalTrue ) {
+                can.send( acmId, globalTrue );
             }
         }
     }
-    
-    //  Runs in calibrate mode loop if set
-    if ( calibrateMode ) {
-        sensor.calibrate( apps::sensor1Pin, apps::sensor2Pin );
-    } else {
-        //  Read, write & send APPS data
-        sensor.appsData();
-        //  Read, write & send BPS data
-        sensor.bpsData();
-        
-        //  Checks APPS & BPS for implausibility and sends if one are implausible
-        apps::implausibilityOutOfRange1 = sensor.implausibilityOutOfRange( apps::sensor1Pin, apps::value1Min, apps::value1Max );
-        apps::implausibilityOutOfRange2 = sensor.implausibilityOutOfRange( apps::sensor2Pin, apps::value2Min, apps::value2Max );
-        apps::implausibilityDifference  = sensor.implausibilityDifference( apps::sensor1Pin, apps::sensor2Pin, apps::value1Min, apps::value1Max, apps::value2Min, apps::value2Max );
-        bps::implausibilityOutOfRange1  = sensor.implausibilityOutOfRange( bps::sensor1Pin, bps::value1Min, bps::value1Max );
-        bps::implausibilityOutOfRange2  = sensor.implausibilityOutOfRange( bps::sensor2Pin, bps::value2Min, bps::value2Max );
-        bps::implausibilityDifference   = sensor.implausibilityDifference( bps::sensor1Pin, bps::sensor2Pin, bps::value1Min, bps::value1Max, bps::value2Min, bps::value2Max );
-        apps::implausible   = sensor.implausibilityCheck( apps::implausibilityOutOfRange1, apps::implausibilityOutOfRange2, apps::implausibilityDifference, apps::implausibleLast_ms, apps::impInterval_ms );
-        bps::implausible    = sensor.implausibilityCheck( bps::implausibilityOutOfRange1, bps::implausibilityOutOfRange2, bps::implausibilityDifference, bps::implausibleLast_ms, bps::impInterval_ms );
 
-        if ( ( apps::implausible != 0 || bps::implausible != 0 ) && millis() > canbus::impLast_ms + canbus::impInterval_ms ) {
-            can.send( canbus::pedalboxImplausibilityId, apps::implausible, bps::implausible );
-            canbus::impLast_ms = millis();
+    //  Loop while in calibration mode
+    while ( calibrateMode ) {
+        if ( millis() > calibrateTimestampLastMsg_ms + calibrateInterval_ms ) {
+            apps1Value = analogRead(apps1Pin);
+            apps2Value = analogRead(apps2Pin);
+
+            apps1Out = apps1Value/4;
+            apps2Out = apps2Value/4;
+
+            can.send( canIdApps, apps1Out, apps2Out );
+
+            bps1Value = analogRead(bps1Pin);
+            bps2Value = analogRead(bps2Pin);
+
+            bps1Out = bps1Value/4;
+            bps2Out = bps2Value/4;
+
+            can.send( canIdBps, bps1Out, bps2Out );
+
+            calibrateTimestampLastMsg_ms = millis();
+        }
+
+        // Check for calibration mode toggle
+        if ( can.mcp2515.readMessage( &msgIn ) == MCP2515::ERROR_OK ) {
+            if ( msgIn.can_id == canIdCalibrateToggle ) {
+                //  Disable calibration mode
+                if ( msgIn.data[0] == globalFalse && msgIn.data[1] == acmId ) {
+                    calibrateMode = false;
+                    led.ledsSwitch( led.off );
+                }
+            }
         }
     }
+    /*
+    apps1ImplausibilityOutOfRange = sensor.implausibilityOutOfRange( apps1Pin, apps1Min, apps1Max );
+    apps2ImplausibilityOutOfRange = sensor.implausibilityOutOfRange( apps2Pin, apps2Min, apps2Max );
+    appsImplausibilityDifference  = sensor.implausibilityDifference( apps1Pin, apps2Pin, apps1Min, apps1Max, apps2Min, apps2Max );
+    bps1ImplausibilityOutOfRange  = sensor.implausibilityOutOfRange( bps1Pin, bps1Min, bps1Max );
+    bps2ImplausibilityOutOfRange  = sensor.implausibilityOutOfRange( bps2Pin, bps2Min, bps2Max );
+    bpsImplausibilityDifference   = sensor.implausibilityDifference( bps1Pin, bps2Pin, bps1Min, bps1Max, bps2Min, bps2Max );
+    appsImplausible   = sensor.implausibilityCheck( apps1ImplausibilityOutOfRange, apps2ImplausibilityOutOfRange, appsImplausibilityDifference, appsLastDiffImplausibility_ms, appsImplausibilityInterval_ms );
+    bpsImplausible    = sensor.implausibilityCheck( bps1ImplausibilityOutOfRange, bps2ImplausibilityOutOfRange, bpsImplausibilityDifference, bpsLastDiffImplausibility_ms, bpsImplausibilityInterval_ms );
+
+    if ( ( appsImplausible != 0 || bpsImplausible != 0 ) && millis() > pedalboxImplausibilityLastMsg_ms + pedalboxImplausibilityInterval_ms ) {
+        can.send( canIdPedalboxImplausibility, appsImplausible, bpsImplausible );
+        pedalboxImplausibilityLastMsg_ms = millis();
+    }
+    */
+
+    //  Reads, maps and sends APPS values over CAN
+    if ( millis() > appsTimestampLastMsg_ms + appsInterval_ms ) {
+        apps1Value = analogRead(apps1Pin);
+        apps2Value = analogRead(apps2Pin);
+
+        apps1Out = constrain( map( apps1Value, apps1Min, apps1Max, 0, 255), 0, 255);
+        apps2Out = constrain( map( apps2Value, apps2Min, apps2Max, 0, 255), 0, 255);
+
+        appsDifference = apps1Out - apps2Out;
+        appsDifference_percent = (abs( appsDifference ) * 100) / 256;
+
+        can.send( canIdApps, apps1Out, apps2Out, appsDifference_percent );
+
+        appsTimestampLastMsg_ms = millis();
+    }
+
+    //  Reads, maps and sends BPS values over CAN
+    if ( millis() > bpsTimestampLastMsg_ms + bpsInterval_ms ) {
+        bps1Value = analogRead(bps1Pin);
+        bps2Value = analogRead(bps2Pin);
+
+        bps1Out = constrain( map( bps1Value, bps1Min, bps1Max, 0, 255), 0, 255);
+        bps2Out = constrain( map( bps2Value, bps2Min, bps2Max, 0, 255), 0, 255);
+
+        bpsDifference = apps1Out - apps2Out;
+        bpsDifference_percent = (abs( appsDifference ) * 100) / 256;
+
+        can.send( canIdBps, bps1Out, bps2Out, bpsDifference_percent );
+
+        bpsTimestampLastMsg_ms = millis();
+    }
+
+    //  For testing
+    /*
+        //  Reads, encodes and sends RPM data over CAN
+        if ( millis() > rpmTimestampLastMsg_ms + rpmInterval_ms ) {
+            rpmValue = analogRead(rpmPin) * 5;
+
+            rpmOut1 = (uint8_t)(rpmValue);
+            rpmOut2 = (uint8_t)(rpmValue >> 8);
+
+            can.send( canIdRpm, 0, 0, 0, 0, 0, 0, rpmOut1, rpmOut2 );
+
+            rpmTimestampLastMsg_ms = millis();
+        }
+    */
 }
