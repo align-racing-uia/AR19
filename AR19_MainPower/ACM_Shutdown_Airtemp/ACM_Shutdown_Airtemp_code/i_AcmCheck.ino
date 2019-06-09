@@ -11,5 +11,6 @@ using namespace cansignal;
     {
         pingAllAcm = global::tull;
         bitWrite(acmOk,0,1);
+        shutdowncircuit::lockoutTimer = millis();
     }
 }
