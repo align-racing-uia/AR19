@@ -7,10 +7,10 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 
 // CAN message 0x15 - ACM OK Signal
 
-  myMessage.can_id = 0x15;  
+  myMessage.can_id = 0x15;  //Henrik: Feil ID på CANbus-melding 
   myMessage.can_dlc = 1; 
   myMessage.data[0] = 21;
-  mcp2515.sendMessage(&myMessage);
+  mcp2515.sendMessage(&myMessage); //Signalet blir kun sendt en gang, det er ikke gitt at denne ACM'en er slått på før ACM'en som skal ta imot meldingen
 
 }
 
@@ -38,7 +38,7 @@ using namespace cansignal;
 
 
   // CAN message 0x230 - Neutral signal.
-  if (myMessage.can_id == 0x230)
+  if (myMessage.can_id == 0x230) //Henrik: Denne ID'en ligger ikke i registeret
   {
     neutralSignal = myMessage.data[0]; 
   }
@@ -65,7 +65,7 @@ using namespace cansignal;
 
 
 // CAN message 0x2F0 - RPM from ECU
-  if (myMessage.can_id == 0x2F0)
+  if (myMessage.can_id == 0x2F0) //Henrik: Denne ID'en ligger ikke i registeret
   { 
     rpm1 = myMessage.data[0];
     rpm2 = myMessage.data[1];

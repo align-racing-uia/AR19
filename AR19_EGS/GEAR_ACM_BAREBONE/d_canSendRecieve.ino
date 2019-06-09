@@ -7,10 +7,11 @@ void CanSetup() // Sets up the CAN-Bus protocol.
 
 // CAN message 0x15 - ACM OK Signal
 
-  myMessage.can_id = 0x15;  
+  myMessage.can_id = 0x17;  //Henrik:Feil ID på CANbus-melding , fikset
+  
   myMessage.can_dlc = 1; 
   myMessage.data[0] = global::sant;
-  mcp2515.sendMessage(&myMessage);
+  mcp2515.sendMessage(&myMessage); // Signalet blir kun sendt en gang, det er ikke gitt at denne ACM'en er 
 
 }
 
@@ -49,7 +50,7 @@ using namespace cansignal;
   //Responds to pings
   if (myMessage.can_id == 0x19 && bitRead(myMessage.data[0],5) == 1)
   { 
-  myMessage.can_id = 0x15;  
+  myMessage.can_id = 0x17;  //Henrik: Feil ID, fikset
   myMessage.can_dlc = 1; 
   myMessage.data[0] = global::sant;
   mcp2515.sendMessage(&myMessage);
@@ -87,9 +88,21 @@ using namespace cansignal;
     myMessage.data[1] = gearAttemptInFalsePosition;//Errorstate - Signal to change gear was sent when gear position was undefined.
     myMessage.data[2] = gearPositionError; //Sends telemetry signal if gear position sensor is invalid
     myMessage.data[3] = gearChangeFailed; //The desired gear was not reached within the given period
-    myMessage.data[4] = neutralFailed; //sens error message that neutral attempt failed
+    myMessage.data[4] = neutralFailed; //sens error message that neutral attempt failed //Henrik: ID'en ligger ikke i registeret
 
     mcp2515.sendMessage(&myMessage);
     telemetryTimer = millis();
+  }
+
+    // CAN message 0x1 - Activate shutdown circuit
+    
+  if((clutchPressureError == global::sant || gearPositionError == global::sant) && (shutdownTimer - millis() > 20))
+  {
+    myMessage.can_id  = 0x1;  
+    myMessage.can_dlc = 1; 
+    myMessage.data[0] = global::sant; // Activates the shutdown circuit
+
+    mcp2515.sendMessage(&myMessage);
+    shutdownTimer = millis();
   }
 }

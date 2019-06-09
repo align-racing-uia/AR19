@@ -68,7 +68,7 @@ namespace clutch
     uint8_t servoPin = 10; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
-    uint8_t duration = 120; //Reset timer for the clutch
+    uint8_t duration = 160; //Reset timer for the clutch
     uint8_t emergencyEngage = global::tull;
     long timestamp = 0;
 
@@ -80,6 +80,7 @@ namespace cansignal
 //Timers
     unsigned long telemetryTimer = 0;
     unsigned long primaryTimer = 0;
+    unsigned long shutdownTimer = 0;
 //Recieving
     //Steering Wheel ACM
         uint8_t gearUpSignal = global::tull;

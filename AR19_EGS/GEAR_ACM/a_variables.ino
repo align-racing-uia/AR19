@@ -1,4 +1,31 @@
 
+/*
+
+
+
+
+
+
+
+
+
+        DENNE MAPPEN ER IKKE I BRUK, ALT DETTE ER GAMMEL KODE
+
+
+
+
+
+
+
+
+
+*/
+
+
+
+
+
+
 // Viktig at denne fila kjem først i kompileringa(etter GEAR_ACM)
     
 
