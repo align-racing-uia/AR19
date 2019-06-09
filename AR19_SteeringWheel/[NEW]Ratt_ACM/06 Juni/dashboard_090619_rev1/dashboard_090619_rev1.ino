@@ -96,7 +96,7 @@ void setup() {
     launchButtonsMSG.data[i] = 0;
   }
 
-  rattACMonline.data[0] = 0;
+  rattACMonline.data[0] = 0xF0;
   mcp2515.sendMessage(&rattACMonline);
 
   //Potmeter///
@@ -348,6 +348,14 @@ void readCANbus()
          IncMessageLocal[i] = incommingMSG.data[i];
     }
     IncMessageID = incommingMSG.can_id;
+
+    if (IncMessageID == 0x019 && IncMessageLocal[2] == 0xF0)
+    { 
+        mcp2515.sendMessage(&rattACMonline);
+    }
+
+
+    
   }
   else
     {
