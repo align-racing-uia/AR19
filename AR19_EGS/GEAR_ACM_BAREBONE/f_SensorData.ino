@@ -10,7 +10,7 @@ void CheckClutchPressure()
 {
   using namespace clutchpressure;
   sensorValue = analogRead(sensorPin);
-  InBar = map(sensorValue, 103, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet
+  InBar = map(sensorValue, 103, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet //Henrik: Mest sansynlig så bør innputsignalet mappes fra 0 til 255
 
   // Giver error code to the telemetry if clutch pressure is out of range.
   if (sensorValue < 103 || sensorValue > 921)
