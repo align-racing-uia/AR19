@@ -58,7 +58,8 @@ bool stateGuardian::updateSystemState(){
                 *_systemState = 20;
                 return true;
 
-            }else if (!modeCheck())
+            }
+            else if (!modeCheck())
             {
 
                 *_systemState = 90;
@@ -132,16 +133,18 @@ bool stateGuardian::updateSystemState(){
     }
     return false;
 }
-
+ 
 
 bool stateGuardian::launchOn(){
     return(_ES[4]->getDataU8() > _IC->_lowerThresholdPot &&
-           _ES[8]->getDataU32() > _IC->_lowerThresholdEngineSpeed);
+           //_ES[8]->getDataU16() > _IC->_lowerThresholdEngineSpeed
+           );
 }
 bool stateGuardian::modeCheck(){
     return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed &&
            _ES[5]->getDataU8() == _IC->_valueTrueBtn &&
-           _ES[8]->getDataU32() > _IC->_lowerThresholdEngineSpeed);
+           //_ES[8]->getDataU16() > _IC->_lowerThresholdEngineSpeed
+           );
 }
 bool stateGuardian::LCorTCmode(){
     return(_ES[3]->getDataU32() < _IC->_lowerThresholdWheelSpeed);

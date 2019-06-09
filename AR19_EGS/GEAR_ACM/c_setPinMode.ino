@@ -11,12 +11,12 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
 // Sets pinmode for gear up and down variables.
 
     using namespace gearing;
-        {
+    {
         pinMode(upPin, OUTPUT);
         pinMode(downPin, OUTPUT);
         digitalWrite(upPin, LOW);
         digitalWrite(downPin , LOW);
-        }
+    }
 
 // Sets internal leds.
 
