@@ -53,13 +53,13 @@ PID RegulatorPIDRPM(&inputRPM, &outputRPM, &setpointRPM, IC._KpPIDRPM, IC._KiPID
 SensorHall LeftFrontHall(&IC, &EH, 0, 10, 0x220),
            RightFrontHall(&IC, &EH, 0, 11, 0x210),
            DifferentialHall(&IC, &EH, 0, 12, 0x2D0),
-           SprocketHall(&IC, &EH, 0, 13, 0x2E0);
+           SprocketHall(&IC, &EH, 0, 13, 0x2D1);
 
 SensorEngine EngineSpeedHall(&IC, &EH, 6, 14, 0x5F0);
 
 SensorPotentiometer StearingPot(&IC, &EH, 0, 20, 0x235),
-                    GasPedal(&IC, &EH, 0, 21, 0x010),
-                    GearPosition(&IC, &EH, 3, 22, 0x020);
+                    GasPedal(&IC, &EH, 1, 21, 0x011),
+                    GearPosition(&IC, &EH, 3, 22, 0x021);
 
 SensorButton StearingBtn(&IC, &EH, 0, 30, 0x250),
              ClutchBtn(&IC, &EH, 0, 31, 0x2C8), 

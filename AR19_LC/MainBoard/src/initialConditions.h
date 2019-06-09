@@ -33,11 +33,11 @@ class InitialConditions
     const uint32_t _lowerThresholdWheelSpeed = 0xFFFFFFFF;
     const uint32_t _safeEngineSpeed = 0xFFFFFFFF;
     const uint32_t _safeGasPedal = 0xFFFFFFFF;
-    const uint32_t _lowerThresholdEngineSpeed = 100;
+    const uint16_t _lowerThresholdEngineSpeed = 100;
 
     //CANbus Reader
     const uint32_t _maxNumberOfByteInCANMessage = 4;
-    const uint16_t _canID[20] = {0x019, 0x220, 0x210, 0x2D0, 0x2E0, 0x2F0, 0x235, 0x010, 0x250, 0x2C8, 0x2B0, 0x448, 0x020};
+    const uint16_t _canID[20] = {0x019, 0x220, 0x210, 0x2D0, 0x2D1, 0x2F0, 0x235, 0x011, 0x250, 0x2C8, 0x2B0, 0x448, 0x021, 0x5F0};
 
 
     //CANbus Sender
