@@ -1,19 +1,23 @@
 Henrik - 09.06.2019:
 
-d10 - Feil ID på CANbus-melding // fikset
-d13 - Signalet blir kun sendt en gang, det er ikke gitt at denne ACM'en er slått på før ACM'en som skal ta imot meldingen
+d10 - Feil ID pï¿½ CANbus-melding // fikset
+d13 - Signalet blir kun sendt en gang, det er ikke gitt at denne ACM'en er slï¿½tt pï¿½ fï¿½r ACM'en som skal ta imot meldingen
 d52 - Feil canID // fikset
 d91 - ID'en ligger ikke i registeret
-f13 - Mest sansynlig så bør innputsignalet mappes fra 0 til 255
-n12 - ikke bruk delay(), dette kan føre til at viktige can-meldinger ikke kommer frem
+f13 - Mest sansynlig sï¿½ bï¿½r innputsignalet mappes fra 0 til 255
+n12 - ikke bruk delay(), dette kan fï¿½re til at viktige can-meldinger ikke kommer frem
 n14 - ikke bruk delay()
 n20 - ikke bruk delay()
 n22 - ikke bruk delay()
 n28 - ikke bruk delay()
 n30 - ikke bruk delay()
 
+Mangler:
+- Blipp implementasjon
+- Launch control implementasjon 
+
 
 Generelt:
-Ikke bruk namespace inne i andre namespace, dette er udefinert oppførsel etter som at det indre namespaceet ikke er deklarert.
+Ikke bruk namespace inne i andre namespace, dette er udefinert oppfï¿½rsel etter som at det indre namespaceet ikke er deklarert.
 
 
