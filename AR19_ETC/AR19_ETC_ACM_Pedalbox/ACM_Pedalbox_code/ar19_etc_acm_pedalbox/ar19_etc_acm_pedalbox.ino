@@ -9,8 +9,8 @@ Title: ACM Pedalbox (For bench test. Hard coded)
 Description: Main code for the pedalbox ACM sensornode. 
              Reads APPS & BPS and sends the values over CAN. 
 
-v 2.0
-Last Revision Date: 03.06.2019 03.06.2019 (Moved constant to constants header.)
+v 2.1
+Last Revision Date: 09.06.2019 (Added implausibility checks for APPS and BPS. Removed sensors.h)
 */
 
 //  Include Arduino libraries
@@ -23,7 +23,6 @@ Last Revision Date: 03.06.2019 03.06.2019 (Moved constant to constants header.)
 #include "ar19_etc_acm_pedalbox_constants.h"
 #include "ar19_etc_can.h"
 #include "ar19_etc_led_settings.h"
-#include "ar19_etc_sensor.h"
 
 //  Set CPU speed if not defined
 #ifndef F_CPU
@@ -33,7 +32,6 @@ Last Revision Date: 03.06.2019 03.06.2019 (Moved constant to constants header.)
 //  Creating instances of classes
 Can can;
 LedSettings led;
-SensorData sensor( &can, &led );
 
 struct can_frame msgIn;
 
@@ -105,21 +103,6 @@ void loop()
             }
         }
     }
-    /*
-    apps1ImplausibilityOutOfRange = sensor.implausibilityOutOfRange( apps1Pin, apps1Min, apps1Max );
-    apps2ImplausibilityOutOfRange = sensor.implausibilityOutOfRange( apps2Pin, apps2Min, apps2Max );
-    appsImplausibilityDifference  = sensor.implausibilityDifference( apps1Pin, apps2Pin, apps1Min, apps1Max, apps2Min, apps2Max );
-    bps1ImplausibilityOutOfRange  = sensor.implausibilityOutOfRange( bps1Pin, bps1Min, bps1Max );
-    bps2ImplausibilityOutOfRange  = sensor.implausibilityOutOfRange( bps2Pin, bps2Min, bps2Max );
-    bpsImplausibilityDifference   = sensor.implausibilityDifference( bps1Pin, bps2Pin, bps1Min, bps1Max, bps2Min, bps2Max );
-    appsImplausible   = sensor.implausibilityCheck( apps1ImplausibilityOutOfRange, apps2ImplausibilityOutOfRange, appsImplausibilityDifference, appsLastDiffImplausibility_ms, appsImplausibilityInterval_ms );
-    bpsImplausible    = sensor.implausibilityCheck( bps1ImplausibilityOutOfRange, bps2ImplausibilityOutOfRange, bpsImplausibilityDifference, bpsLastDiffImplausibility_ms, bpsImplausibilityInterval_ms );
-
-    if ( ( appsImplausible != 0 || bpsImplausible != 0 ) && millis() > pedalboxImplausibilityLastMsg_ms + pedalboxImplausibilityInterval_ms ) {
-        can.send( canIdPedalboxImplausibility, appsImplausible, bpsImplausible );
-        pedalboxImplausibilityLastMsg_ms = millis();
-    }
-    */
 
     //  Reads, maps and sends APPS values over CAN
     if ( millis() > appsTimestampLastMsg_ms + appsInterval_ms ) {
@@ -153,18 +136,103 @@ void loop()
         bpsTimestampLastMsg_ms = millis();
     }
 
-    //  For testing
-    /*
-        //  Reads, encodes and sends RPM data over CAN
-        if ( millis() > rpmTimestampLastMsg_ms + rpmInterval_ms ) {
-            rpmValue = analogRead(rpmPin) * 5;
-
-            rpmOut1 = (uint8_t)(rpmValue);
-            rpmOut2 = (uint8_t)(rpmValue >> 8);
-
-            can.send( canIdRpm, 0, 0, 0, 0, 0, 0, rpmOut1, rpmOut2 );
-
-            rpmTimestampLastMsg_ms = millis();
+    //  Checks for APPS implausibility
+        //  APPS1 Out of range
+        if ( apps1Value > apps1Max + 10 ) {
+            apps1ImplausibilityOutofRangeMax = true;
+            apps1ImplausibilityOutofRangeMin = false;
+        } else if ( apps1Value < apps1Min - 10 ) {
+            apps1ImplausibilityOutofRangeMin = true;
+            apps1ImplausibilityOutofRangeMax = false;
+        } else {
+            apps1ImplausibilityOutofRangeMax = false;
+            apps1ImplausibilityOutofRangeMin = false;
         }
-    */
+
+        //  APPS2 Out of range
+        if ( apps2Value < apps2Max - 10 ) {
+            apps2ImplausibilityOutofRangeMax = true;
+            apps2ImplausibilityOutofRangeMin = false;
+        } else if ( apps2Value > apps2Min + 10 ) {
+            apps2ImplausibilityOutofRangeMin = true;
+            apps2ImplausibilityOutofRangeMax = false;
+        } else {
+            apps2ImplausibilityOutofRangeMax = false;
+            apps2ImplausibilityOutofRangeMin = false;
+        }
+
+        if ( apps1ImplausibilityOutofRangeMin && apps2ImplausibilityOutofRangeMin ) {
+            appsImplausible = faultCodeAppsBothOutOfRangeMin;
+        } else if ( apps1ImplausibilityOutofRangeMin && not apps2ImplausibilityOutofRangeMin ) {
+            appsImplausible = faultCodeApps1OutOfRangeMin;
+        } else if ( not apps1ImplausibilityOutofRangeMin && apps2ImplausibilityOutofRangeMin ) {
+            appsImplausible = faultCodeApps2OutOfRangeMin;
+        } else if ( apps1ImplausibilityOutofRangeMax && apps2ImplausibilityOutofRangeMax ) {
+            appsImplausible = faultCodeAppsBothOutOfRangeMax;
+        } else if ( apps1ImplausibilityOutofRangeMax && not apps2ImplausibilityOutofRangeMax ) {
+            appsImplausible = faultCodeApps1OutOfRangeMax;
+        } else if ( not apps1ImplausibilityOutofRangeMax && apps2ImplausibilityOutofRangeMax ) {
+            appsImplausible = faultCodeApps2OutOfRangeMax;
+        } else if ( appsDifference_percent >= 10 && not apps1ImplausibilityOutofRangeMin && not apps2ImplausibilityOutofRangeMin && not apps1ImplausibilityOutofRangeMax && not apps2ImplausibilityOutofRangeMax ) {
+            appsImplausible = faultCodeAppsDifferenceAboveTen;
+        } else {
+            appsImplausible = 0;
+            appsLastDiffImplausibility_ms = millis();
+        }
+
+    //  Checks for BPS implausibility
+        //  BPS1 Out of range
+        if ( bps1Value > bps1Max + 30 ) {
+            bps1ImplausibilityOutofRangeMax = true;
+            bps1ImplausibilityOutofRangeMin = false;
+        } else if ( bps1Value < bps1Min - 30 ) {
+            bps1ImplausibilityOutofRangeMin = true;
+            bps1ImplausibilityOutofRangeMax = false;
+        } else {
+            bps1ImplausibilityOutofRangeMax = false;
+            bps1ImplausibilityOutofRangeMin = false;
+        }
+
+        //  BPS2 Out of range
+        if ( bps2Value < bps2Max - 30 ) {
+            bps2ImplausibilityOutofRangeMax = true;
+            bps2ImplausibilityOutofRangeMin = false;
+        } else if ( bps2Value > bps2Min + 30 ) {
+            bps2ImplausibilityOutofRangeMin = true;
+            bps2ImplausibilityOutofRangeMax = false;
+        } else {
+            bps2ImplausibilityOutofRangeMax = false;
+            bps2ImplausibilityOutofRangeMin = false;
+        }
+
+        if ( bps1ImplausibilityOutofRangeMin && bps2ImplausibilityOutofRangeMin ) {
+            bpsImplausible = faultCodeBpsBothOutOfRangeMin;
+        } else if ( bps1ImplausibilityOutofRangeMin && not bps2ImplausibilityOutofRangeMin ) {
+            bpsImplausible = faultCodeBps1OutOfRangeMin;
+        } else if ( not bps1ImplausibilityOutofRangeMin && bps2ImplausibilityOutofRangeMin ) {
+            bpsImplausible = faultCodeBps2OutOfRangeMin;
+        } else if (bps1ImplausibilityOutofRangeMax && bps2ImplausibilityOutofRangeMax ) {
+            bpsImplausible = faultCodeBpsBothOutOfRangeMax;
+        } else if ( bps1ImplausibilityOutofRangeMax && not bps2ImplausibilityOutofRangeMax ) {
+            bpsImplausible = faultCodeBps1OutOfRangeMax;
+        } else if ( not bps1ImplausibilityOutofRangeMax && bps2ImplausibilityOutofRangeMax ) {
+            bpsImplausible = faultCodeBps2OutOfRangeMax;
+        } else if ( bpsDifference_percent >= 10 && not bps1ImplausibilityOutofRangeMin && not bps2ImplausibilityOutofRangeMin && not bps1ImplausibilityOutofRangeMax && not bps2ImplausibilityOutofRangeMax ) {
+            bpsImplausible = faultCodeBpsDifferenceAboveTen;
+        } else {
+            bpsImplausible = 0;
+            bpsLastDiffImplausibility_ms = millis();
+        }
+
+    //  Check if implausibility lasts for more than allowed limit for both APPS and BPS
+        if ( appsImplausible != 0 || bpsImplausible != 0 ) {
+            if ( millis() > appsLastDiffImplausibility_ms + appsImplausibilityInterval_ms ) {
+                can.send( canIdPedalboxImplausibility, appsImplausible, bpsImplausible );
+                appsLastDiffImplausibility_ms = millis();
+            } else if ( millis() > bpsLastDiffImplausibility_ms + bpsImplausibilityInterval_ms ) {
+                can.send( canIdPedalboxImplausibility, appsImplausible, bpsImplausible );
+                bpsLastDiffImplausibility_ms = millis();
+            }
+        }
+
 }
