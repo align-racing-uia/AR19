@@ -20,7 +20,7 @@
 #include "errorHandler.h"
 #include "initialConditions.h" 
 #include "systemState.h"
-
+#include "safety.h"
 #include "calculator.h"
 
 
@@ -41,6 +41,8 @@ MCP2515 mcp2515(7);
 ErrorHandler EH(2);
 InitialConditions IC;
 access userAccess(&EH, 9);
+
+
 
 
 
@@ -70,6 +72,8 @@ ICuppdater userInterface(&IC, &EH, &userAccess, 50, 0x448);
 
 ExternalSource* externalSources[] = {&LeftFrontHall, &RightFrontHall, &DifferentialHall, &SprocketHall, &StearingPot, 
                                      &StearingBtn, &ClutchBtn, &GasPedal, &EngineSpeedHall, &ETCBtn, &GearPosition};
+
+Safety safety(externalSources, &IC, &EH, 40);
 
 CanReader DataReader(&IC, &EH, 5, &mcp2515);
 CanSender DataSender(&IC, &EH, 3, &mcp2515);
@@ -115,6 +119,12 @@ void loop() {
 
     DataSender.newMessage(IC._canIdOk, 1, IC._canMessageOk);
     ACMping.eraseData();
+
+  }
+
+  if (safety.hallSensorsDown()){
+
+    DataSender.newMessage(IC._canIdShutDown, 1, IC._canMessageShutDown);
 
   }
 

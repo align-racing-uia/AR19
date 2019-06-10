@@ -36,6 +36,8 @@ Component ID and CANbus ID:
     032, 0x2B0 --> The system has control over the ETC, data storrage object
     033, 0x019 --> Ping from main ACM 
 
+    040, Na --> Safety manager | An object that checks for implausibility
+
     050, 0x448 --> Object for edditing the IC file over CANbus
 
 Error ID:
@@ -56,6 +58,8 @@ Error ID:
   External errors 
     201 --> Launch aborted
     202 --> Potmeter error
+    203 --> Hall front implausibility 
+    204 --> Hall rear implausibility 
 
   Session messages
     31x --> Login by user x 
