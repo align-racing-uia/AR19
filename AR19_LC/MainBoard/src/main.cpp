@@ -79,7 +79,7 @@ CanReader DataReader(&IC, &EH, 5, &mcp2515);
 CanSender DataSender(&IC, &EH, 3, &mcp2515);
 IgnitionCutter IgnitionSlayer(&IC, &EH, 8);
 
-stateGuardian StateGuardian(externalSources, &currentSystemState, &IC, &EH, 4);
+stateGuardian StateGuardian(externalSources, &currentSystemState, &IC, &EH, 4, &safety);
 Calculator calculon(externalSources, &IC, &EH, 7);
 
 

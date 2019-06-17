@@ -17,6 +17,12 @@ class InitialConditions
     const uint32_t _maxValueHall = 0xFFFFFFFF;
     const uint16_t _maxTimeDelayHallMillis = 500;
 
+    //ETC
+    const uint16_t _maxTimeDelayETCMillis = 500;
+
+    //EGS
+    const uint16_t _maxTimeDelayEGSMillis = 500;
+    
     //Potensiometer
     const uint8_t _maxValuePot = 0xFF;
     const uint8_t _minValuePot = 0;

@@ -15,11 +15,14 @@ class Safety
     InitialConditions* _IC;
     ErrorHandler* _EH;
     uint16_t _componentID;
+
     
   public:
   Safety(ExternalSource** ES, InitialConditions* IC, ErrorHandler* EH, uint16_t componentID);
 
   bool hallSensorsDown();
+  bool ETCconectionDown();
+  bool EGSconectionDown();
 
 
 }
