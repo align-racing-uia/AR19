@@ -13,26 +13,14 @@ SensorData::SensorData(Can* can, LedSettings* led)
 
 }
 
-uint8_t SensorData::read( uint8_t pin, uint16_t valueMin, uint16_t valueMax )
+uint8_t SensorData::read_8( uint8_t pin, uint16_t valueMin, uint16_t valueMax )
 {
-    //  For sensors with positive slope
-    if ( valueMin <= valueMax ) {
         //  Reading value
         uint16_t initialValue = analogRead( pin );
         //  Constrains output value so that the signal doesn't overflow map
         uint16_t constrainValue = constrain ( initialValue, valueMin, valueMax );
         //  Remapping value to 1 byte (0-255)
-        return map( constrainValue, valueMin, valueMax, 0, 255 );
-
-    //  For sensors with negative slope
-    } else {
-        //  Reading value
-        uint16_t initialValue = analogRead( pin );
-        //  Constrains output value so that the signal doesn't overflow map
-        uint16_t constrainValue = constrain ( initialValue, valueMax, valueMin );
-        //  Remapping value to 1 byte (0-255)
-        return map( constrainValue, valueMin, valueMax, 0, 255 );
-    }
+        return map( constrainValue, valueMin, valueMax, 0, 256 );
 }
 
 uint8_t SensorData::difference_percent( uint16_t value1, uint16_t value2, uint16_t numberOfValues )
@@ -66,8 +54,8 @@ uint8_t SensorData::implausibilityOutOfRange( uint8_t pin, uint16_t valueMin, ui
 uint8_t SensorData::implausibilityDifference( uint8_t pin1, uint8_t pin2, uint16_t value1Min, uint16_t value1Max, uint16_t value2Min, uint16_t value2Max )
 {
     //  Read value from analog sensors
-    uint8_t value1 = read( pin1, value1Min, value1Max );
-    uint8_t value2 = read( pin2, value2Min, value2Max );
+    uint8_t value1 = read_8( pin1, value1Min, value1Max );
+    uint8_t value2 = read_8( pin2, value2Min, value2Max );
     //  Calculate difference between sensors
     uint8_t difference = difference_percent( value1, value2, 256 );
     //  Return 100 if difference between sensors is greater than 10 %. 

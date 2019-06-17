@@ -1,0 +1,9 @@
+Standar for å håndtere datakorupsjon.
+
+Når en CANbus-melding er korupt, så vil MCP25625 forkaste den. Altså vil det se ut som om meldingen aldri ble sendt. Ettersom reglene forplikter oss å ta hond om korupte meldigner så må vi implementere systemer på hver node for deteksjon. Dette gjøres ved at hvis enheten ikke har modttat noen av de 10 nyeste meldingen, så må systemet slås av og shut down må trigges. 
+
+Dette gjøres ved å overvåket intervallet mellom innkommende meldinger. Intervallet overstiger ti ganger sendingsintervallet, så må meldingene ses på som korupte eller at senderen er nede. Da må altså shut down trigges. 
+
+Måten dette implementeres i koden er på samme måte som "time stamps", hver gang en melding tas imot og en verdi lagrs så må også tidspunktet lagres. Bruk her funksjonen millis(). Differansen mellom tiden nå, altså millis(), og forje innkommende melding fra en sensor er over ti ganger størrelsen på sendingsintervallet, så må shut down signalet sendes.
+
+Om man har implausibility sjekker, så må disse komme først. Om den enne sensoren er nede, så trenger ikke shut down signalet å sendes gitt at den andre sensoren kan gjøre jobben. 

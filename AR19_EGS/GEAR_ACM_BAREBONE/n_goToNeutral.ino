@@ -9,25 +9,25 @@ void GoToNeutral()
         {
             digitalWrite(geardown::pin, HIGH);
             digitalWrite(gearup::pin, LOW);   // Just to make sure the actuator doesnt acuate both ways
-            delay(10)
+            delay(10)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(geardown::pin, LOW);
-            delay(100)
+            delay(100)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else if (gearposition::currentGear == 1)
         {
             digitalWrite(gearup::pin, HIGH);
             digitalWrite(geardown::pin, LOW); // Just to make sure the actuator doesnt acuate both ways
-            delay(10)
+            delay(10)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(gearup::pin, LOW);
-            delay(100)
+            delay(100)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else if (gearposition::currentGear >= 3 && gearposition::currentGear <= 6)
         {
             digitalWrite(geardown::pin, HIGH);
             digitalWrite(gearup::pin, LOW); // Just to make sure the actuator doesnt acuate both ways
-            delay(10)
+            delay(10)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(geardown::pin, LOW);
-            delay(100)
+            delay(100)//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else
         {

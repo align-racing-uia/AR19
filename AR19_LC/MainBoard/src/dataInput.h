@@ -76,7 +76,8 @@ class ExternalSource
     virtual uint64_t getDataU64() = 0;
     virtual int16_t getData16() = 0;
     virtual int32_t getData32() = 0;  
-    virtual float getDataF() = 0;  
+    virtual float getDataF() = 0;
+    virtual unsigned long getTime() = 0;
     virtual double getDataD() = 0;
     virtual void eraseData() = 0;
 
@@ -94,6 +95,7 @@ class SensorButton : public ExternalSource
         
     private:
     uint8_t _SensorButtonPressed;
+    unsigned long _time;
 
     public:
     SensorButton(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID);
@@ -107,7 +109,8 @@ class SensorButton : public ExternalSource
     virtual uint32_t getDataU32(); 
     virtual uint64_t getDataU64();  
     virtual int16_t getData16();
-    virtual int32_t getData32();  
+    virtual int32_t getData32();
+    virtual unsigned long getTime();
     virtual float getDataF();  
     virtual double getDataD();  
     virtual void eraseData();
@@ -121,6 +124,7 @@ class SensorPotentiometer : public ExternalSource
 {
     private:
     uint8_t _sensorPotentiometerData;
+    unsigned long _time;
 
     public:
     SensorPotentiometer(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID);
@@ -134,7 +138,8 @@ class SensorPotentiometer : public ExternalSource
     virtual uint32_t getDataU32(); 
     virtual uint64_t getDataU64();  //long long? trudde 64 bit var long
     virtual int16_t getData16();
-    virtual int32_t getData32();  
+    virtual int32_t getData32();
+    virtual unsigned long getTime();
     virtual float getDataF();  
     virtual double getDataD();  
     virtual void eraseData();
@@ -160,7 +165,8 @@ class SensorHall : public ExternalSource
     virtual uint32_t getDataU32(); 
     virtual uint64_t getDataU64();  //long long? trudde 64 bit var long
     virtual int16_t getData16();
-    virtual int32_t getData32();  
+    virtual int32_t getData32();
+    virtual unsigned long getTime();
     virtual float getDataF();  
     virtual double getDataD();  
     virtual void eraseData();
@@ -184,7 +190,8 @@ class SensorEngine : public ExternalSource
     virtual uint32_t getDataU32(); 
     virtual uint64_t getDataU64();  //long long? trudde 64 bit var long
     virtual int16_t getData16();
-    virtual int32_t getData32();  
+    virtual int32_t getData32();
+    virtual unsigned long getTime() 
     virtual float getDataF();  
     virtual double getDataD();  
     virtual void eraseData();
