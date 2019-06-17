@@ -97,7 +97,7 @@ else
 }
 
 // Sets telemetry value if gear position sensor is out of range
-if (currentgear == 69)
+if (currentGear == 69)
 {
   cansignal::gearPositionError = global::sant;
 }
@@ -108,4 +108,3 @@ else
 
 
 }
-
