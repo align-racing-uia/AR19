@@ -3,23 +3,23 @@ void GoToNeutral()
   if (millis()-gotoneutral::timestamp < gotoneutral::timerLockout && millis() > gotoneutral::timerLockout)
   {
     clutch::timestamp = millis();
-    if (clutchpressure::InBar > 13 && millis() - gotoneutral::timestamp < gotoneutral::timer && millis() - gotoneutral::timestamp < (gotoneutral::timer - 100) && gearposition::currentGear != 0)
+    if (clutchpressure::InBar > 13 && millis() - gotoneutral::timestamp < gotoneutral::timer && millis() - gotoneutral::timestamp < (gotoneutral::timer - 1000) && gearposition::currentGear != 0)
     {             
         if (gearposition::currentGear == 2)
         {
             digitalWrite(geardown::pin, HIGH);
             digitalWrite(gearup::pin, LOW);   // Just to make sure the actuator doesnt acuate both ways
-            delay(10);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
+            delay(30);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(geardown::pin, LOW);
-            delay(100);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
+            delay(500);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else if (gearposition::currentGear == 1)
         {
             digitalWrite(gearup::pin, HIGH);
             digitalWrite(geardown::pin, LOW); // Just to make sure the actuator doesnt acuate both ways
-            delay(10);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
+            delay(30);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(gearup::pin, LOW);
-            delay(100);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
+            delay(500);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else if (gearposition::currentGear >= 3 && gearposition::currentGear <= 6)
         {
@@ -27,7 +27,7 @@ void GoToNeutral()
             digitalWrite(gearup::pin, LOW); // Just to make sure the actuator doesnt acuate both ways
             delay(100);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
             digitalWrite(geardown::pin, LOW);
-            delay(100);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
+            delay(500);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
         else
         {
@@ -36,7 +36,7 @@ void GoToNeutral()
         }
         
     }
-    if (gearposition::currentGear == 0 && millis() - gotoneutral::timestamp > (gotoneutral::timer - 100))
+    if (gearposition::currentGear == 0 && millis() - gotoneutral::timestamp > (gotoneutral::timer - 300))
     {
       digitalWrite(geardown::pin, LOW);
       digitalWrite(gearup::pin, LOW);
@@ -45,7 +45,7 @@ void GoToNeutral()
       digitalWrite(leds::red,HIGH);
       clutch::emergencyEngage = global::tull;
     }
-    if (gearposition::currentGear != 0 && millis() - gotoneutral::timestamp > (gotoneutral::timer - 100))
+    if (gearposition::currentGear != 0 && millis() - gotoneutral::timestamp > (gotoneutral::timer - 300))
     {
       digitalWrite(geardown::pin, LOW);
       digitalWrite(gearup::pin, LOW);

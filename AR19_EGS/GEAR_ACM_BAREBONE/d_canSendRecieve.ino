@@ -32,6 +32,12 @@ using namespace cansignal;
     neutralSignal = myMessage.data[0];
     clutchOverride =  myMessage.data[1];
   }
+  else
+  {
+    neutralSignal = global::tull;
+    clutchOverride = global::tull;  
+  }
+ 
 
   // CAN message 0x240 - Gear paddles.
   if (myMessage.can_id == 0x240)

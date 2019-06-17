@@ -21,8 +21,8 @@ namespace gearposition{  // CheckGear -  Declarations
 namespace gotoneutral
 {
 long timestamp= 0;
-const uint16_t timer = 2000; // Length of a goToNeutral attempt duartion
-const uint16_t timerLockout = 2500; 
+const uint16_t timer = 4000; // Length of a goToNeutral attempt duartion
+const uint16_t timerLockout = 5000; 
 
 
 }
