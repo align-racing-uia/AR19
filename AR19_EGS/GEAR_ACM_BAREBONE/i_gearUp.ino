@@ -18,7 +18,7 @@ void GearUp()
       }
       if( gearposition::currentGear == gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
       {
-        cansignal::gearChangeFailed = global::sant;
+        cansignal::gearChangeFailed = global::tull;
         digitalWrite(leds::green,HIGH);
       }
       if( gearposition::currentGear != gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
