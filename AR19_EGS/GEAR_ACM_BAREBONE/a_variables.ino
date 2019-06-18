@@ -9,7 +9,7 @@ namespace global{
 
 
 namespace gearposition{  // CheckGear -  Declarations
-    const uint8_t sensorPin = 16;  // Make namespace for CheckGear
+    const uint8_t sensorPin = 18;  // Make namespace for CheckGear
     uint16_t sensorInput;
     uint16_t voltage;
     uint8_t currentGear = 0;
@@ -40,7 +40,7 @@ namespace gearup{
 
 namespace geardown{
     long timestamp = 0;
-    const uint8_t pin = 17;
+    const uint8_t pin = 10;
     const uint16_t timer = 400;
     const uint16_t timerLockout = 500;
 
@@ -65,7 +65,7 @@ namespace clutchpressure
 
 namespace clutch
 {
-    uint8_t servoPin = 10; // pin servo - egentlig pin 10
+    uint8_t servoPin = 9; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
     uint8_t duration = 160; //Reset timer for the clutch
@@ -106,7 +106,7 @@ namespace cansignal
 // Defines the pins for internal LEDs.
 namespace leds
 {
-    const uint8_t red = 5;
-    const uint8_t green = 6;
-    const uint8_t blue = 9;
+    const uint8_t red = 0;//5
+    const uint8_t green = 0;//6
+    const uint8_t blue = 0;//9
 }

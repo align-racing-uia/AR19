@@ -1,5 +1,10 @@
 void SetPinMode(){ // Section for initilizing pins
-servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
+
+// define 16 and 17 as input
+  pinMode(16, INPUT);
+  pinMode(17, INPUT);
+  
+servo.attach(clutch::servoPin); // set arduino to use a pin as servo control
 
 //GearCheck pins
     pinMode(gearposition::sensorPin, INPUT);
@@ -20,12 +25,13 @@ servo.attach(clutch::servoPin); // set arduino to use pin 16 as servo control
 
     using namespace leds;
     {
-        pinMode(red, OUTPUT);
-        pinMode(green, OUTPUT);
-        pinMode(blue, OUTPUT);
-        digitalWrite(red,HIGH);
-        digitalWrite(green,HIGH);
-        digitalWrite(blue,HIGH);
+        pinMode(red, INPUT);
+        pinMode(green, INPUT);
+        pinMode(blue, INPUT);
+        
+        //digitalWrite(red,HIGH);
+        //digitalWrite(green,HIGH);
+        //digitalWrite(blue,HIGH);
     }
 
     using namespace clutch;
