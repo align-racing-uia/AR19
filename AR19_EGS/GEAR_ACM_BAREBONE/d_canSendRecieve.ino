@@ -72,7 +72,7 @@ using namespace cansignal;
 
 // CAN message 0x21 - primary messages
 
-  if (primaryTimer - millis() > 20)
+  if (millis() - primaryTimer > 20)
 
   {
     myMessage.can_id = 0x21;  
@@ -86,7 +86,7 @@ using namespace cansignal;
 
 // CAN message 0x480 - Error states to telemetry.
 
-  if((clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant || neutralFailed == global::sant) && (telemetryTimer - millis() > 20))
+  if((clutchPressureError == global::sant || gearAttemptInFalsePosition == global::sant || gearPositionError == global::sant || gearChangeFailed == global::sant || neutralFailed == global::sant) && (millis()-telemetryTimer > 20))
   {
     myMessage.can_id  = 0x480;  
     myMessage.can_dlc = 5; 
