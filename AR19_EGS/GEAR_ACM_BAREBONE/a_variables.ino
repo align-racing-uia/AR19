@@ -80,7 +80,6 @@ namespace cansignal
 //Timers
     unsigned long telemetryTimer = 0;
     unsigned long primaryTimer = 0;
-    unsigned long shutdownTimer = 0;
 //Recieving
     //Steering Wheel ACM
         uint8_t gearUpSignal = global::tull;

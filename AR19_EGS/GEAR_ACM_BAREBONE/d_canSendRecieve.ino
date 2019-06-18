@@ -102,13 +102,12 @@ using namespace cansignal;
 
     // CAN message 0x1 - Activate shutdown circuit
     
-  if((clutchPressureError == global::sant || gearPositionError == global::sant) && (shutdownTimer - millis() > 20))
+  if(clutchPressureError == global::sant || gearPositionError == global::sant)
   {
     myMessage.can_id  = 0x1;  
     myMessage.can_dlc = 1; 
     myMessage.data[0] = global::sant; // Activates the shutdown circuit
 
     mcp2515.sendMessage(&myMessage);
-    shutdownTimer = millis();
   }
 }
