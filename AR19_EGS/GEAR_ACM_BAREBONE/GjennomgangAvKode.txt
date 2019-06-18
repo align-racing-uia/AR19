@@ -1,3 +1,8 @@
+Henrik - 18.06.2019:
+
+d99	- Denne if-setningen blir aldri sann. Kritisk at sånnt ikke forekommer.
+
+
 Henrik - 09.06.2019:
 
 d10 - Feil ID p� CANbus-melding // fikset
