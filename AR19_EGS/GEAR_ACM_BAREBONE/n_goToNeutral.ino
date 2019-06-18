@@ -44,6 +44,7 @@ void GoToNeutral()
       digitalWrite(leds::green,HIGH);
       digitalWrite(leds::red,HIGH);
       clutch::emergencyEngage = global::tull;
+	  cansignal::neutralFailed = global::tull;
     }
     if (gearposition::currentGear != 0 && millis() - gotoneutral::timestamp > (gotoneutral::timer - 300))
     {
