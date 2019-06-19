@@ -22,7 +22,7 @@ namespace gotoneutral
 {
 long timestamp= 0;
 const uint16_t timer = 4000; // Length of a goToNeutral attempt duartion
-const uint16_t timerLockout = 5000; 
+const uint16_t timerLockout = timer + 500; 
 
 
 }
@@ -33,16 +33,16 @@ const uint16_t timerLockout = 5000;
 namespace gearup{
     long timestamp = 0;
     const uint8_t pin = 3;
-    const uint16_t timer = 400;
-    const uint16_t timerLockout = 500;
+    const uint16_t timer = 1000;
+    const uint16_t timerLockout = timer + 500;
 
 }
 
 namespace geardown{
     long timestamp = 0;
     const uint8_t pin = 10;
-    const uint16_t timer = 400;
-    const uint16_t timerLockout = 500;
+    const uint16_t timer = 1000;
+    const uint16_t timerLockout = timer + 500;
 
 }
 
@@ -68,7 +68,7 @@ namespace clutch
     uint8_t servoPin = 9; // pin servo - egentlig pin 10
     int16_t engage = 1900; // servo position 0 degrees
     int16_t disengage = 1200; // servo position 90 degrees
-    uint8_t duration = 160; //Reset timer for the clutch
+    uint8_t duration = 250; //Reset timer for the clutch
     uint8_t emergencyEngage = global::tull;
     long timestamp = 0;
 
@@ -106,7 +106,7 @@ namespace cansignal
 // Defines the pins for internal LEDs.
 namespace leds
 {
-    const uint8_t red = 0;//5
-    const uint8_t green = 0;//6
+    const uint8_t red = 5;
+    const uint8_t green = 6;
     const uint8_t blue = 0;//9
 }

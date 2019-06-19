@@ -35,7 +35,8 @@ void CheckDriverIntention()
     if (/*gearposition::currentGear != 99 && */gearposition::currentGear != 69)
     {
       gotoneutral::timestamp = millis();
-      digitalWrite(leds::blue,LOW);
+      digitalWrite(leds::red,LOW);
+      digitalWrite(leds::green,LOW);
       cansignal::gearAttemptInFalsePosition = global::tull;
     }
     else
