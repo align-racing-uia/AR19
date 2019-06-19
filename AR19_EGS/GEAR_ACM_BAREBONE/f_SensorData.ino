@@ -51,7 +51,7 @@ if (voltage < 400)
   currentGear = 69;
 }
 
-else if ( voltage > 548 && voltage < 748 )
+else if ( voltage > 548 && voltage < 720 )
 {
   currentGear = 1;
 }
@@ -61,7 +61,7 @@ else if (voltage > 900 && voltage < 1150 )
   currentGear = 0;           // NB! Gear position "0" is Netutral(N)
 }
 
-else if (voltage > 1329 && voltage < 1529 )
+else if (voltage > 1380 && voltage < 1529 )
 {
   currentGear = 2;
 }
