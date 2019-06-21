@@ -248,59 +248,59 @@ void loop()
             tpsTimestampLastMsg_ms = millis();
         }
 
-    //  Check for implausibility (CV 1.6.7)
-        //  TPS1 Out of range
-        if ( tps1Value > tps1PhysicalMax + 30 ) {
-            tps1ImplausibilityOutofRangeMax = true;
-            tps1ImplausibilityOutofRangeMin = false;
-        } else if ( tps1Value < tps1Min - 30 ) {
-            tps1ImplausibilityOutofRangeMin = true;
-            tps1ImplausibilityOutofRangeMax = false;
-        } else {
-            tps1ImplausibilityOutofRangeMax = false;
-            tps1ImplausibilityOutofRangeMin = false;
-        }
-
-        //  TPS2 Out of range
-        if ( tps2Value < tps2PhysicalMax - 30 ) {
-            tps2ImplausibilityOutofRangeMax = true;
-            tps2ImplausibilityOutofRangeMin = false;
-        } else if ( tps2Value > tps2Min + 30 ) {
-            tps2ImplausibilityOutofRangeMin = true;
-            tps2ImplausibilityOutofRangeMax = false;
-        } else {
-            tps2ImplausibilityOutofRangeMax = false;
-            tps2ImplausibilityOutofRangeMin = false;
-        }
-
-        if ( tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
-            tpsImplausible = faultCodeTpsBothOutOfRangeMin;
-        } else if ( tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin ) {
-            tpsImplausible = faultCodeTps1OutOfRangeMin;
-        } else if ( not tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
-            tpsImplausible = faultCodeTps2OutOfRangeMin;
-        } else if (tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
-            tpsImplausible = faultCodeTpsBothOutOfRangeMax;
-        } else if ( tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
-            tpsImplausible = faultCodeTps1OutOfRangeMax;
-        } else if ( not tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
-            tpsImplausible = faultCodeTps2OutOfRangeMax;
-        } else if ( tpsDifference_percent >= 10 && not tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin && not tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
-            tpsImplausible = faultCodeTpsDifferenceAboveTen;
-        } else {
-            tpsImplausible = 0;
-            tpsLastDiffImplausibility_ms = millis();
-        }
-
-        //  Check if implausibility lasts for more than allowed limit (CV 1.6.7)
-        if ( tpsImplausible != 0 ) {
-            if ( millis() > tpsLastDiffImplausibility_ms + tpsImplausibilityInterval_ms ) {
-                limpMode = true;
-                can.send( canIdTpsImplausible, tpsImplausible );
-                can.send( canIdEtbcFaultFlag, tpsImplausible );
-                tpsLastDiffImplausibility_ms = millis();
-            }
-        }
+//    //  Check for implausibility (CV 1.6.7)
+//        //  TPS1 Out of range
+//        if ( tps1Value > tps1PhysicalMax + 30 ) {
+//            tps1ImplausibilityOutofRangeMax = true;
+//            tps1ImplausibilityOutofRangeMin = false;
+//        } else if ( tps1Value < tps1Min - 30 ) {
+//            tps1ImplausibilityOutofRangeMin = true;
+//            tps1ImplausibilityOutofRangeMax = false;
+//        } else {
+//            tps1ImplausibilityOutofRangeMax = false;
+//            tps1ImplausibilityOutofRangeMin = false;
+//        }
+//
+//        //  TPS2 Out of range
+//        if ( tps2Value < tps2PhysicalMax - 30 ) {
+//            tps2ImplausibilityOutofRangeMax = true;
+//            tps2ImplausibilityOutofRangeMin = false;
+//        } else if ( tps2Value > tps2Min + 30 ) {
+//            tps2ImplausibilityOutofRangeMin = true;
+//            tps2ImplausibilityOutofRangeMax = false;
+//        } else {
+//            tps2ImplausibilityOutofRangeMax = false;
+//            tps2ImplausibilityOutofRangeMin = false;
+//        }
+//
+//        if ( tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTpsBothOutOfRangeMin;
+//        } else if ( tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTps1OutOfRangeMin;
+//        } else if ( not tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTps2OutOfRangeMin;
+//        } else if (tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTpsBothOutOfRangeMax;
+//        } else if ( tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTps1OutOfRangeMax;
+//        } else if ( not tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTps2OutOfRangeMax;
+//        } else if ( tpsDifference_percent >= 10 && not tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin && not tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTpsDifferenceAboveTen;
+//        } else {
+//            tpsImplausible = 0;
+//            tpsLastDiffImplausibility_ms = millis();
+//        }
+//
+//        //  Check if implausibility lasts for more than allowed limit (CV 1.6.7)
+//        if ( tpsImplausible != 0 ) {
+//            if ( millis() > tpsLastDiffImplausibility_ms + tpsImplausibilityInterval_ms ) {
+//                limpMode = true;
+//                can.send( canIdTpsImplausible, tpsImplausible );
+//                can.send( canIdEtbcFaultFlag, tpsImplausible );
+//                tpsLastDiffImplausibility_ms = millis();
+//            }
+//        }
 
     //  Calculate idle PID
         if ( regulatedIdleEnable ) {
