@@ -349,7 +349,7 @@ void readCANbus()
     }
     IncMessageID = incommingMSG.can_id;
 
-    if (IncMessageID == 0x019 && IncMessageLocal[2] == 0xF0)
+    if (IncMessageID == 0x019 && IncMessageLocal[0] == 0xF0)
     { 
         mcp2515.sendMessage(&rattACMonline);
     }
