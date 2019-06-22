@@ -1,0 +1,7 @@
+{
+    "programmer": "Arduino as ISP",
+    "board": "arduino:avr:nano",
+    "configuration": "cpu=atmega328",
+    "port": "COM13",
+    "sketch": "src\\main\\main.ino"
+}

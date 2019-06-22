@@ -23,7 +23,7 @@ class SensorData
 {
 public:
     SensorData( Can*, LedSettings* );
-    uint8_t read( uint8_t pin, uint16_t valueMin, uint16_t valueMax );
+    uint8_t read_8( uint8_t pin, uint16_t valueMin, uint16_t valueMax );
     uint8_t difference_percent( uint16_t value1, uint16_t value2, uint16_t numberOfValues );
     uint8_t implausibilityOutOfRange( uint8_t pin, uint16_t valueMin, uint16_t valueMax );
     uint8_t implausibilityDifference( uint8_t pin1, uint8_t pin2, uint16_t value1Min, uint16_t value1Max, uint16_t value2Min, uint16_t value2Max );

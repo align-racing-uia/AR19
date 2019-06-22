@@ -64,9 +64,11 @@ uint16_t ExternalSource::getCanID(){
 //LAUNCH BUTTONS
 SensorButton::SensorButton(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID) : ExternalSource(IC, EH, offSet, 1, componentID, canID){
     _SensorButtonPressed = 0;
+    _time = 0;
 }
 void SensorButton::newData(uint32_t value){
     _SensorButtonPressed = value;
+    _time = millis();
 }
 bool SensorButton::verificationData(uint32_t value){
 
@@ -98,12 +100,14 @@ float SensorButton::getDataF(){
     return 0;}
 double SensorButton::getDataD(){
     return 0;}
-
+unsigned long SensorButton::getTime(){
+    return _time;}
 
 //
 //POTENSIOMETER
 SensorPotentiometer::SensorPotentiometer(InitialConditions* IC, ErrorHandler* EH, uint8_t offSet, uint16_t componentID, uint16_t canID) : ExternalSource(IC, EH, offSet, 1, componentID, canID){
-    _sensorPotentiometerData = 0; 
+    _sensorPotentiometerData = 0;
+    _time = millis();
 }
 void SensorPotentiometer::newData(uint32_t value){
     //saving the new data 
@@ -144,6 +148,8 @@ float SensorPotentiometer::getDataF(){
     return 0;}
 double SensorPotentiometer::getDataD(){
     return 0;}
+unsigned long SensorPotentiometer::getTime(){
+    return _time;}
 
 //
 //HALL SENSOR 
@@ -211,6 +217,8 @@ float SensorHall::getDataF(){
     return 0;}
 double SensorHall::getDataD(){
     return 0;}
+unsigned long SensorHall::getTime(){
+    return _sensorHallData.time;}
 
 //
 //CANbus reader
@@ -383,3 +391,5 @@ float SensorEngine::getDataF(){
     return 0;}
 double SensorEngine::getDataD(){
     return 0;}
+unsigned long SensorEngine::getTime(){
+    return _sensorEngineData.time;}

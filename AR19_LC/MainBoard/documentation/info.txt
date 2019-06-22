@@ -24,17 +24,20 @@ Component ID and CANbus ID:
     010, 0x220 --> Hallsensor front left, data storrage object
     011, 0x210 --> Hallsensor front right, data storrage object
     012, 0x2D0 --> Hallsensor differential, data storrage object
-    013, 0x2E0 --> Hallsensor gears, data storrage object
-    014, 0x2F0 --> Hallsensor engine, data storrage object
+    013, 0x2D1 --> Hallsensor gears, data storrage object
+    
+    014, 0x5F0 --> Sensor engine, data storrage object
 
     020, 0x235 --> Potentiometer steering, data storrage object
-    021, 0x010 --> Potentiometer gas pedal, data storrage object
-    022, 0x020 --> Gear position, data sorrage object
+    021, 0x011 --> Potentiometer gas pedal, data storrage object
+    022, 0x021 --> Gear position, data sorrage object
 
     030, 0x250 --> Buttons steering wheel, data storrage object
     031, 0x2C8 --> The system has control over the Clutch, data storrage object
     032, 0x2B0 --> The system has control over the ETC, data storrage object
     033, 0x019 --> Ping from main ACM 
+
+    040, Na --> Safety manager | An object that checks for implausibility
 
     050, 0x448 --> Object for edditing the IC file over CANbus
 
@@ -56,6 +59,10 @@ Error ID:
   External errors 
     201 --> Launch aborted
     202 --> Potmeter error
+    203 --> Hall front implausibility 
+    204 --> Hall rear implausibility 
+    205 --> ETC Hand-Shake, loss of messages
+    206 --> EGS Hand-Shake, loss of messages
 
   Session messages
     31x --> Login by user x 

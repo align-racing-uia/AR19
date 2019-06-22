@@ -1,13 +1,14 @@
 #include "systemState.h"
 #include "Arduino.h"
 
-stateGuardian::stateGuardian(ExternalSource** ES, uint8_t* systemStateP, InitialConditions* IC, ErrorHandler* EH, uint16_t componentID) : 
-    _ES(ES), _systemState(systemStateP), _IC(IC), _EH(EH), _componentID(componentID)
+stateGuardian::stateGuardian(ExternalSource** ES, uint8_t* systemStateP, InitialConditions* IC, ErrorHandler* EH, uint16_t componentID, Safety* safety) : 
+    _ES(ES), _systemState(systemStateP), _IC(IC), _EH(EH), _componentID(componentID), _safety(safety)
 {
     *_systemState = _IC->_defaultSystemState;
 }
 
 bool stateGuardian::updateSystemState(){
+
 
 
     switch (*_systemState){
@@ -75,7 +76,7 @@ bool stateGuardian::updateSystemState(){
                 *_systemState = 30;
                 return true;
             }
-            else if (!modeCheck() || !controlCheck())
+            else if (!modeCheck() || !controlCheck() || _safety->EGSconectionDown || _safety->ETCconectionDown)
             {
                 *_systemState = 90;
                 return true;
@@ -89,7 +90,7 @@ bool stateGuardian::updateSystemState(){
                 *_systemState = 40;
                 return true;
             }
-            else if (!controlCheck() || launchFailure())
+            else if (!controlCheck() || launchFailure() || _safety->EGSconectionDown || _safety->ETCconectionDown)
             {
                 *_systemState = 90;
                 return true;

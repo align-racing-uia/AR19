@@ -5,6 +5,8 @@
 #include "initialConditions.h"
 #include "errorHandler.h"
 #include "dataInput.h"
+#include "safety.h"
+
 
 class stateGuardian{
     private:
@@ -13,6 +15,7 @@ class stateGuardian{
     ErrorHandler* _EH;
     uint16_t _componentID;
     uint8_t* _systemState;
+    Safety* _safety;
 
     bool launchOn();
     bool modeCheck();
@@ -25,7 +28,7 @@ class stateGuardian{
     bool LCorTCmode();
 
     public:
-    stateGuardian(ExternalSource**, uint8_t*, InitialConditions*, ErrorHandler*, uint16_t);
+    stateGuardian(ExternalSource**, uint8_t*, InitialConditions*, ErrorHandler*, uint16_t, Safety*) ;
     bool updateSystemState();
 
 };

@@ -15,8 +15,14 @@ class InitialConditions
     //Hall Sensor
     const uint32_t _maxIncreaseHall = 0xFFFFFFFF;
     const uint32_t _maxValueHall = 0xFFFFFFFF;
-    const uint16_t _maxTimeDelayHallMillis = 0xFFFF;
+    const uint16_t _maxTimeDelayHallMillis = 500;
 
+    //ETC
+    const uint16_t _maxTimeDelayETCMillis = 500;
+
+    //EGS
+    const uint16_t _maxTimeDelayEGSMillis = 500;
+    
     //Potensiometer
     const uint8_t _maxValuePot = 0xFF;
     const uint8_t _minValuePot = 0;
@@ -46,6 +52,7 @@ class InitialConditions
     const uint16_t _canIdSystemState = 0x2A0;
     const uint16_t _canIdErrorMessages= 0x440;
     const uint16_t _canIdOk = 0x015;
+    const uint16_t _canIdShutDown = 0x001;
 
     const uint8_t _canMessageRequestControl = 0xFA;
     const uint8_t _canMessageRelinquishControl = 0xF0;
@@ -55,6 +62,8 @@ class InitialConditions
     const uint16_t _canMessageRelinquishControlETC = 0x0F00;
 
     const uint8_t _canMessageOk = 0xF0;
+
+    const uint8_t _canMessageShutDown = 0xF0; 
 
 
 
@@ -85,6 +94,7 @@ class InitialConditions
 
     //Ignition Cutter
     const uint8_t cutterPIN = 16;
+
     
 };
 

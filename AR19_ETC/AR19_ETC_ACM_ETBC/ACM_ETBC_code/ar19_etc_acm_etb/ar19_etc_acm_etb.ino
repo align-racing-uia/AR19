@@ -8,8 +8,8 @@ Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 Title: Electronic Throttle Body Controller Bench test
 Description: Code for controlling the ETB
 
-v 2.0
-Last Revision Date: 03.06.2019 (Moved constant to constants header. Added timeout check for reaching limp position)
+v 2.1
+Last Revision Date: 09.06.2019 (Added implausibility checks for TPS. Added check for target vs actual position. Removed sensors.h)
 */
 
 //  Include Arduino libraries
@@ -25,7 +25,6 @@ Last Revision Date: 03.06.2019 (Moved constant to constants header. Added timeou
 #include "ar19_etc_acm_etb_constants.h"
 #include "ar19_etc_led_settings.h"
 #include "ar19_etc_can.h"
-#include "ar19_etc_sensor.h"
 
 //Set CPU speed if not defined
 #ifndef F_CPU
@@ -34,7 +33,7 @@ Last Revision Date: 03.06.2019 (Moved constant to constants header. Added timeou
 
 Can can;
 LedSettings led;
-SensorData sensor( &can, &led );
+//SensorData sensor( &can, &led );
 PID etbPid( &pidEtbInput, &pidEtbOutput, &pidEtbSetpoint, pidEtbKp, pidEtbKi, pidEtbKd, DIRECT );
 PID idlePid( &pidIdleInput, &pidIdleOutput, &pidIdleSetpoint, pidIdleKp, pidIdleKi, pidIdleKd, DIRECT );
 
@@ -77,6 +76,8 @@ void setup()
     if ( pwmSuccess1 && pwmSuccess2 && bootSuccess ) {
         led.blink( led.green, 5 );
     }
+
+    reachThrottleTargetTimer_ms = millis()+1000;
 }
 
 void loop()
@@ -98,7 +99,8 @@ void loop()
                 limpMode = true;
             } else {
                 limpMode = false;
-                reachLimpCheckStarted = false;
+                limpStarted = false;
+                reachThrottleTargetTimer_ms = millis();
                 can.send( canIdEtbcLimpModeConfirm, globalFalse );
             }
 
@@ -108,7 +110,8 @@ void loop()
                 limpMode = true;
             } else if ( msgIn.data[0] == globalFalse ) {
                 limpMode = false;
-                reachLimpCheckStarted = false;
+                limpStarted = false;
+                reachThrottleTargetTimer_ms = millis();
                 can.send( canIdEtbcLimpModeConfirm, globalFalse );
             }
 
@@ -155,21 +158,23 @@ void loop()
         } else if ( msgIn.can_id == canIdChangeIdleRpm ) {
             if ( msgIn.data[0] == globalTrue ) {
                 regulatedIdleEnable = true;
-                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/10 );
+                tps1IdleOld         = tps1Idle;
+                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/100 );
             } else if ( msgIn.data[0] == globalFalse ) {
                 regulatedIdleEnable = false;
-                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/10 );
+                tps1Idle            = tps1IdleOld;
+                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/100 );
             }
             if ( msgIn.data[1] == globalTrue) {
-                if ( rpmIdle < 2500 ) {
+                if ( rpmIdle < 7300 ) {
                     rpmIdle = rpmIdle + 100;
                 }
-                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/10 );
+                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/100 );
             } else if ( msgIn.data[1] == globalFalse ) {
-                if ( rpmIdle > 700 ) {
+                if ( rpmIdle > 1500 ) {
                     rpmIdle = rpmIdle - 100;
                 }
-                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/10 );
+                can.send( canIdChangeIdleRpmConfirm, regulatedIdleEnable, rpmIdle/100 );
             }
 
         //  Check for change idle apps1Value
@@ -177,9 +182,8 @@ void loop()
             if ( msgIn.data[0] == globalTrue ) {
                 //  Increment idle position
                 if ( msgIn.data[1] == globalTrue ) {
-                    if ( tps1Idle < tps1Min + 15gffdas0 ) {
+                    if ( tps1Idle < tps1Min + 55 ) {
                         tps1Idle = tps1Idle + 5;
-                        tps2Idle = tps2Idle - 5;
                         can.send( canIdChangeIdleValueConfirm, globalTrue, tps1Idle );
                     } else {
                         can.send( canIdChangeIdleValueConfirm, globalFalse, tps1Idle );
@@ -188,7 +192,6 @@ void loop()
                 } else if ( msgIn.data[1] == globalFalse ) {
                     if ( tps1Idle > tps1Min + 10 ) {
                         tps1Idle = tps1Idle - 5;
-                        tps2Idle = tps2Idle + 5;
                         can.send( canIdChangeIdleValueConfirm, globalTrue, tps1Idle );
                     } else {
                         can.send( canIdChangeIdleValueConfirm, globalFalse, tps1Idle );
@@ -223,18 +226,13 @@ void loop()
             }
         }
     }
-/*
-    tps1ImplausibilityOutofRange = sensor.implausibilityOutOfRange( tps1Pin, tps1Min, tps1Max );
-    tps2ImplausibilityOutofRange = sensor.implausibilityOutOfRange( tps2Pin, tps2Min, tps2Max ); 
-    tpsImplausibilityDifference = sensor.implausibilityDifference( tps1Pin, tps2Pin, tps1Min, tps1Max, tps2Min, tps2Max );
-    tpsImplausible = sensor.implausibilityCheck( tps1ImplausibilityOutofRange, tps2ImplausibilityOutofRange, tpsImplausibilityDifference, tpsLastDiffImplausibility_ms, tpsImplausibilityInterval_ms );
 
     if ( tpsImplausible != 0 && millis() > tpsImplausibilityLastMsg_ms + tpsImplausibilityInterval_ms ) {
         limpMode = true;
         can.send( canIdTpsImplausible, tpsImplausible );
         tpsImplausibilityLastMsg_ms = millis();
     }
-*/
+
     //  Read and send TPS values
         tps1Value = analogRead( tps1Pin );
         tps2Value = analogRead( tps2Pin );
@@ -250,13 +248,66 @@ void loop()
             tpsTimestampLastMsg_ms = millis();
         }
 
+//    //  Check for implausibility (CV 1.6.7)
+//        //  TPS1 Out of range
+//        if ( tps1Value > tps1PhysicalMax + 30 ) {
+//            tps1ImplausibilityOutofRangeMax = true;
+//            tps1ImplausibilityOutofRangeMin = false;
+//        } else if ( tps1Value < tps1Min - 30 ) {
+//            tps1ImplausibilityOutofRangeMin = true;
+//            tps1ImplausibilityOutofRangeMax = false;
+//        } else {
+//            tps1ImplausibilityOutofRangeMax = false;
+//            tps1ImplausibilityOutofRangeMin = false;
+//        }
+//
+//        //  TPS2 Out of range
+//        if ( tps2Value < tps2PhysicalMax - 30 ) {
+//            tps2ImplausibilityOutofRangeMax = true;
+//            tps2ImplausibilityOutofRangeMin = false;
+//        } else if ( tps2Value > tps2Min + 30 ) {
+//            tps2ImplausibilityOutofRangeMin = true;
+//            tps2ImplausibilityOutofRangeMax = false;
+//        } else {
+//            tps2ImplausibilityOutofRangeMax = false;
+//            tps2ImplausibilityOutofRangeMin = false;
+//        }
+//
+//        if ( tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTpsBothOutOfRangeMin;
+//        } else if ( tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTps1OutOfRangeMin;
+//        } else if ( not tps1ImplausibilityOutofRangeMin && tps2ImplausibilityOutofRangeMin ) {
+//            tpsImplausible = faultCodeTps2OutOfRangeMin;
+//        } else if (tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTpsBothOutOfRangeMax;
+//        } else if ( tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTps1OutOfRangeMax;
+//        } else if ( not tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTps2OutOfRangeMax;
+//        } else if ( tpsDifference_percent >= 10 && not tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin && not tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
+//            tpsImplausible = faultCodeTpsDifferenceAboveTen;
+//        } else {
+//            tpsImplausible = 0;
+//            tpsLastDiffImplausibility_ms = millis();
+//        }
+//
+//        //  Check if implausibility lasts for more than allowed limit (CV 1.6.7)
+//        if ( tpsImplausible != 0 ) {
+//            if ( millis() > tpsLastDiffImplausibility_ms + tpsImplausibilityInterval_ms ) {
+//                limpMode = true;
+//                can.send( canIdTpsImplausible, tpsImplausible );
+//                can.send( canIdEtbcFaultFlag, tpsImplausible );
+//                tpsLastDiffImplausibility_ms = millis();
+//            }
+//        }
+
     //  Calculate idle PID
         if ( regulatedIdleEnable ) {
             pidIdleSetpoint = rpmIdle;
             pidIdleInput    = rpmValue;
             idlePid.Compute();
             tps1Idle = pidIdleOutput;
-            can.send( 0x668, pidIdleOutput );
         }
 
     //  Calculate ETB PID
@@ -266,6 +317,8 @@ void loop()
             pidEtbSetpoint = map( lcTargetValue, 0, 255, tps1Idle, tps1Max );
             //  Illuminates orange LED to indicate LC mode
             led.ledsSwitch( led.orange );
+
+        //  If not LC mode, normal operation
         } else {
             switch( throttleSetpointMap ) {
                 case 1  :   {   
@@ -286,32 +339,43 @@ void loop()
         }
             
         etbPid.Compute();
+
+    //  Sets bool dependant on TPS in limp position or not
+    if ( tps1Value < (tps1Limp + tps1Limp*0.1) && tps1Value > (tps1Limp - tps1Limp*0.1) ) {
+        throttleInLimp = true;
+    } else {
+        throttleInLimp = false;
+    }
     
     //  Limp home mode
     if ( limpMode ) {
-        //  Starts timer at first iteration when Limp mode is set
-        if ( not reachLimpCheckStarted ) {
+
+        if ( not limpStarted ) {
             limpModeTimer_ms = millis();
-            reachLimpCheckStarted = true;
+            limpStarted = true;
         }
-        //  Sets bool dependant on TPS in limp position or not
-        if ( tps1Value < (tps1Limp + tps1Limp*0.1) && tps1Value > (tps1Limp - tps1Limp*0.1) ) {
-            limpReachedOk = true;
-        } else {
-            limpReachedOk = false;
-        }
-        //  Checks if TPS has reached limp +-10% before timeout
-        if ( millis() > limpModeTimer_ms + reachLimpInterval_ms && not limpReachedOk ) {
-            can.send( canIdShutdown, acmId );
-        }
-        //  Writes LOW to both pins
+
+        //  Writes LOW to both output pins
         digitalWrite( etbcOut1Pin, LOW );
         digitalWrite( etbcOut2Pin, LOW );
         //  Sends confirmation of limp mode active
-        can.send( canIdEtbcLimpModeConfirm, globalTrue );
+        if ( millis() > lastLimpMsg_ms + limpMsgInterval_ms ) {
+            can.send( canIdEtbcLimpModeConfirm, globalTrue );
+            lastLimpMsg_ms = millis();
+        }
         //  Disable blip and LC mode to prevent sudden enabling after exiting limp mode
         blipMode            = false;
         launchControlMode   = false;
+
+        //  Checks if TPS has reached limp +-10% before timeout
+        if ( not throttleInLimp ) {
+            if ( millis() > limpModeTimer_ms + reachLimpInterval_ms ) {
+                can.send( canIdShutdown, acmId );
+                limpStarted = false;
+            }
+        } else {
+            lastLimpMsg_ms = millis();
+        }
 
     //  Blip mode 
     } else if ( blipMode ) {
@@ -348,18 +412,26 @@ void loop()
             
             digitalWrite( etbcOut2Pin, LOW );
             pwmWrite( etbcOut1Pin, pidEtbOutput );
-            
-            //  For testing
-            //can.send( 0x666, etbcOut1Pin, pidEtbOutput, pidEtbInput/4, pidEtbSetpoint/4, apps1Value, apps1Remap );
         
         } else if ( pidEtbOutput < 0 ) {
             double pidEtbOutputAbs = abs( pidEtbOutput );
 
             digitalWrite( etbcOut1Pin, LOW );
             pwmWrite( etbcOut2Pin, pidEtbOutputAbs );
-
-            // For testing
-            //can.send( 0x666, etbcOut2Pin, pidEtbOutput, pidEtbInput/4, pidEtbSetpoint/4, apps1Value, apps1Remap );
         } 
+
+        //  Checks throttle target versus actual thottle position (CV 1.6.10)
+        if ( tps1Value > pidEtbSetpoint + pidEtbSetpoint * 0.10 || tps1Value < pidEtbSetpoint - pidEtbSetpoint * 0.10 ) {
+          can.send(0x668, map( tps1Value, 0, 1023, 0, 255 ), map( pidEtbSetpoint, 0, 1023, 0, 255 ));
+            if ( millis() > reachThrottleTargetTimer_ms + reachThrottleTargetLimit_ms ) {
+                limpMode = true;
+                can.send( canIdEtbcFaultFlag, faultCodeThrottlePositionNotReached );
+            }
+        } else {
+            reachThrottleTargetTimer_ms = millis();
+        }
     }
+
+    
+
 }

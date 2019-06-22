@@ -30,12 +30,13 @@ void CheckDriverIntention()
     }
   } 
 
-  if(cansignal::neutralSignal == global::sant && millis() - gotoneutral::timestamp > gotoneutral::timer)
+  if(cansignal::neutralSignal == global::sant && millis() - gotoneutral::timestamp > gotoneutral::timerLockout && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout)
   {
     if (/*gearposition::currentGear != 99 && */gearposition::currentGear != 69)
     {
       gotoneutral::timestamp = millis();
-      digitalWrite(leds::blue,LOW);
+      digitalWrite(leds::red,LOW);
+      digitalWrite(leds::green,LOW);
       cansignal::gearAttemptInFalsePosition = global::tull;
     }
     else
