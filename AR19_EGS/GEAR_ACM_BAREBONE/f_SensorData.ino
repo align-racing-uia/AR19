@@ -10,10 +10,10 @@ void CheckClutchPressure()
 {
   using namespace clutchpressure;
   sensorValue = analogRead(sensorPin);
-  InBar = map(sensorValue, 103, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet //Henrik: Mest sansynlig så bør innputsignalet mappes fra 0 til 255
+  InBar = map(sensorValue, 100, 921, 0, 250); // Remaps the bit value to conincide with BAR - info in datasheet //Henrik: Mest sansynlig så bør innputsignalet mappes fra 0 til 255
 
   // Giver error code to the telemetry if clutch pressure is out of range.
-  if (sensorValue < 103 || sensorValue > 921)
+  if (sensorValue < 50 || sensorValue > 1000)
   {
     cansignal::clutchPressureError = global::sant;
   }
@@ -46,22 +46,22 @@ void CheckGear()
 
 */
 
-if (voltage < 400)
+if (voltage < 250)
 {
   currentGear = 69;
 }
 
-else if ( voltage > 548 && voltage < 748 )
+else if ( voltage > 548 && voltage < 720 )
 {
   currentGear = 1;
 }
 
-else if (voltage > 900 && voltage < 1150 )
+else if (voltage > 900 && voltage < 1200 )
 {
   currentGear = 0;           // NB! Gear position "0" is Netutral(N)
 }
 
-else if (voltage > 1329 && voltage < 1529 )
+else if (voltage > 1300 && voltage < 1529 )
 {
   currentGear = 2;
 }
@@ -86,7 +86,7 @@ else if (voltage > 4320 && voltage < 4520 )
   currentGear = 6;
 }
 
-else if (voltage > 4600)
+else if (voltage > 4750)
 {
   currentGear = 69;
 }
