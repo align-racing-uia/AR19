@@ -6,7 +6,7 @@ void GearUp()
     {
         clutch::timestamp = millis();
     }
-    if (clutchpressure::InBar > 11 /*&& gearposition::currentGear != gearposition::newGear */&& millis()- gearup::timestamp < (gearup::timer - 200))
+    if (clutchpressure::InBar > 11 && millis()- gearup::timestamp < (gearup::timer - 200))
     {
         digitalWrite(gearup::pin, HIGH);    
         

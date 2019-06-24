@@ -21,7 +21,7 @@ void GoToNeutral()
             digitalWrite(gearup::pin, LOW);
             delay(250);//Henrik: Ikke bruk delay(), dette kan føre til at can-meldinger ikke kommer frem
         }
-        else if (gearposition::currentGear >= 3 && gearposition::currentGear <= 6)
+        else if (gearposition::currentGear >= 3)
         {
             digitalWrite(geardown::pin, HIGH);
             digitalWrite(gearup::pin, LOW); // Just to make sure the actuator doesnt acuate both ways
