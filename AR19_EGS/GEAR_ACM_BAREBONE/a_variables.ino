@@ -85,7 +85,7 @@ namespace cansignal
         uint8_t gearChangeFailed = global::tull;
         uint8_t neutralFailed = global::tull;    
     //CAN ID 485 - Action response
-        uint8_t uint8_t actionRecieved = global::tull;
+        uint8_t actionRecieved = global::tull;
 }
 
 
