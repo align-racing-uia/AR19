@@ -64,7 +64,7 @@ void loop() {
     }
 
 
-    if (lightsON){       //skru på
+    if (lightsON == true){       //skru på
 
           digitalWrite(rled, LOW); //Debug led blir rød
           digitalWrite(breaklightout, HIGH); //Bremselyset lyser
