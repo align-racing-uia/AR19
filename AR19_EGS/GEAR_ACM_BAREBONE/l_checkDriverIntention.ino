@@ -9,9 +9,24 @@ void CheckDriverIntention()
 
   if (cansignal::gearUpSignal == global::sant && millis() - geardown::timestamp > geardown::timerLockout && millis() - gearup::timestamp > gearup::timerLockout && millis() - gotoneutral::timestamp > gotoneutral::timerLockout)
   {
+      
       gearposition::newGear = gearposition::currentGear + 1;
       gearup::timestamp = millis();
       digitalWrite(leds::green,LOW);
+
+      if(gearposition::currentGear <= 1)
+      {
+        SecondGearFix();
+      }
+
+      else
+      {
+        gearposition::newGear = gearposition::currentGear + 1;
+        gearup::timestamp = millis();
+        digitalWrite(leds::green,LOW);
+      }
+
+
 
   } 
 

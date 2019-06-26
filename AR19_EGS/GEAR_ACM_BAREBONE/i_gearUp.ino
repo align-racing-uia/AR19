@@ -15,6 +15,7 @@ void GearUp()
     {
       digitalWrite(gearup::pin, LOW);  
     }
+
     if( gearposition::currentGear == gearposition::newGear && millis() - gearup::timestamp > gearup::timer - 100)
     {
       cansignal::gearChangeFailed = global::tull;
@@ -26,4 +27,19 @@ void GearUp()
       digitalWrite(leds::green,HIGH);
     }
   }
+}
+
+void SecondGearFix()
+{
+  clutch::timestamp = millis();
+  delay(250);
+  if (clutchpressure::InBar > 11)
+    {
+      digitalWrite(gearup::pin, HIGH);
+      delay(200);
+      digitalWrite(gearup::pin, LOW);
+      delay(25); 
+      digitalWrite(gearup::pin, HIGH);
+      delay(100); 
+    }
 }

@@ -5,6 +5,8 @@ void loop()
 
     GatherSensorData();         //Updates sensor values.
 
+    LaunchControl();            // Må vere mellom CanRecieve of CheckDriverIntetion
+
     CheckDriverIntention();
 
     GearUp();                   //Gears up initial values are set.  // cansignal::GearUp = global::sant

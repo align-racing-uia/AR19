@@ -36,6 +36,21 @@ void CanRecieve()
       cansignal::gearUpSignal = global::tull;    
     }
     
+    //CAN message 0x280 - Launch signal
+    if (myMessage.can_id == 0x280)
+    { 
+      cansignal::launchSignal = myMessage.data[0];
+
+      launch::timestamp = millis();
+      
+      myMessage.can_id = 0x485;  
+      myMessage.can_dlc = 1; 
+      myMessage.data[0] = global::sant;
+      mcp2515.sendMessage(&myMessage); 
+    }
+
+
+
     //Responds to pings
     if (myMessage.can_id == 0x19 && bitRead(myMessage.data[0],5) == 1)
     { 
@@ -44,6 +59,9 @@ void CanRecieve()
       myMessage.data[0] = global::sant;
       mcp2515.sendMessage(&myMessage);
     }
+
+
+    
   }
 }
 

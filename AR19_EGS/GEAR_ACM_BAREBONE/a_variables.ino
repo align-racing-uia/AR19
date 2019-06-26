@@ -60,6 +60,15 @@ namespace clutch
   long timestamp = 0;                       //timestamp for the duration to be checked againt - is reset by other function in the program
 }
 
+namespace launch
+{
+  unsigned long timestamp = 0;
+  const uint16_t timer = 1000;                    // Exits launch state if this time is exceeded
+  uint8_t active = global::tull;
+  int16_t clutchposition = 0;
+}
+
+
 namespace cansignal
 {
 // Variables derived from the CAN-Bus
@@ -73,6 +82,8 @@ namespace cansignal
     //Dash ACM
         uint8_t neutralSignal = global::tull;
         uint8_t clutchOverride = global::tull;
+    //LC
+        uint8_t launchSignal = 0;
 //Sending
     //CAN ID 20
         //uint8_t requestBlip = global::tull;
