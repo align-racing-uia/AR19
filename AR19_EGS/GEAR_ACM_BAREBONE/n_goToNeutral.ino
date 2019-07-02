@@ -3,7 +3,7 @@ void GoToNeutral()
   if (millis()-gotoneutral::timestamp < gotoneutral::timer && millis() > gotoneutral::timer)
   {
     clutch::timestamp = millis();
-    if (clutchpressure::InBar > 11 && millis() - gotoneutral::timestamp < gotoneutral::timer && millis() - gotoneutral::timestamp < (gotoneutral::timer - 1000)/* && gearposition::currentGear != 0*/)
+    if (/*clutchpressure::InBar > 11 && */millis() - gotoneutral::timestamp < gotoneutral::timer && millis() - gotoneutral::timestamp < (gotoneutral::timer - 1000)/* && gearposition::currentGear != 0*/)
     {             
         if (gearposition::currentGear == 2)
         {

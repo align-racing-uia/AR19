@@ -13,7 +13,7 @@ void CheckDriverIntention()
       gearposition::newGear = gearposition::currentGear + 1;
       gearup::timestamp = millis();
       digitalWrite(leds::green,LOW);
-
+/*
       if(gearposition::currentGear <= 1)
       {
         SecondGearFix();
@@ -26,7 +26,7 @@ void CheckDriverIntention()
         digitalWrite(leds::green,LOW);
       }
 
-
+*/
 
   } 
 

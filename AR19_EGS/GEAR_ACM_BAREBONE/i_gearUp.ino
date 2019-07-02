@@ -6,7 +6,7 @@ void GearUp()
     {
         clutch::timestamp = millis();
     }
-    if (clutchpressure::InBar > 11 && millis()- gearup::timestamp < (gearup::timer - 200))
+    if (/*clutchpressure::InBar > 11 &&*/ millis()- gearup::timestamp < (gearup::timer - 200))
     {
         digitalWrite(gearup::pin, HIGH);    
         
@@ -28,7 +28,7 @@ void GearUp()
     }
   }
 }
-
+/*
 void SecondGearFix()
 {
   clutch::timestamp = millis();
@@ -42,4 +42,4 @@ void SecondGearFix()
       digitalWrite(gearup::pin, HIGH);
       delay(100); 
     }
-}
+}*/
