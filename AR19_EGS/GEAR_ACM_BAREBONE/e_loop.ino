@@ -5,7 +5,7 @@ void loop()
 
     GatherSensorData();         //Updates sensor values.
 
-    LaunchControl();            // Må vere mellom CanRecieve of CheckDriverIntetion
+    /*LaunchControl();            // Må vere mellom CanRecieve of CheckDriverIntetion*/
 
     CheckDriverIntention();
 
