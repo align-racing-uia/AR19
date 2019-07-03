@@ -6,7 +6,7 @@ void GearDown()
     {
         clutch::timestamp = millis();
     }
-    if (/*clutchpressure::InBar > 11 && */millis()- geardown::timestamp < (geardown::timer - 200))
+    if (clutchpressure::InBar > 11 && millis()- geardown::timestamp < (geardown::timer - 200))
     {
         digitalWrite(geardown::pin, HIGH);    
     }
