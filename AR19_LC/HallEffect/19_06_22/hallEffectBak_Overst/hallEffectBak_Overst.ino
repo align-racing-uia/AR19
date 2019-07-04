@@ -185,18 +185,21 @@ void interFunck() {
 // Oil ////////////////////////////////////////////////////////
 
 void measureOil() {
-
+  
   oilTempValueRaw = analogRead(oilTempPin);
   oilPressureValueRaw = analogRead(oilPressurePin);
 
-  oilTempValue = oilTempValueRaw/4; //TBD
-  oilPressureValue = oilPressureValueRaw/4; //TBD
+  fOilTempValue = 264.66 - 39.26*log((float)oilTempValueRaw);
+  oilTempValue = (uint8_t)fOilTempValue;
+
+  fOilPressureValue = float(curveFittingOilPressure[0]*oilPressureValueRaw*oilPressureValueRaw) + (float)(curveFittingOilPressure[1]*oilPressureValueRaw) + curveFittingOilPressure[2];
+  oilPressureValue = (uint8_t)(fOilPressureValue*10);
 
   oilMSG.data[0] = oilTempValue;
   oilMSG.data[1] = oilPressureValue;
 
 
-  if (millis() - oilSensorsTimeStamp > 1000)
+  if (millis() - oilSensorsTimeStamp > oilMsgDelay)
   {
       mcp2515.sendMessage(&oilMSG);
       oilSensorsTimeStamp = millis();

@@ -6,8 +6,8 @@ volatile static long previousTimeMicro = 0;
 volatile static double timeBetweenPulses = 9999999999.0;
 
 
-const uint16_t canID = 0x2F1; // canID: 0x2F1 -> Sprocket, 0x2F0 -> Diff, 0x220 -> FL, 0x210 -> FR
-double hallPPR = 24.0;
+const uint16_t canID; // canID: 0x2F1 -> Sprocket, 0x2F0 -> Diff, 0x220 -> FL, 0x210 -> FR
+double hallPPR;
 
 
 double rpm = 0.0;
@@ -17,17 +17,17 @@ long pulsesInInterval;
 double rpmCountingMethod = 0.0;
 
 
-long ThNaa = 0;
-long ThForrige = 0;
+unsigned long ThNaa = 0;
+unsigned long ThForrige = 0;
 
 const int interruptPin = 3;
 
-long previousTimeAvansertMetode = 0;
-long timeIntervallAvansertMetode = 250000; // microsecond
+unsigned long previousTimeAvansertMetode = 0;
+unsigned long timeIntervallAvansertMetode = 250000; // microsecond
 
-long numberOfPulsesArray[10];
-long timeArray[10];
-long ThForrigeArray[10];
+unsigned long numberOfPulsesArray[10];
+unsigned long timeArray[10];
+unsigned long ThForrigeArray[10];
 
 struct can_frame canMsg4;
 MCP2515 mcp2515(7);
@@ -102,29 +102,35 @@ void rpmAvansert()
       else
       {
         rpm =  1000000.0*60.0*(double)pulsesInInterval/(hallPPR*((double)(exactTimeInterval+ThForrige-ThNaa))); 
+        rpm *= 1000; //setting the RPM to a higher value before converting to int
       }
-     }
+    }
   
 
-  for(int i = 0; i < 9; i = i + 1)
-  {
-    numberOfPulsesArray[9-i] = numberOfPulsesArray[8-i];
-    timeArray[9-i] =  timeArray[8-i];
-    ThForrigeArray[9-i] = ThForrigeArray[8-i];
-  }
-  
-  ThForrigeArray[0] = ThNaa;
-  numberOfPulsesArray[0] = numberOfPulses;
-  timeArray[0] = micros();
+    for(int i = 0; i < 9; i = i + 1)
+    {
+      numberOfPulsesArray[9-i] = numberOfPulsesArray[8-i];
+      timeArray[9-i] =  timeArray[8-i];
+      ThForrigeArray[9-i] = ThForrigeArray[8-i];
+    }
+    
+    ThForrigeArray[0] = ThNaa;
+    numberOfPulsesArray[0] = numberOfPulses;
+    timeArray[0] = micros();
 
-  ThForrige = ThForrigeArray[9];
+    ThForrige = ThForrigeArray[9];
 
-  data.intNum = (uint32_t) rpm;
+    data.intNum = (uint32_t) rpm;
 
-  for (int i = 0; i < 4; i++)
-  {
-    canMsg4.data[i] = data.arrNum[i];       
-  }
-  mcp2515.sendMessage(&canMsg4);
+    for (int i = 0; i < 4; i++)
+    {
+      canMsg4.data[i] = data.arrNum[i];       
+    }
+
+
+    if (rpm < 3000)
+    {
+    mcp2515.sendMessage(&canMsg4);
+    }
   }
 }

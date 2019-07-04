@@ -1,22 +1,16 @@
 #include <SPI.h>
 #include <mcp2515.h>
-#include "rotaryswitch.h"
 
 ///////////////////////////////////
 //For use in AR19 Dashboard ACM ///
-//Last Updated 250519       ///////
-//By Marcus N. Løvdal /////////////
+//Last Updated 040719       ///////
+//By Henrik Brådland  /////////////
 ///////////////////////////////////
 
 
 
   //CANbus 
-  struct can_frame launchButtonsMSG; 
-  struct can_frame debuggingMSG;
-  struct can_frame flappyMSG;
-  struct can_frame potmeterMSG;
-  struct can_frame incommingMSG;
-  struct can_frame rattACMonline;
+  struct can_frame debuggingMSG, flappyMSG, incommingMSG, rattACMonline, neutrallMSG;
 
 
   
@@ -24,7 +18,7 @@
 
 
   //Pin number setup
-  const int iButtonPins[4] = {A3, A2, A4, A5}; // In order: Left button, Right Button, Left Flappy, Right Flappy
+  const int iButtonPins[4] = {A2, A3, A4, A5}; // In order: Left button, Right Button, Left Flappy, Right Flappy
 
   //Initialize variables
   bool bButtonValues[4] = {0,0,0,0}; //lb, rb, lf, rf (In order: Left button, Right button, Left flappy, Right flappy)
@@ -34,7 +28,6 @@
   const long minButtonBounceDeltaTime = 10; //(ms)
 
   //Misc. Variables
-  bool bLaunchActive = 0; //?Current implementation will not reset this value
   bool bCANbusMessageOK = 0;
   long lButtonReleaseTimeStamp = -1; //? -1 means the TimeStamp is ready to recieve a new value. The timestamp will not be updated as defined in the function MakeTimeStamp();
   long buttonTimeStamp = 0;
@@ -48,20 +41,24 @@
   uint8_t IncMessageLocal[8];
   uint16_t IncMessageID = 0x6FF;
   
-  uint8_t previousSentPotmeterPosition = 0;
   uint8_t currentSystemState = 0;
 
   uint8_t previousLeftFlappyPosition = 0;
   uint8_t previousRightFlappyPosition = 0;
+  uint8_t previousLeftButtonPosition = 0;
+  uint8_t previousRightButtonPosition = 0;
+  
+
+  const uint8_t globalTrue = 0xF0;
+  const uint8_t globalFalse = 0x0F;
 
   
 
-void setup() {
-  //Initialize pins ///
+void setup() 
+{
 
 
   InitiateButtonPins();
-//  InitiateRotarySwitchPin();
 
 
 
@@ -74,38 +71,26 @@ void setup() {
   mcp2515.setBitrate(CAN_500KBPS);
   mcp2515.setNormalMode();
   
-  launchButtonsMSG.can_id   = 0x250; 
   debuggingMSG.can_id       = 0x1FF;
   flappyMSG.can_id          = 0x240; 
-  potmeterMSG.can_id        = 0x235;
   rattACMonline.can_id      = 0x015;
+  neutrallMSG.can_id        = 0x042;
   
-  launchButtonsMSG.can_dlc  = 1; //? message length TBD
   debuggingMSG.can_dlc      = 5;
-  flappyMSG.can_dlc         = 2; 
-  potmeterMSG.can_dlc       = 1;
+  flappyMSG.can_dlc         = 2;
   rattACMonline.can_dlc     = 1;
+  neutrallMSG.can_dlc       = 2;
+
+
 
   for (uint8_t i = 0; i < debuggingMSG.can_dlc; i++)
   {
     debuggingMSG.data[i] = 0;
   }
 
-  for (uint8_t i = 0; i < launchButtonsMSG.can_dlc; i++)
-  {
-    launchButtonsMSG.data[i] = 0;
-  }
-
   rattACMonline.data[0] = 0xF0;
   mcp2515.sendMessage(&rattACMonline);
 
-  //Potmeter///
-
-  CalculateIntervals();
-
-  CheckRotarySwitch();
-  ActualPotmeterPosition();
-  SendRotarySwitchData(ActualPotmeterPosition());
 
   //Other //
   
@@ -116,148 +101,45 @@ void setup() {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-void loop() {
-  CheckButtons();
-  UpdateFlappies();
-//  CheckRotarySwitch();
-//  ActualPotmeterPosition();
-//  SendRotarySwitchData(ActualPotmeterPosition());
-  readCANbus();
-  UpdateSystemState();
-
-//  for (uint8_t i = 0; i < 3; i++)
-//  {
-//    debuggingMSG.data[i] = bButtonValues[i];
-//  }
-//    debuggingMSG.data[4] = currentSystemState;
-
-//  mcp2515.sendMessage(&debuggingMSG);
-
-
-  //Button functionality///////////////////////////////////////////////////////////////////////////////////////////////////
-  if ( IsBothButtonsPressed() && !bLaunchActive) //if both buttons are pressed AND Launch is currently not active/regulating, check if both buttons are held
-  {
-     SetLEDColor('g'); //Green
-//        debuggingMSG.data[0] = 1;
-        
-        
-        if( millis() - timeStamp > 500)
-        {
-        launchButtonsMSG.data[0] = 0xF0;
-        mcp2515.sendMessage(&launchButtonsMSG);
-        timeStamp = millis();
-        }
-
-        
-        if (currentSystemState == 20) //Check if the current message has the correct ID and the desiret data
-          {
-            bLaunchActive = 1; //?if and ONLY if confirmed with LB
-          }
-
-       
-  }
-  if (bLaunchActive)  //if both buttons are confirmed held and Launch is currently active,
-  {
-
-
-        if (currentSystemState == 20)
-        {
-          SetLEDColor('y'); //yellow
-        }
-        else if (currentSystemState == 30)
-        {
-          SetLEDColor('c'); //cyan
-        }
-        else
-        {
-          //Do nothing
-        } 
-
-        
-    if ( IsOneButtonNotPressed() ) //if one of the buttons are released,
-      {
-      MakeTimeStamp();
-      if ( ButtonsReleasedWithinTime() && IsNoButtonsPressed() && (currentSystemState == 30) ) //If dt < 500ms AND both buttons are released AND the vehicle is ready to launch
-        {
-        //Confirmed Take-off
-        lButtonReleaseTimeStamp = -1;
-        bLaunchActive = 0;
-        SetLEDColor('b'); //Blue
-
-                
-        launchButtonsMSG.data[0] = 0x0F;
-        
-        delay(1000); //???
-        
-        }
-      
-      else if (!ButtonsReleasedWithinTime()) //If dt > 500ms
-        {
-        //Take-off Failure
-        //?Send and confirm CANbus-message to Launch Board that the vehicle should revert to pre-launch SAFELY (considering ETC control)
-
-        lButtonReleaseTimeStamp = -1;
-        bLaunchActive = 0;
-
-        launchButtonsMSG.data[0] = 0xAA;
-        
-        mcp2515.sendMessage(&launchButtonsMSG);
-        
-        SetLEDColor('r'); //Red
-        delay(1000);
-        }
-        
-      }
-
-   if ( IsBothButtonsPressed() ) //If dt < 500ms and both buttons are pressed
-   {
-     lButtonReleaseTimeStamp = -1;
-   }
-      
-  }
-
-  
-  if((!IsBothButtonsPressed() && bLaunchActive) || (!IsBothButtonsPressed() && !bLaunchActive))
-  {
-    SetLEDColor(0); //LED Off
-    
-    if ( millis() - timeStamp > 1000)
-    {
-      launchButtonsMSG.data[0] = 0x55;
-      mcp2515.sendMessage(&launchButtonsMSG);
-      timeStamp = millis();
-    }
-  }
-
-
-
-}
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// Update System State /////////////////////////////////////////////////////////
-
-void UpdateSystemState()
+void loop() 
 {
-  if (IncMessageID == 0x2A0)
-  {
-    currentSystemState = IncMessageLocal[0];
-  }
-  else
-  {
-    //do nothing
-  }
+  CheckButtons();
+  UppdateButtons();
+  readCANbus();
 }
 
 
-// Flappies ///////////////////////////////////////////////////////////////////
+
+// Buttons/Flappies ///////////////////////////////////////////////////////////////////
 
 
-void UpdateFlappies()
+void UppdateButtons()
 { 
+
+  if (bButtonValues[0] == 1 && previousLeftButtonPosition == 0) 
+  { 
+    SetLEDColor('w');
+    flappyMSG.data[1] = 0xF0;
+    mcp2515.sendMessage(&flappyMSG);
+    previousLeftButtonPosition = 1;
+  }
+  else if (bButtonValues[0] == 0 && previousLeftButtonPosition == 1)
+  {
+    flappyMSG.data[1] = 0x0F;
+    previousLeftButtonPosition = 0;
+  }
+
+
+  if (bButtonValues[1] == 1 && previousRightButtonPosition == 0) 
+  {
+    SetLEDColor('w');
+    mcp2515.sendMessage(&neutrallMSG);
+    previousRightButtonPosition = 1;
+  }
+  else if (bButtonValues[1] == 0 && previousRightButtonPosition == 1) 
+  {
+    previousRightButtonPosition = 0;
+  }
 
 
   if (bButtonValues[2] == 1 && previousLeftFlappyPosition == 0) //if left flappy is pulled (opp-flank)
@@ -286,6 +168,7 @@ void UpdateFlappies()
     flappyMSG.data[1] = 0x0F;
     previousRightFlappyPosition = 0;
   }
+
   
 }
   
@@ -303,24 +186,6 @@ void CheckButtons()
       buttonTimeStamp = millis();
     }
   }
-
-//Conditions/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-bool IsBothButtonsPressed() //Returns true if both buttons are pressed (AND)
-{
-  return bButtonValues[0] && bButtonValues[1];
-}
-
-bool IsOneButtonNotPressed() //Returns true if one or more of the buttons are NOT pressed  (!AND)
-{
-  return !bButtonValues[0] || !bButtonValues[1];
-}
-
-bool IsNoButtonsPressed() //Returns true if NO buttons are pressed (!OR)
-{
-  return !bButtonValues[0] && !bButtonValues[1];
-}
-
 
 
 
@@ -388,23 +253,6 @@ bool ButtonsReleasedWithinTime() //Returns true if dt < 500ms, false else
 
 
 
-
-
-void SendRotarySwitchData(uint8_t dataInput)
-{
-  if (dataInput != previousSentPotmeterPosition)
-  {
-    potmeterMSG.data[0] = dataInput;
-    mcp2515.sendMessage(&potmeterMSG);
-    previousSentPotmeterPosition = dataInput;
-  }
-  else
-  {
-    //Do nothing
-  }
-  
-
-}
 
 //LED Colors ///////////////////////////////////////////////////////////////////////////////
 
