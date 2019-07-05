@@ -35,11 +35,11 @@ LedSettings led;
 
 struct can_frame msgIn;
 
-bool gearUp( uint8_t outputPin );
-bool gearDown( uint8_t outputPin );
-bool gearNeutral( uint8_t outputPin );
-uint16_t checkClutchPressure( uint8_t sensorPin );
-uint8_t checkGear( uint8_t sensorPin );
+bool gearUp();
+bool gearDown();
+bool gearNeutral();
+uint16_t getClutchPressure();
+uint8_t getCurrentGear();
 
 void setup()
 {
@@ -76,9 +76,9 @@ void loop()
             //  Read voltage from gear sensor (0-1023) and divides by 4 to send over CAN
             gearSensorValue     = analogRead( pinGearPositionSensor ) /4;
             //  Read voltage from clutch pressure sensor (0-1023) and divides by 4 to send over CAN
-            clutchPressureValue = analogRead( pinClutchPressureSensor ) /4;
+            clutchPressure = analogRead( pinClutchPressureSensor ) /4;
             //  Send raw values over CAN at defined calibration ID
-            can.send( canIdEgsCalibrate, gearSensorValue, clutchPressureValue );
+            can.send( canIdEgsCalibrate, gearSensorValue, clutchPressure );
             //  Reset timer to send calibrate message at defined interval
             calibrateTimestampLastMsg_ms = millis();
         }
@@ -115,27 +115,34 @@ void loop()
 
         //  Check for gear shift request
         } else if ( msgIn.can_id == canIdRequestGearShift ) {
-            if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) {
-                
-                bool shiftSuccessful = gearUp( pinGearUp );
 
+            if ( shiftTimeout ) {
+                //  Sends error message if request is recieved while in timeout
+                can.send( canIdEgsFaultFlag, faultCodeShiftTimeout);   
+
+            } else if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) {
+                //  Gear up
+                bool shiftSuccessful = gearUp();
+                //  Check if shift is successful, blinks green if successful upshift
                 if ( shiftSuccessful ){
                     led.ledsSwitch( led.green );
                     shiftTimeout = true;
                     shiftTimeoutLast_ms = millis();
                 } else {
+                    //  Sends error message indicating failure in upshift
                     can.send( canIdEgsFaultFlag, faultCodeShiftUpFailure );
                 }
 
             } else if ( msgIn.data[0] == globalFalse && msgIn.data[1] == globalTrue ) {
-                
-                bool shiftSuccessful = gearDown( pinGearDown );
-
+                //  Gear down
+                bool shiftSuccessful = gearDown();
+                //  Check if shift is successful, blinks orange if successful downshift
                 if ( shiftSuccessful ){
                     led.ledsSwitch( led.orange );
                     shiftTimeout = true;
                     shiftTimeoutLast_ms = millis();
                 } else {
+                    //  Sends error message indicating failure in downshift
                     can.send( canIdEgsFaultFlag, faultCodeShiftDownFailure );
                 }
 
@@ -147,52 +154,109 @@ void loop()
         //  Check for neutral request
     }
 
+    //  Sends CAN with current gear and clutch pressure
+    if ( millis() > egsOutInterval_ms + egsOutTimestampLastMsg_ms ) {
+        currentGear = getCurrentGear();
+        clutchPressure = getClutchPressure()/4;
+
+        can.send( canIdEgsOut, currentGear, clutchPressure );
+    }
+
     //  Checks if timeout has passed 
     if ( shiftTimeout ) {
         if ( millis() > shiftTimeoutInterval_ms + shiftTimeoutLast_ms ) {
             shiftTimeout = false;
             led.ledsSwitch( led.off );
         }
+    } else if ( currentGear == 0 ) {
+        led.ledsSwitch( led.blue );
+    } else {
+        led.ledsSwitch( led.off );
     }
 
 }
 
-bool gearUp( uint8_t outputPin ){
-    //  implement
+bool gearUp() {
+    currentGear = getCurrentGear();
+
+    if ( currentGear < 6 && currentGear > 2 ) {
+
+        shiftUpTimer_ms = millis();
+
+        while ( millis() < shiftUpTimer_ms + shiftUpInterval_ms ) {
+            //  To ensure actuator is not driven in both direction simultaneously
+            digitalWrite( pinGearDown, LOW );
+            //  Enable actuator shift up
+            digitalWrite( pinGearUp, HIGH );
+        }
+        //  Disable actuator after interval has elapsed
+        digitalWrite( pinGearUp, LOW );
+
+    } else {
+        //  Send error message if not in correct gear
+        can.send( canIdEgsFaultFlag, faultCodeShiftUpFromTopGear );
+        return false;
+    }
+
+    return true;
 }
 
-bool gearDown( uint8_t outputPin ){
-    //  implement
+bool gearDown() {
+    if ( currentGear > 1 ) {
+
+        shiftDownTimer_ms = millis();
+
+        while ( millis() < shiftDownTimer_ms + shiftDownInterval_ms ) {
+            //  To ensure actuator is not driven in both direction simultaneously
+            digitalWrite( pinGearUp, LOW );
+            //  Enable actuator shift up
+            digitalWrite( pinGearDown, HIGH );
+        }
+        //  Disable actuator after interval has elapsed
+        digitalWrite( pinGearDown, LOW );
+
+    } else if ( currentGear == 1 ) {
+        gearNeutral();
+    } else {
+        //  Send error message if not in correct gear
+        can.send( canIdEgsFaultFlag, faultCodeShiftDownFromNeutral );
+        return false;
+    }
+
+    return true;
 }
 
-bool gearNeutral( uint8_t outputPin ){
-    //  implement
+bool gearNeutral() {
+    //  to be implemented
 }
 
-uint16_t checkClutchPressure( uint8_t sensorPin ){
-    uint16_t sensorValue = analogRead( sensorPin );
+uint16_t getClutchPressure() {
+    uint16_t sensorValue = analogRead( pinClutchPressureSensor );
     return sensorValue;
 }
 
-uint8_t checkGear( uint8_t sensorPin ){
-    uint16_t sensorValue = analogRead( sensorPin );
-    uint8_t currentGear;
+uint8_t getCurrentGear() {
+    uint16_t sensorValue = analogRead( pinGearPositionSensor );
+    uint8_t calculatedGear;
 
     if ( sensorValue > firstGearValue - gearMarginValue && sensorValue < firstGearValue + gearMarginValue ) {
-        currentGear = 1;
+        calculatedGear = 1;
     } else if ( sensorValue > neutralGearValue - gearMarginValue && sensorValue < neutralGearValue + gearMarginValue ) {
-        currentGear = 0;
+        calculatedGear = 0;
     } else if ( sensorValue > secondGearValue - gearMarginValue && sensorValue < secondGearValue + gearMarginValue ) {
-        currentGear = 2;
+        calculatedGear = 2;
     } else if ( sensorValue > thirdGearValue - gearMarginValue && sensorValue < thirdGearValue + gearMarginValue ) {
-        currentGear = 3;
+        calculatedGear = 3;
     } else if ( sensorValue > fourthGearValue - gearMarginValue && sensorValue < fourthGearValue + gearMarginValue ) {
-        currentGear = 4;
+        calculatedGear = 4;
     } else if ( sensorValue > fifthGearValue - gearMarginValue && sensorValue < fifthGearValue + gearMarginValue ) {
-        currentGear = 5;
+        calculatedGear = 5;
     } else if ( sensorValue > sixtGearValue - gearMarginValue && sensorValue < sixtGearValue + gearMarginValue ) {
-        currentGear = 6;
+        calculatedGear = 6;
+    } else {
+        calculatedGear = 7;
+        can.send( canIdEgsFaultFlag, faultCodeGearReadFailure );
     }
 
-    return currentGear;
+    return calculatedGear;
 }
