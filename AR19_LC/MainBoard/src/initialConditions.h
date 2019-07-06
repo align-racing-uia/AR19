@@ -54,8 +54,8 @@ class InitialConditions
     const uint16_t _canIdOk = 0x015;
     const uint16_t _canIdShutDown = 0x001;
 
-    const uint8_t _canMessageRequestControl = 0xFA;
-    const uint8_t _canMessageRelinquishControl = 0xF0;
+    const uint8_t _canMessageRequestControl = 0xF0;
+    const uint8_t _canMessageRelinquishControl = 0x0F;
     const uint8_t _canMessageAborte = 0xAA;
 
     const uint16_t _canMessageRequestControlETC = 0xF000;

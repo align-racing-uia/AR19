@@ -82,7 +82,7 @@ void setup() {
   
   launchButtonsMSG.can_dlc  = 1; //? message length TBD
   debuggingMSG.can_dlc      = 5;
-  flappyMSG.can_dlc         = 2;
+  flappyMSG.can_dlc         = 2; 
   potmeterMSG.can_dlc       = 1;
   rattACMonline.can_dlc     = 1;
 
