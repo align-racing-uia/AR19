@@ -28,15 +28,15 @@ namespace gearup
 {
   long timestamp = 0;
   const uint8_t pin = 3;
-  const uint16_t timer = 1000;                    // Maximim time the proccess of gearing takes - the actuator is on for 200ms less than this value
-  const uint16_t timerLockout = timer + 500;      // Lockout period that disallows the system to restart the operation or starn another one.  
+  const uint16_t timer = 350;                    // Maximim time the proccess of gearing takes - the actuator is on for 200ms less than this value
+  const uint16_t timerLockout = timer + 500;      // Lockout period that disallows the system to restart the operation or start another one.  
 }
 
 namespace geardown
 {
   long timestamp = 0;
   const uint8_t pin = 10;
-  const uint16_t timer = 1000;                    // Maximim time the proccess of gearing takes - the actuator is on for 200ms less than this value
+  const uint16_t timer = 500;                    // Maximim time the proccess of gearing takes - the actuator is on for 200ms less than this value
   const uint16_t timerLockout = timer + 500;      // Lockout period that disallows the system to restart the operation or starn another one.  
 }
 
