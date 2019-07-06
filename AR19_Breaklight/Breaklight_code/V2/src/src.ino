@@ -14,6 +14,7 @@ Copyright © 2019 Align Racing UiA. All rights reserved.
 #include <SPI.h>
 #include <mcp2515.h>
 #include "AllSettings.h"
+#include "src/pwm/PWM.h"
 
 MCP2515 mcp2515(7);
 struct can_frame canMsg;
@@ -23,6 +24,10 @@ bool lightsON = false;
 
 void setup() {
  SPI.begin();
+
+  //  Initialise PWM, functions set bools to true if frequency succesfully set
+  InitTimersSafe();
+  SetPinFrequencySafe( tpsOutPin, pwmFrequency );
   
   //Debug led setup
   pinMode(rled, OUTPUT);
@@ -53,8 +58,15 @@ void loop() {
       //breakPressure1 = canMsg.data[0]; //Trykk i bremsekrets 1 (35 bar)
       breakPressure = canMsg.data[1]; //Trykk i bremsekrets 2 (100 bar)
 
-    }else{}
+    //  Check for TPS CAN message
+    } else if ( canMsg.can_id == canIdTps ) {
+        //  Write TPS 2 data to variable
+        tps2Value = canMsg.data[1];
 
+        //  Output TPS 2 value as PWM to ECU
+        pwmWrite( tpsOutPin, tps2Value );
+    
+    }
 
     if (breakPressure > pressureThresholdOn) { //Skrur på bremselyset hvis den går forbi bremsethreshold (Vedien 0-255)
         lightsON = true;
@@ -74,7 +86,6 @@ void loop() {
           digitalWrite(rled, HIGH); //Debug led blir rød
           digitalWrite(breaklightout, LOW); //Bremselyset lyser
     }
-
 
   }
 
