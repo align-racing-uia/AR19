@@ -247,7 +247,7 @@ void loop()
             can.send( canIdTps, tps1Out, tps2Out, tpsDifference_percent );
             tpsTimestampLastMsg_ms = millis();
         }
-/*
+
     //  Check for implausibility (CV 1.6.7)
         //  TPS1 Out of range
         if ( tps1Value > tps1PhysicalMax + 30 ) {
@@ -301,7 +301,7 @@ void loop()
                 tpsLastDiffImplausibility_ms = millis();
             }
         }
-*/
+
     //  Calculate idle PID
         if ( regulatedIdleEnable ) {
             pidIdleSetpoint = rpmIdle;
