@@ -41,7 +41,7 @@ int16_t appsDifference;
 uint8_t appsDifference_percent;
 uint8_t apps1Pin = 17;
 uint8_t apps2Pin = 16;
-const uint16_t apps1Min = 265;  //  265
+const uint16_t apps1Min = 272;  //  265
 const uint16_t apps1Max = 656;  //  656
 const uint16_t apps2Min = 194;  //  194
 const uint16_t apps2Max = 404;  //  404
