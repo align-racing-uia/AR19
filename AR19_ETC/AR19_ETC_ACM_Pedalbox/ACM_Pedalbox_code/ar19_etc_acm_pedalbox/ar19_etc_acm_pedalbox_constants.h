@@ -17,20 +17,20 @@ const uint16_t canIdRpm                       = 0x5F0;
 const uint16_t canIdPedalboxImplausibility    = 0x010;
 
 //  Definitions of pedalbox fault flag codes
-const uint8_t faultCodeApps1OutOfRangeMin       = 41;
-const uint8_t faultCodeApps2OutOfRangeMin       = 42;
-const uint8_t faultCodeAppsBothOutOfRangeMin    = 40;
-const uint8_t faultCodeApps1OutOfRangeMax       = 61;
-const uint8_t faultCodeApps2OutOfRangeMax       = 62;
-const uint8_t faultCodeAppsBothOutOfRangeMax    = 60;
-const uint8_t faultCodeAppsDifferenceAboveTen   = 50;
-const uint8_t faultCodeBps1OutOfRangeMin        = 141;
-const uint8_t faultCodeBps2OutOfRangeMin        = 142;
-const uint8_t faultCodeBpsBothOutOfRangeMin     = 140;
-const uint8_t faultCodeBps1OutOfRangeMax        = 161;
-const uint8_t faultCodeBps2OutOfRangeMax        = 162;
-const uint8_t faultCodeBpsBothOutOfRangeMax     = 160;
-const uint8_t faultCodeBpsDifferenceAboveTen    = 150;
+const uint8_t faultCodeApps1OutOfRangeMin           = 41;
+const uint8_t faultCodeApps2OutOfRangeMin           = 42;
+const uint8_t faultCodeAppsBothOutOfRangeMin        = 40;
+const uint8_t faultCodeApps1OutOfRangeMax           = 61;
+const uint8_t faultCodeApps2OutOfRangeMax           = 62;
+const uint8_t faultCodeAppsBothOutOfRangeMax        = 60;
+const uint8_t faultCodeAppsDifferenceAboveTenPct    = 50;
+const uint8_t faultCodeBps1OutOfRangeMin            = 141;
+const uint8_t faultCodeBps2OutOfRangeMin            = 142;
+const uint8_t faultCodeBpsBothOutOfRangeMin         = 140;
+const uint8_t faultCodeBps1OutOfRangeMax            = 161;
+const uint8_t faultCodeBps2OutOfRangeMax            = 162;
+const uint8_t faultCodeBpsBothOutOfRangeMax         = 160;
+const uint8_t faultCodeBpsDifferenceAboveTenPct     = 150;
 
 //  Definition of APPS related variables
 uint16_t apps1Value;
@@ -47,12 +47,13 @@ const uint16_t apps2Min = 194;  //  194
 const uint16_t apps2Max = 404;  //  404
 
 //  Variables used for checking implausibility for APPS
-bool apps2ImplausibilityOutofRangeMax        = false;
-bool apps2ImplausibilityOutofRangeMin        = false;
-bool apps1ImplausibilityOutofRangeMax        = false;
-bool apps1ImplausibilityOutofRangeMin        = false;
-uint8_t appsImplausible                      = 0;
-unsigned long appsLastDiffImplausibility_ms  = 0;
+uint8_t appsImplausibilityOutOfRangeMargin  = 10;
+bool apps2ImplausibilityOutofRangeMax       = false;
+bool apps2ImplausibilityOutofRangeMin       = false;
+bool apps1ImplausibilityOutofRangeMax       = false;
+bool apps1ImplausibilityOutofRangeMin       = false;
+uint8_t appsImplausible                     = 0;
+unsigned long appsLastDiffImplausibility_ms = 0;
 
 //  Definition of BPS related variables
 uint16_t bps1Value;
@@ -69,6 +70,7 @@ const uint16_t bps2Min = 0;
 const uint16_t bps2Max = 1023;
 
 //  Variables used for checking implausibility for BPS
+uint8_t bpsImplausibilityOutOfRangeMargin   = 30;
 bool bps2ImplausibilityOutofRangeMax        = false;
 bool bps2ImplausibilityOutofRangeMin        = false;
 bool bps1ImplausibilityOutofRangeMax        = false;

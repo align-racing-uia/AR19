@@ -5,12 +5,12 @@ University of Agder 2019
 
 Members: Stian Rognhaugen, Sander B. Johannessen, Jorgen Nilsen
 
-Title: ACM Pedalbox (For bench test. Hard coded)
+Title: ACM Pedalbox
 Description: Main code for the pedalbox ACM sensornode. 
              Reads APPS & BPS and sends the values over CAN. 
 
-v 2.1
-Last Revision Date: 09.06.2019 (Added implausibility checks for APPS and BPS. Removed sensors.h)
+v 2.2
+Last Revision Date: 08.07.2019 (Fixed implausibility check. Added variable for imp. margins.)
 */
 
 //  Include Arduino libraries
@@ -135,13 +135,13 @@ void loop()
 
         bpsTimestampLastMsg_ms = millis();
     }
-/*
+
     //  Checks for APPS implausibility
         //  APPS1 Out of range
-        if ( apps1Value > apps1Max + 10 ) {
+        if ( apps1Value > apps1Max + appsImplausibilityOutOfRangeMargin ) {
             apps1ImplausibilityOutofRangeMax = true;
             apps1ImplausibilityOutofRangeMin = false;
-        } else if ( apps1Value < apps1Min - 10 ) {
+        } else if ( apps1Value < apps1Min - appsImplausibilityOutOfRangeMargin ) {
             apps1ImplausibilityOutofRangeMin = true;
             apps1ImplausibilityOutofRangeMax = false;
         } else {
@@ -150,10 +150,10 @@ void loop()
         }
 
         //  APPS2 Out of range
-        if ( apps2Value < apps2Max - 10 ) {
+        if ( apps2Value > apps2Max + appsImplausibilityOutOfRangeMargin ) {
             apps2ImplausibilityOutofRangeMax = true;
             apps2ImplausibilityOutofRangeMin = false;
-        } else if ( apps2Value > apps2Min + 10 ) {
+        } else if ( apps2Value < apps2Min - appsImplausibilityOutOfRangeMargin ) {
             apps2ImplausibilityOutofRangeMin = true;
             apps2ImplausibilityOutofRangeMax = false;
         } else {
@@ -174,7 +174,7 @@ void loop()
         } else if ( not apps1ImplausibilityOutofRangeMax && apps2ImplausibilityOutofRangeMax ) {
             appsImplausible = faultCodeApps2OutOfRangeMax;
         } else if ( appsDifference_percent >= 10 && not apps1ImplausibilityOutofRangeMin && not apps2ImplausibilityOutofRangeMin && not apps1ImplausibilityOutofRangeMax && not apps2ImplausibilityOutofRangeMax ) {
-            appsImplausible = faultCodeAppsDifferenceAboveTen;
+            appsImplausible = faultCodeAppsDifferenceAboveTenPct;
         } else {
             appsImplausible = 0;
             appsLastDiffImplausibility_ms = millis();
@@ -182,10 +182,10 @@ void loop()
 
     //  Checks for BPS implausibility
         //  BPS1 Out of range
-        if ( bps1Value > bps1Max + 30 ) {
+        if ( bps1Value > bps1Max + bpsImplausibilityOutOfRangeMargin ) {
             bps1ImplausibilityOutofRangeMax = true;
             bps1ImplausibilityOutofRangeMin = false;
-        } else if ( bps1Value < bps1Min - 30 ) {
+        } else if ( bps1Value < bps1Min - bpsImplausibilityOutOfRangeMargin ) {
             bps1ImplausibilityOutofRangeMin = true;
             bps1ImplausibilityOutofRangeMax = false;
         } else {
@@ -194,10 +194,10 @@ void loop()
         }
 
         //  BPS2 Out of range
-        if ( bps2Value < bps2Max - 30 ) {
+        if ( bps2Value > bps2Max + bpsImplausibilityOutOfRangeMargin ) {
             bps2ImplausibilityOutofRangeMax = true;
             bps2ImplausibilityOutofRangeMin = false;
-        } else if ( bps2Value > bps2Min + 30 ) {
+        } else if ( bps2Value < bps2Min - bpsImplausibilityOutOfRangeMargin ) {
             bps2ImplausibilityOutofRangeMin = true;
             bps2ImplausibilityOutofRangeMax = false;
         } else {
@@ -218,7 +218,7 @@ void loop()
         } else if ( not bps1ImplausibilityOutofRangeMax && bps2ImplausibilityOutofRangeMax ) {
             bpsImplausible = faultCodeBps2OutOfRangeMax;
         } else if ( bpsDifference_percent >= 10 && not bps1ImplausibilityOutofRangeMin && not bps2ImplausibilityOutofRangeMin && not bps1ImplausibilityOutofRangeMax && not bps2ImplausibilityOutofRangeMax ) {
-            bpsImplausible = faultCodeBpsDifferenceAboveTen;
+            bpsImplausible = faultCodeBpsDifferenceAboveTenPct;
         } else {
             bpsImplausible = 0;
             bpsLastDiffImplausibility_ms = millis();
@@ -234,5 +234,5 @@ void loop()
                 bpsLastDiffImplausibility_ms = millis();
             }
         }
-*/
+
 }
