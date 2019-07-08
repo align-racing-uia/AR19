@@ -31,6 +31,8 @@ const uint8_t faultCodeShiftTimeout             = 4;    //  Indicates a shift re
 const uint8_t faultCodeGearReadFailure          = 5;    //  Indictates an error in reading current gear
 const uint8_t faultCodeShiftUpFromTopGear       = 6;    //  Indicates a request to gear up when in top gear
 const uint8_t faultCodeShiftDownFromNeutral     = 7;    //  Indicates a request to gear down when in first gear
+const uint8_t faultCodeLowClutchPressure        = 8;    //  Indicates a too low clutch pressure while performing a shift
+const uint8_t faultCodeShiftNeutralFailure      = 9;    //  Indicates a failure in shifting to neutral
 
 //  Definition of external pins
 const uint8_t pinGearPositionSensor     = 18;
@@ -40,18 +42,19 @@ const uint8_t pinClutchPressureSensor   = 19;
 
 //  Definition of gear related variables
 const uint16_t gearMarginValue      = 10;   //  Adjustable margin for calculating current gear
-const uint16_t neutralGearValue     = 0;
-const uint16_t firstGearValue       = 0;
-const uint16_t secondGearValue      = 0;
-const uint16_t thirdGearValue       = 0;
-const uint16_t fourthGearValue      = 0;
-const uint16_t fifthGearValue       = 0;
-const uint16_t sixtGearValue        = 0;
+const uint16_t neutralGearValue     = 214;  //  1040 mV
+const uint16_t firstGearValue       = 142;  //  648 mV
+const uint16_t secondGearValue      = 294;  //  1429 mV
+const uint16_t thirdGearValue       = 446;  //  2188 mV
+const uint16_t fourthGearValue      = 602;  //  2957 mV
+const uint16_t fifthGearValue       = 750;  //  3688 mV
+const uint16_t sixtGearValue        = 898;  //  4420 mV
 uint16_t currentGear, gearSensorValue;
 bool shiftTimeout                   = false;    //  Shift timeout to prevent excessive shifting
 
 //  Definition of clutch related variables
-uint16_t clutchPressure             = 0;
+const uint16_t minClutchPressureShift   = 152;   //  Clutch in: 40 ( out of 255 ), Clutch out: 29 ( out of 255 )
+uint16_t clutchPressure                 = 0;
 
 //  Time variables used for CAN msg intervals 
 const unsigned long calibrateInterval_ms    = 100;  //  Interval [ms] for calibration messages
@@ -62,9 +65,7 @@ unsigned long egsOutTimestampLastMsg_ms     = 0;
 //  Time variables for other functions
 const unsigned long shiftTimeoutInterval_ms = 100;  //  Interval [ms] until next gear shift is allowed
 unsigned long shiftTimeoutLast_ms           = 0;
+unsigned long shiftTimer_ms                 = 0;
 const unsigned long shiftUpInterval_ms      = 35;   //  Sets interval for how long the shifter is actuated at up shift.
-unsigned long shiftUpTimer_ms               = 0;
 const unsigned long shiftDownInterval_ms    = 35;   //  Sets interval for how long the shifter is actuated at down shift.
-unsigned long shiftDownTimer_ms             = 0;
 const unsigned long shiftNeutralInterval_ms = 15;   //  Sets interval for how long the shifter is actuated when shifting to neutral from first or second gear.
-unsigned long shiftNeutralTimer_ms          = 0;

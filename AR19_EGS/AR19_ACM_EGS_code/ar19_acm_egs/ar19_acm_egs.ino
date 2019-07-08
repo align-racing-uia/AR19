@@ -71,7 +71,8 @@ void setup()
 void loop()
 { 
     //  Loop while in calibration mode
-    while ( calibrateMode ) {
+    while ( calibrateMode ) 
+    {
         if ( millis() > calibrateTimestampLastMsg_ms + calibrateInterval_ms ) {
             //  Read voltage from gear sensor (0-1023) and divides by 4 to send over CAN
             gearSensorValue     = analogRead( pinGearPositionSensor ) /4;
@@ -96,66 +97,101 @@ void loop()
     }
 
     //  Reads incoming CAN messages
-    if ( can.mcp2515.readMessage( &msgIn ) == MCP2515::ERROR_OK ) {
-
+    if ( can.mcp2515.readMessage( &msgIn ) == MCP2515::ERROR_OK ) 
+    {
         // Check for calibration mode toggle
-        if ( msgIn.can_id == canIdCalibrateToggle ) {
+        if ( msgIn.can_id == canIdCalibrateToggle ) 
+        {
             //  Enable calibration mode 
-            if ( msgIn.data[0] == globalTrue && msgIn.data[1] == acmId ) {
+            if ( msgIn.data[0] == globalTrue && msgIn.data[1] == acmId ) 
+            {
                 calibrateMode = true;
                 led.ledsSwitch( led.yellow );
             } 
         
         //  Check for ACM ping
-        } else if ( msgIn.can_id == canIdAcmCheck ) {
+        } 
+        else if ( msgIn.can_id == canIdAcmCheck ) 
+        {
             //  Respond to ACM ping 
-            if ( msgIn.data[0] == globalTrue ) {
+            if ( msgIn.data[0] == globalTrue ) 
+            {
                 can.send( acmId, globalTrue );
             }
 
         //  Check for gear shift request
-        } else if ( msgIn.can_id == canIdRequestGearShift ) {
+        } 
+        else if ( msgIn.can_id == canIdRequestGearShift ) 
+        {
 
-            if ( shiftTimeout ) {
+            if ( shiftTimeout ) 
+            {
                 //  Sends error message if request is recieved while in timeout
                 can.send( canIdEgsFaultFlag, faultCodeShiftTimeout);   
 
-            } else if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) {
+            } 
+            else if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) 
+            {
                 //  Gear up
                 bool shiftSuccessful = gearUp();
                 //  Check if shift is successful, blinks green if successful upshift
-                if ( shiftSuccessful ){
+                if ( shiftSuccessful )
+                {
                     led.ledsSwitch( led.green );
                     shiftTimeout = true;
                     shiftTimeoutLast_ms = millis();
-                } else {
+                } 
+                else 
+                {
                     //  Sends error message indicating failure in upshift
                     can.send( canIdEgsFaultFlag, faultCodeShiftUpFailure );
                 }
 
-            } else if ( msgIn.data[0] == globalFalse && msgIn.data[1] == globalTrue ) {
+            } 
+            else if ( msgIn.data[0] == globalFalse && msgIn.data[1] == globalTrue ) 
+            {
                 //  Gear down
                 bool shiftSuccessful = gearDown();
                 //  Check if shift is successful, blinks orange if successful downshift
-                if ( shiftSuccessful ){
+                if ( shiftSuccessful )
+                {
                     led.ledsSwitch( led.orange );
                     shiftTimeout = true;
                     shiftTimeoutLast_ms = millis();
-                } else {
+                } 
+                else 
+                {
                     //  Sends error message indicating failure in downshift
                     can.send( canIdEgsFaultFlag, faultCodeShiftDownFailure );
                 }
-
-            } else {
+            } 
+            else 
+            {
                 can.send( canIdEgsFaultFlag, faultCodeInvalidGearShiftRequest );
             }
         }
-
-        //  Check for neutral request
+        else if ( msgIn.can_id == canIdRequestNeutral )
+        {
+            if ( msgIn.data[0] == globalTrue ) {
+                //  Shift to neutral
+                bool shiftSuccessful = gearNeutral();
+                //  Check if shift is successful, blinks purple if successful shift to neutral
+                if ( not shiftSuccessful )
+                {
+                    //  Sends error message indicating failure in shifting to neutral
+                    can.send( canIdEgsFaultFlag, faultCodeShiftNeutralFailure );
+                }
+            } 
+            else 
+            {
+                can.send( canIdEgsFaultFlag, faultCodeInvalidGearShiftRequest );
+            }
+        }
     }
 
     //  Sends CAN with current gear and clutch pressure
-    if ( millis() > egsOutInterval_ms + egsOutTimestampLastMsg_ms ) {
+    if ( millis() > egsOutInterval_ms + egsOutTimestampLastMsg_ms ) 
+    {
         currentGear = getCurrentGear();
         clutchPressure = getClutchPressure()/4;
 
@@ -163,27 +199,37 @@ void loop()
     }
 
     //  Checks if timeout has passed 
-    if ( shiftTimeout ) {
-        if ( millis() > shiftTimeoutInterval_ms + shiftTimeoutLast_ms ) {
+    if ( shiftTimeout ) 
+    {
+        if ( millis() > shiftTimeoutInterval_ms + shiftTimeoutLast_ms ) 
+        {
             shiftTimeout = false;
             led.ledsSwitch( led.off );
         }
-    } else if ( currentGear == 0 ) {
+    } 
+    else if ( currentGear == 0 ) 
+    {
         led.ledsSwitch( led.blue );
-    } else {
+    } 
+    else 
+    {
         led.ledsSwitch( led.off );
     }
 
 }
 
 bool gearUp() {
+    //  Get current gear
     currentGear = getCurrentGear();
 
-    if ( currentGear < 6 && currentGear > 2 ) {
-
-        shiftUpTimer_ms = millis();
-
-        while ( millis() < shiftUpTimer_ms + shiftUpInterval_ms ) {
+    //  Shift up from 2nd, 3rd, 4th and 5th ( clutchless )
+    if ( currentGear < 6 && currentGear >= 2 ) 
+    {
+        //  Set timestamp for calculating length of actuation
+        shiftTimer_ms = millis();
+        //  Perfroming shift for interval determined by variable
+        while ( millis() < shiftTimer_ms + shiftUpInterval_ms ) 
+        {
             //  To ensure actuator is not driven in both direction simultaneously
             digitalWrite( pinGearDown, LOW );
             //  Enable actuator shift up
@@ -191,43 +237,201 @@ bool gearUp() {
         }
         //  Disable actuator after interval has elapsed
         digitalWrite( pinGearUp, LOW );
-
-    } else {
+    } 
+    else if ( currentGear == 6 ) 
+    {
         //  Send error message if not in correct gear
         can.send( canIdEgsFaultFlag, faultCodeShiftUpFromTopGear );
         return false;
+    } 
+    //  Shift from 1st to 2nd ( use manual clutch )
+    else if ( currentGear == 1 ) 
+    {
+        //  Get clutch pressure
+        clutchPressure = getClutchPressure();
+        //  Check that clutch pressure is high enough for shift from 1st to 2nd
+        if ( clutchPressure > minClutchPressureShift ) 
+        {
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftUpInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearDown, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearUp, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearUp, LOW );
+        } 
+        else 
+        {
+            //  Send error message if clutch pressure is too low
+            can.send( canIdEgsFaultFlag, faultCodeLowClutchPressure );
+            return false;
+        }
     }
-
+    //  Shift up from neutral ( half step down, use clutch )
+    else if ( currentGear == 0 )
+    {
+        //  Get clutch pressure
+        clutchPressure = getClutchPressure();
+        //  Check that clutch pressure is high enough for shift from 1st to 2nd
+        if ( clutchPressure > minClutchPressureShift ) 
+        {
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftNeutralInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearUp, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearDown, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearDown, LOW );
+        } 
+        else 
+        {
+            //  Send error message if clutch pressure is too low
+            can.send( canIdEgsFaultFlag, faultCodeLowClutchPressure );
+            return false;
+        }
+    }
+    //  Check if shift up
+    uint8_t newGear = getCurrentGear();
+    if ( newGear != currentGear + 1 )
+    {
+        can.send( canIdEgsFaultFlag, faultCodeShiftUpFailure );
+        return false;
+    }
+    //  Function returns true to indicate a successful shift
     return true;
 }
 
 bool gearDown() {
-    if ( currentGear > 1 ) {
+    //  Get current gear and clutch pressure
+    currentGear     = getCurrentGear();
+    clutchPressure  = getClutchPressure();
+    //  Check that clutch presure is high enough for shift
+    if ( clutchPressure > minClutchPressureShift ) 
+    {
 
-        shiftDownTimer_ms = millis();
-
-        while ( millis() < shiftDownTimer_ms + shiftDownInterval_ms ) {
-            //  To ensure actuator is not driven in both direction simultaneously
-            digitalWrite( pinGearUp, LOW );
-            //  Enable actuator shift up
-            digitalWrite( pinGearDown, HIGH );
+        //  Check gear
+        if ( currentGear > 1 )
+        {
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftDownInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearUp, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearDown, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearDown, LOW );
+        } 
+        //  If in first gear, shift to neutral
+        else if ( currentGear == 1 ) 
+        {
+            gearNeutral();
+        } 
+        else 
+        {
+            //  Send error message if not in correct gear
+            can.send( canIdEgsFaultFlag, faultCodeShiftDownFromNeutral );
+            return false;
         }
-        //  Disable actuator after interval has elapsed
-        digitalWrite( pinGearDown, LOW );
-
-    } else if ( currentGear == 1 ) {
-        gearNeutral();
-    } else {
-        //  Send error message if not in correct gear
-        can.send( canIdEgsFaultFlag, faultCodeShiftDownFromNeutral );
+    } 
+    else 
+    {
+        //  Send error message if clutch pressure is too low
+        can.send( canIdEgsFaultFlag, faultCodeLowClutchPressure );
         return false;
     }
-
+    //  Check if shift down complete
+    uint8_t newGear = getCurrentGear();
+    if ( newGear != currentGear - 1 )
+    {
+        can.send( canIdEgsFaultFlag, faultCodeShiftDownFailure );
+        return false;
+    }
+    //  Function returns true to indicate a successful shift
     return true;
 }
 
 bool gearNeutral() {
-    //  to be implemented
+    //  Get current gear
+    currentGear     = getCurrentGear();
+    //  Get current clutch pressure
+    clutchPressure  = getClutchPressure();
+    //  Check if clutch pressure is high enough for shift
+    if ( clutchPressure > minClutchPressureShift ) {
+        if ( currentGear == 1 ) 
+        {
+            //  Shift half step up
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftNeutralInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearDown, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearUp, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearUp, LOW );
+        } 
+        else if ( currentGear == 2 ) 
+        {
+            //  Shift half step down
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftNeutralInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearUp, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearDown, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearDown, LOW );
+        } 
+        else if ( currentGear == 3 ) 
+        {
+            gearDown();
+            uint8_t newGear = getCurrentGear();
+            if ( newGear == 2 )
+        } 
+        else if ( currentGear == 4 ) 
+        {
+            //2 down, the half down
+        } 
+        else if ( currentGear == 5 ) 
+        {
+            //3 down, then half down
+        } 
+        else if ( currentGear == 6 ) 
+        {
+            // 4 down, then half down
+        }
+
+        //  Check if shift to neutral is complete
+        uint8_t newGear = getCurrentGear();
+        if ( newGear != 0 )
+        {
+            can.send( canIdEgsFaultFlag, faultCodeShiftNeutralFailure );
+            return false;
+        }
+        //  Function returns true to indicate a successful shift
+        return true;
+    }
 }
 
 uint16_t getClutchPressure() {
@@ -239,21 +443,36 @@ uint8_t getCurrentGear() {
     uint16_t sensorValue = analogRead( pinGearPositionSensor );
     uint8_t calculatedGear;
 
-    if ( sensorValue > firstGearValue - gearMarginValue && sensorValue < firstGearValue + gearMarginValue ) {
+    if ( sensorValue > firstGearValue - gearMarginValue && sensorValue < firstGearValue + gearMarginValue ) 
+    {
         calculatedGear = 1;
-    } else if ( sensorValue > neutralGearValue - gearMarginValue && sensorValue < neutralGearValue + gearMarginValue ) {
+    } 
+    else if ( sensorValue > neutralGearValue - gearMarginValue && sensorValue < neutralGearValue + gearMarginValue ) 
+    {
         calculatedGear = 0;
-    } else if ( sensorValue > secondGearValue - gearMarginValue && sensorValue < secondGearValue + gearMarginValue ) {
-        calculatedGear = 2;
-    } else if ( sensorValue > thirdGearValue - gearMarginValue && sensorValue < thirdGearValue + gearMarginValue ) {
+    } 
+    else if ( sensorValue > secondGearValue - gearMarginValue && sensorValue < secondGearValue + gearMarginValue ) 
+    {
+       calculatedGear = 2;
+    } 
+    else if ( sensorValue > thirdGearValue - gearMarginValue && sensorValue < thirdGearValue + gearMarginValue ) 
+    {
         calculatedGear = 3;
-    } else if ( sensorValue > fourthGearValue - gearMarginValue && sensorValue < fourthGearValue + gearMarginValue ) {
+    } 
+    else if ( sensorValue > fourthGearValue - gearMarginValue && sensorValue < fourthGearValue + gearMarginValue ) 
+    {
         calculatedGear = 4;
-    } else if ( sensorValue > fifthGearValue - gearMarginValue && sensorValue < fifthGearValue + gearMarginValue ) {
+    } 
+    else if ( sensorValue > fifthGearValue - gearMarginValue && sensorValue < fifthGearValue + gearMarginValue ) 
+    {
         calculatedGear = 5;
-    } else if ( sensorValue > sixtGearValue - gearMarginValue && sensorValue < sixtGearValue + gearMarginValue ) {
+    } 
+    else if ( sensorValue > sixtGearValue - gearMarginValue && sensorValue < sixtGearValue + gearMarginValue ) 
+    {
         calculatedGear = 6;
-    } else {
+    } 
+    else 
+    {
         calculatedGear = 7;
         can.send( canIdEgsFaultFlag, faultCodeGearReadFailure );
     }
