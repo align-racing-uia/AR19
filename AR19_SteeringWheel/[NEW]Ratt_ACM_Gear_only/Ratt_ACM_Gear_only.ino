@@ -119,8 +119,7 @@ void UppdateButtons()
   if (bButtonValues[0] == 1 && previousLeftButtonPosition == 0) 
   { 
     SetLEDColor('w');
-    flappyMSG.data[1] = 0xF0;
-    mcp2515.sendMessage(&flappyMSG);
+    mcp2515.sendMessage(&neutrallMSG);
     previousLeftButtonPosition = 1;
   }
   else if (bButtonValues[0] == 0 && previousLeftButtonPosition == 1)
