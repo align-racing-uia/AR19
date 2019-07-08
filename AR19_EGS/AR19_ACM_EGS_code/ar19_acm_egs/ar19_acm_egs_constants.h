@@ -6,7 +6,7 @@ bool pwmSuccess1            = false;
 bool pwmSuccess2            = false;
 bool bootSuccess            = false;
 
-//  Defines the global true and false values used for CAN msg
+//  Defines the global true and false values used for CAN msg 
 const uint8_t globalTrue          = 0xF0;
 const uint8_t globalFalse         = 0x0F;
 

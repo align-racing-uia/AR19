@@ -135,7 +135,7 @@ void loop()
 
         bpsTimestampLastMsg_ms = millis();
     }
-/*
+
     //  Checks for APPS implausibility
         //  APPS1 Out of range
         if ( apps1Value > apps1Max + 10 ) {
@@ -234,5 +234,5 @@ void loop()
                 bpsLastDiffImplausibility_ms = millis();
             }
         }
-*/
+
 }
