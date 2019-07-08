@@ -14,3 +14,9 @@ const int breaklightout = 3;// Mosfet on digital pin 3
 const int  rled = 5;
 const int  bled = 6;
 const int  gled = 9;  
+
+//  TPS
+const int pwmFrequency = 5000;
+const int canIdTps = 0x460;
+const int tpsOutPin = 10;
+int tps2Value = 0;

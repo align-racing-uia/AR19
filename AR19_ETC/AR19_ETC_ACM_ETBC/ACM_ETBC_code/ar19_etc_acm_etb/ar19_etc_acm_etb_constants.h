@@ -59,7 +59,7 @@ const uint8_t etbcOut1Pin     = 10;
 const uint8_t etbcOut2Pin     = 3;
 const uint8_t etbcEnablePin   = 11;
 const uint8_t etbcDisablePin  = 12;
-const uint8_t etbcFeedbackPin = 19;
+//const uint8_t etbcFeedbackPin = 19;
 
 //  Definition of TPS related variables
 const uint8_t tps1Pin = 16;
@@ -114,7 +114,7 @@ const unsigned long reachLimpInterval_ms    = 1000;
 unsigned long limpModeTimer_ms              = 1000;
 
 //  Time variables used for CAN msg intervals 
-const unsigned long tpsInterval_ms                  = 100;
+const unsigned long tpsInterval_ms                  = 10;
 unsigned long tpsTimestampLastMsg_ms                = 0;
 const unsigned long calibrateInterval_ms            = 100;
 unsigned long calibrateTimestampLastMsg_ms          = 0;
