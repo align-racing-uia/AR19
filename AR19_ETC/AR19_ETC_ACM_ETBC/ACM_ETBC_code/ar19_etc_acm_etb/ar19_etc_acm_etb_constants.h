@@ -140,6 +140,6 @@ double pidIdleInput, pidIdleSetpoint, pidIdleOutput;
 double pidIdleOutputLimitMin        = tps1Min+5;
 double pidIdleOutputLimitMax        = tps1Min+200;
 unsigned long pidIdleSampleTime_us  = 10;
-double pidIdleKp                    = 2.00;
+double pidIdleKp                    = 2.0;
 double pidIdleKi                    = 1.00;
 double pidIdleKd                    = 0.00;
