@@ -250,10 +250,10 @@ void loop()
 
     //  Check for implausibility (CV 1.6.7)
         //  TPS1 Out of range
-        if ( tps1Value > tps1PhysicalMax + 30 ) {
+        if ( tps1Value > tps1PhysicalMax + tpsImplausibilityOutOfRangeMargin ) {
             tps1ImplausibilityOutofRangeMax = true;
             tps1ImplausibilityOutofRangeMin = false;
-        } else if ( tps1Value < tps1Min - 30 ) {
+        } else if ( tps1Value < tps1Min - tpsImplausibilityOutOfRangeMargin ) {
             tps1ImplausibilityOutofRangeMin = true;
             tps1ImplausibilityOutofRangeMax = false;
         } else {
@@ -262,10 +262,10 @@ void loop()
         }
 
         //  TPS2 Out of range
-        if ( tps2Value < tps2PhysicalMax - 30 ) {
+        if ( tps2Value < tps2PhysicalMax - tpsImplausibilityOutOfRangeMargin ) {
             tps2ImplausibilityOutofRangeMax = true;
             tps2ImplausibilityOutofRangeMin = false;
-        } else if ( tps2Value > tps2Min + 30 ) {
+        } else if ( tps2Value > tps2Min + tpsImplausibilityOutOfRangeMargin ) {
             tps2ImplausibilityOutofRangeMin = true;
             tps2ImplausibilityOutofRangeMax = false;
         } else {
@@ -286,10 +286,9 @@ void loop()
         } else if ( not tps1ImplausibilityOutofRangeMax && tps2ImplausibilityOutofRangeMax ) {
             tpsImplausible = faultCodeTps2OutOfRangeMax;
         } else if ( tpsDifference_percent >= 10 && not tps1ImplausibilityOutofRangeMin && not tps2ImplausibilityOutofRangeMin && not tps1ImplausibilityOutofRangeMax && not tps2ImplausibilityOutofRangeMax ) {
-            tpsImplausible = faultCodeTpsDifferenceAboveTen;
+            tpsImplausible = faultCodeTpsDifferenceAboveTenPct;
         } else {
             tpsImplausible = 0;
-            tpsLastDiffImplausibility_ms = millis();
         }
 
         //  Check if implausibility lasts for more than allowed limit (CV 1.6.7)
