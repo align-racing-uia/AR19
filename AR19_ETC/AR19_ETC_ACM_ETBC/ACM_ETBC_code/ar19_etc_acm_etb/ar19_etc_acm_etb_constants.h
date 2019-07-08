@@ -85,13 +85,8 @@ unsigned long reachThrottleTargetTimer_ms       = 1000;
 
 //  Max and min values for TPS1 and 2
 const uint16_t tps1Limp         = 296;  //  296 med BSPD
-<<<<<<< HEAD
-const uint16_t tps1Min          = 196;  //  192 med BSPD
-const uint16_t tps1Max          = 896;  //  864 med BSPD
-=======
 const uint16_t tps1Min          = 192;  //  192 med BSPD
 const uint16_t tps1Max          = 892;  //  864 med BSPD
->>>>>>> 4665911f1d009e95bebebad6d8bb1e00baf358a7
 uint16_t tps1Idle               = 255;  //  230 med BSPD, Økte til 255 for å øke idle til 9 % (lest av i Tunerstudio) 
 uint16_t tps1IdleOld            = tps1Idle;  //  old idle value when enabling/disabling auto idle
 const uint16_t tps2Min          = 836;  //  838 med BSPD
