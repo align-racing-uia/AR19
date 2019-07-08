@@ -2,5 +2,5 @@
     "programmer": "Arduino as ISP",
     "board": "arduino:avr:nano",
     "configuration": "cpu=atmega328",
-    "sketch": "AR19_EGS\\AR19_ACM_EGS_code\\ar19_acm_egs\\ar19_acm_egs.ino"
+    "sketch": "AR19_EGS\\AR19_ACM_EGS_code\\ar19_acm_egs_nToFirst\\ar19_acm_egs_nToFirst.ino"
 }
