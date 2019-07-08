@@ -41,10 +41,10 @@ int16_t appsDifference;
 uint8_t appsDifference_percent;
 uint8_t apps1Pin = 17;
 uint8_t apps2Pin = 16;
-const uint16_t apps1Min = 272;  //  265
-const uint16_t apps1Max = 656;  //  656
-const uint16_t apps2Min = 194;  //  194
-const uint16_t apps2Max = 404;  //  404
+const uint16_t apps1Min = 264;  //  265
+const uint16_t apps1Max = 696;  //  656
+const uint16_t apps2Min = 184;  //  194
+const uint16_t apps2Max = 412;  //  404
 
 //  Variables used for checking implausibility for APPS
 uint8_t appsImplausibilityOutOfRangeMargin  = 10;
@@ -64,10 +64,10 @@ int16_t bpsDifference;
 uint8_t bpsDifference_percent;
 uint8_t bps1Pin = 18;
 uint8_t bps2Pin = 19;
-const uint16_t bps1Min = 0;
-const uint16_t bps1Max = 1023;
-const uint16_t bps2Min = 0;
-const uint16_t bps2Max = 1023;
+const uint16_t bps1Min = 92;
+const uint16_t bps1Max = 888;
+const uint16_t bps2Min = 84;
+const uint16_t bps2Max = 680;
 
 //  Variables used for checking implausibility for BPS
 uint8_t bpsImplausibilityOutOfRangeMargin   = 30;
