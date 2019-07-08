@@ -41,7 +41,7 @@ const uint8_t pinGearDown               = 10;
 const uint8_t pinClutchPressureSensor   = 19;
 
 //  Definition of gear related variables
-const uint16_t gearMarginValue      = 10;   //  Adjustable margin for calculating current gear
+const uint16_t gearMarginValue      = 20;   //  Adjustable margin for calculating current gear
 const uint16_t neutralGearValue     = 214;  //  1040 mV
 const uint16_t firstGearValue       = 142;  //  648 mV
 const uint16_t secondGearValue      = 294;  //  1429 mV
@@ -68,4 +68,4 @@ unsigned long shiftTimeoutLast_ms           = 0;
 unsigned long shiftTimer_ms                 = 0;
 const unsigned long shiftUpInterval_ms      = 35;   //  Sets interval for how long the shifter is actuated at up shift.
 const unsigned long shiftDownInterval_ms    = 35;   //  Sets interval for how long the shifter is actuated at down shift.
-const unsigned long shiftNeutralInterval_ms = 10;   //  Sets interval for how long the shifter is actuated when shifting to neutral from first or second gear.
+const unsigned long shiftNeutralInterval_ms = 15;   //  Sets interval for how long the shifter is actuated when shifting to neutral from first or second gear.
