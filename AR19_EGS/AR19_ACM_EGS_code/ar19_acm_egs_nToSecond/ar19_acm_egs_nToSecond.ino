@@ -370,10 +370,25 @@ bool gearDown() {
             //  Disable actuator after interval has elapsed
             digitalWrite( pinGearDown, LOW );
         }
+        else if ( currentGear == 0 )
+        {
+            //  Set timestamp for calculating length of actuation
+            shiftTimer_ms = millis();
+            //  Perfroming shift for interval determined by variable
+            while ( millis() < shiftTimer_ms + shiftDownInterval_ms ) 
+            {
+                //  To ensure actuator is not driven in both direction simultaneously
+                digitalWrite( pinGearUp, LOW );
+                //  Enable actuator shift up
+                digitalWrite( pinGearDown, HIGH );
+            }
+            //  Disable actuator after interval has elapsed
+            digitalWrite( pinGearDown, LOW );
+        }
         else 
         {
             //  Send error message if not in correct gear
-            can.send( canIdEgsFaultFlag, faultCodeShiftDownFromNeutral );
+            can.send( canIdEgsFaultFlag, faultCodeShiftDownFailure );
             return false;
         }
     } 
