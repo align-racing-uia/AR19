@@ -52,7 +52,7 @@ const uint8_t faultCodeTpsBothOutOfRangeMin         = 90;
 const uint8_t faultCodeTps1OutOfRangeMax            = 111;
 const uint8_t faultCodeTps2OutOfRangeMax            = 112;
 const uint8_t faultCodeTpsBothOutOfRangeMax         = 110;
-const uint8_t faultCodeTpsDifferenceAboveTen        = 100;
+const uint8_t faultCodeTpsDifferenceAboveTenPct     = 100;
 
 //  Definition of ACM pins controlling H-bridge to ETB
 const uint8_t etbcOut1Pin     = 10;
@@ -72,6 +72,7 @@ int16_t tpsDifference;
 uint8_t tpsDifference_percent;
 
 //  Variables used for implausibility checks
+uint8_t tpsImplausibilityOutOfRangeMargin   = 20;
 bool tps2ImplausibilityOutofRangeMax        = false;
 bool tps2ImplausibilityOutofRangeMin        = false;
 bool tps1ImplausibilityOutofRangeMax        = false;
