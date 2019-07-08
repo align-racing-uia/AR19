@@ -85,12 +85,12 @@ unsigned long reachThrottleTargetTimer_ms       = 1000;
 
 //  Max and min values for TPS1 and 2
 const uint16_t tps1Limp         = 296;  //  296 med BSPD
-const uint16_t tps1Min          = 192;  //  192 med BSPD
-const uint16_t tps1Max          = 864;  //  864 med BSPD
+const uint16_t tps1Min          = 196;  //  192 med BSPD
+const uint16_t tps1Max          = 896;  //  864 med BSPD
 uint16_t tps1Idle               = 255;  //  230 med BSPD, Økte til 255 for å øke idle til 9 % (lest av i Tunerstudio) 
 uint16_t tps1IdleOld            = tps1Idle;  //  old idle value when enabling/disabling auto idle
-const uint16_t tps2Min          = 838;  //  838 med BSPD
-const uint16_t tps2Max          = 156;  //  156 med BSPD
+const uint16_t tps2Min          = 836;  //  838 med BSPD
+const uint16_t tps2Max          = 124;  //  156 med BSPD
 const uint16_t tps1PhysicalMax  = 972;  //  Mechanical stop with BSPD
 const uint16_t tps2PhysicalMax  = 48;   //  Mechanical stop with BSPD
 
@@ -127,7 +127,7 @@ const unsigned long limpMsgInterval_ms              = 100;
 unsigned long lastLimpMsg_ms                        = 0;
 
 //  Definitions of variables used by PID's
-//  ETB PID
+//  ETB PIDU
 double pidEtbInput, pidEtbSetpoint, pidEtbOutput;
 double pidEtbOutputLimitMin         = -250;
 double pidEtbOutputLimitMax         =  250;
