@@ -18,7 +18,7 @@ const uint16_t canIdShutdown            = 0x001;    //  ID for shutdown signal t
 const uint16_t canIdCalibrateToggle     = 0x0F0;    //  ID for toggling calibration mode
 const uint16_t canIdAcmCheck            = 0x019;    //  ID for ACM ping and status report
 const uint16_t canIdEgsFaultFlag        = 0x480;    //  ID for fault codes in EGS error state
-const uint16_t canIdEgsCalibrate        = 0x481;    //  ID for sending calibration values 
+const uint16_t canIdEgsCalibrate        = 0x481;    //  ID for sending calibration values
 const uint16_t canIdRequestGearShift    = 0x240;    //  ID for recieving gear shift requests
 const uint16_t canIdRequestNeutral      = 0x042;    //  ID for recieving neutral requests
 const uint16_t canIdEgsOut              = 0x021;    //  ID for transmitting gear position and clutch pressure
@@ -56,7 +56,7 @@ bool shiftTimeout                   = false;    //  Shift timeout to prevent exc
 const uint16_t minClutchPressureShift   = 152;   //  Clutch in: 40 ( out of 255 ), Clutch out: 29 ( out of 255 )
 uint16_t clutchPressure                 = 0;
 
-//  Time variables used for CAN msg intervals 
+//  Time variables used for CAN msg intervals
 const unsigned long calibrateInterval_ms    = 100;  //  Interval [ms] for calibration messages
 unsigned long calibrateTimestampLastMsg_ms  = 0;
 const unsigned long egsOutInterval_ms       = 100;  //  Interval [ms] for EGS messages
