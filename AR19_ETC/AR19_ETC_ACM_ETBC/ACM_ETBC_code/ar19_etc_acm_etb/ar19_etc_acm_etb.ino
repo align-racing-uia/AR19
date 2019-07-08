@@ -300,6 +300,8 @@ void loop()
                 can.send( canIdEtbcFaultFlag, tpsImplausible );
                 tpsLastDiffImplausibility_ms = millis();
             }
+        } else {
+            tpsLastDiffImplausibility_ms = millis();
         }
 
     //  Calculate idle PID
