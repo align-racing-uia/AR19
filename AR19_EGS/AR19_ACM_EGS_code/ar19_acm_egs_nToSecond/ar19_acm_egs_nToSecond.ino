@@ -134,7 +134,7 @@ void loop()
                 can.send( canIdEgsFaultFlag, faultCodeShiftTimeout);   
 
             } 
-            else if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) 
+            else if ( msgIn.data[0] == globalFalse && msgIn.data[1] == globalTrue ) 
             {
                 //  Gear up
                 bool shiftSuccessful = gearUp();
@@ -152,7 +152,7 @@ void loop()
                 }
 
             } 
-            else if ( msgIn.data[0] == globalFalse && msgIn.data[1] == globalTrue ) 
+            else if ( msgIn.data[0] == globalTrue && msgIn.data[1] == globalFalse ) 
             {
                 //  Gear down
                 bool shiftSuccessful = gearDown();
